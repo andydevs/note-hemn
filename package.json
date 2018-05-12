@@ -4,7 +4,8 @@
   "description": "Note app using the HEMN (Handlebars, Express, Mongo, Node) stack",
   "main": "build/index.js",
   "scripts": {
-    "build": "./node_modules/.bin/grunt build"
+      "start": "node build/index.js",
+      "build": "./node_modules/.bin/grunt build"
   },
   "keywords": [
     "note",
@@ -22,5 +23,9 @@
     "grunt": "^1.0.2",
     "grunt-babel": "^8.0.0-beta.0",
     "grunt-cli": "^1.2.0"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0"
   }
 }
