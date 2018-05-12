@@ -3,8 +3,24 @@
   "version": "0.1.0",
   "description": "Note app using the HEMN (Handlebars, Express, Mongo, Node) stack",
   "main": "build/index.js",
-  "scripts": {},
-  "keywords": ["note", "hemn", "handlebars", "express", "mongo", "node"],
+  "scripts": {
+    "build": "./node_modules/.bin/grunt build"
+  },
+  "keywords": [
+    "note",
+    "hemn",
+    "handlebars",
+    "express",
+    "mongo",
+    "node"
+  ],
   "author": "Anshul Kharbanda",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.46",
+    "@babel/preset-env": "^7.0.0-beta.46",
+    "grunt": "^1.0.2",
+    "grunt-babel": "^8.0.0-beta.0",
+    "grunt-cli": "^1.2.0"
+  }
 }
