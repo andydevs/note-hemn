@@ -1,0 +1,10 @@
+{
+  "name": "note-hemn",
+  "version": "0.1.0",
+  "description": "Note app using the HEMN (Handlebars, Express, Mongo, Node) stack",
+  "main": "build/index.js",
+  "scripts": {},
+  "keywords": ["note", "hemn", "handlebars", "express", "mongo", "node"],
+  "author": "Anshul Kharbanda",
+  "license": "MIT"
+}
