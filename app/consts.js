@@ -19,5 +19,11 @@ export const NOTES = [
      {
          labels: ['foo', 'bar'],
          content: 'More content'
-     }
+     },
 ]
+
+// URI constant for mongo lab
+export const MONGOLAB_URI = process.env.MONGOLAB_URI
+
+// Mongo dbname
+export const MONGO_DBNAME = 'notedb'
