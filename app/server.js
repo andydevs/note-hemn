@@ -8,7 +8,7 @@
  */
 import express from 'express'
 import handlebars from 'express-handlebars'
-import { NOTES } from './constants'
+import { NOTES } from './consts'
 
 // Create app
 var app = express()

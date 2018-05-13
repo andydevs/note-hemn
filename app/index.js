@@ -7,7 +7,7 @@
  * Created: 5 - 12 - 2018
  */
 import server from './server'
-import { PORT } from './constants'
+import { PORT } from './consts'
 
 // Listen on 8080
 server.listen(PORT, () => console.log('Server is listening...'))
