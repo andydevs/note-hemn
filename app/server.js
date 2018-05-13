@@ -8,14 +8,7 @@
  */
 import express from 'express'
 import handlebars from 'express-handlebars'
-
-// Port constant
-const PORT = 8080
-
-const NOTES = [
-    { labels: ['foo', 'bar', 'baz'], text: 'Content content content' },
-    { labels: ['foo', 'bar'], text: 'More content' }
-]
+import { NOTES } from './constants'
 
 // Create app
 var app = express()
@@ -29,6 +22,11 @@ app.set('view engine', '.hbs')
 // Create index route
 app.get('/', (req, res) => {
     res.render('index', { notes: NOTES })
+})
+
+// Get id route
+app.get('/:id', (req, res) => {
+    res.render('note', NOTES[req.params.id])
 })
 
 // Export app

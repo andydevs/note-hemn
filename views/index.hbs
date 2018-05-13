@@ -1,13 +1,15 @@
-<div class="notes-group">
+<div class="note-snippets-group">
     {{#each notes}}
-        <div class="note">
+        <div class="note-snippet">
             <ul class="note-labels">
                 {{#each labels}}
-                    <li>{{ this }}</li>
+                    <li class="note-label">
+                        {{ this }}
+                    </li>
                 {{/each}}
             </ul>
             <div class="note-content">
-                {{ text }}
+                {{ content }}
             </div>
         </div>
     {{/each}}
