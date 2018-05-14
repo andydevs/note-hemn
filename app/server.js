@@ -8,8 +8,8 @@
  */
 import express from 'express'
 import handlebars from 'express-handlebars'
+import { MongoClient, ObjectId } from 'mongodb'
 import { NOTES, MONGOLAB_URI, MONGO_DBNAME } from './consts'
-import { MongoClient } from 'mongodb'
 
 // Create app
 var app = express()
@@ -21,36 +21,33 @@ app.engine('.hbs', handlebars({
 app.set('view engine', '.hbs')
 
 // Create index route
-app.get('/', (req, res) => {
-    // Get notes from mongo. Render to index
-    MongoClient.connect(MONGOLAB_URI, { useNewUrlParser: true}, (error, client) => {
-        if (error) throw error
-        client.db(MONGO_DBNAME)
-              .collection('notes')
-              .find({})
-              .toArray((error, notes) => {
-                  if (error) throw error
-                  res.render('index', { notes: notes })
-                  client.close()
-              })
-    })
+app.get('/', async (req, res) => {
+    // Connect to mongo
+    let client = await MongoClient.connect(MONGOLAB_URI, {
+        useNewUrlParser: true })
+
+    // Query for all notes
+    let notes = await client.db(MONGO_DBNAME).collection('notes')
+        .find({}).toArray()
+
+    // Render notes and close client
+    res.render('index', { notes: notes })
+    client.close()
 })
 
 // Get id route
-app.get('/:id', (req, res) => {
-    // Find note from mongo Render to index
-    MongoClient.connect(MONGOLAB_URI, { useNewUrlParser: true}, (error, client) => {
-        if (error) throw error
-        client.db(MONGO_DBNAME)
-              .collection('notes')
-              .find({ _id: req.params.id })
-              .limit(1)
-              .next((error, note) => {
-                  if (error) throw error
-                  res.render('note', note)
-                  client.close()
-              })
-    })
+app.get('/:id', async (req, res) => {
+    // Connect to mongo
+    let client = await MongoClient.connect(MONGOLAB_URI, {
+        useNewUrlParser: true })
+
+    // Query for the note by the given id
+    let note = await client.db(MONGO_DBNAME).collection('notes')
+        .find({ _id: ObjectId(req.params.id) }).limit(1).next()
+
+    // Render note and close client
+    res.render('note', note)
+    client.close()
 })
 
 // Export app

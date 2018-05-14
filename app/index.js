@@ -6,6 +6,7 @@
  * Author:  Anshul Kharbanda
  * Created: 5 - 12 - 2018
  */
+import '@babel/polyfill'
 import server from './server'
 import { PORT } from './consts'
 
