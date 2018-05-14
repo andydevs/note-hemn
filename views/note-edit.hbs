@@ -1,5 +1,5 @@
 <div class="note-edit">
-    <form class="note-edit-form" action="/{{ action }}" method="post">
+    <form class="note-edit-form" action="/{{ action }}" method="{{ method }}">
         <!-- Labels -->
         <label for="labels">Labels</label>
         <input type="text" name="labels" value="{{join note.labels}}">

@@ -44,7 +44,10 @@ app.get('/', async (req, res) => {
 
 // Get new form
 app.get('/new', (req, res) => {
-    res.render('note-edit', { note: null, action: 'new' })
+    res.render('note-edit', {
+        note: null,
+        action: 'new',
+        method: 'post' })
 })
 
 // Post new form
@@ -91,12 +94,15 @@ app.get('/:id/edit', async (req, res) => {
         .find({ _id: ObjectId(req.params.id) }).limit(1).next()
 
     // Render note and close client
-    res.render('note-edit', { note: note, action: `${note._id}/edit` })
+    res.render('note-edit', {
+        note: note,
+        action: `${note._id}/edit`,
+        method: 'put' })
     client.close()
 })
 
 // Post edit form
-app.post('/:id/edit', async (req, res) => {
+app.put('/:id/edit', async (req, res) => {
     // Connect to mongo
     let client = await MongoClient.connect(MONGOLAB_URI, {
         useNewUrlParser: true })
