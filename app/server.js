@@ -21,7 +21,8 @@ app.engine('.hbs', handlebars({
     defaultLayout: 'default',
     helpers: {
         join: (items, block) => items ? items.join(" ") : ""
-    }}))
+    }
+}))
 app.set('view engine', '.hbs')
 
 // Parsers
@@ -44,10 +45,7 @@ app.get('/', async (req, res) => {
 
 // Get new form
 app.get('/new', (req, res) => {
-    res.render('note-edit', {
-        note: null,
-        action: 'new',
-        method: 'post' })
+    res.render('note-edit', { note: null, action: 'new' })
 })
 
 // Post new form
@@ -94,15 +92,12 @@ app.get('/:id/edit', async (req, res) => {
         .find({ _id: ObjectId(req.params.id) }).limit(1).next()
 
     // Render note and close client
-    res.render('note-edit', {
-        note: note,
-        action: `${note._id}/edit`,
-        method: 'put' })
+    res.render('note-form', { note: note, action: `${note._id}/edit` })
     client.close()
 })
 
 // Post edit form
-app.put('/:id/edit', async (req, res) => {
+app.post('/:id/edit', async (req, res) => {
     // Connect to mongo
     let client = await MongoClient.connect(MONGOLAB_URI, {
         useNewUrlParser: true })
