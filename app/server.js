@@ -30,9 +30,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // Create index route
 app.get('/', async (req, res) => {
+    var client;
     try {
         // Connect to mongo
-        let client = await MongoClient.connect(MONGOLAB_URI, {
+        client = await MongoClient.connect(MONGOLAB_URI, {
             useNewUrlParser: true })
 
         // Query for all notes
@@ -44,6 +45,7 @@ app.get('/', async (req, res) => {
         client.close()
     } catch (error) {
         res.send(error.stack)
+        if (client) client.close()
     }
 })
 
@@ -54,9 +56,10 @@ app.get('/new', (req, res) => {
 
 // Post new form
 app.post('/new', async (req, res) => {
+    var client;
     try {
         // Connect to mongo
-        let client = await MongoClient.connect(MONGOLAB_URI, {
+        client = await MongoClient.connect(MONGOLAB_URI, {
             useNewUrlParser: true })
 
         // Insert new note
@@ -71,14 +74,16 @@ app.post('/new', async (req, res) => {
         client.close()
     } catch (error) {
         res.send(error.stack)
+        if (client) client.close()
     }
 })
 
 // Get id route
 app.get('/:id', async (req, res) => {
+    var client;
     try {
         // Connect to mongo
-        let client = await MongoClient.connect(MONGOLAB_URI, {
+        client = await MongoClient.connect(MONGOLAB_URI, {
             useNewUrlParser: true })
 
         // Query for the note by the given id
@@ -90,14 +95,16 @@ app.get('/:id', async (req, res) => {
         client.close()
     } catch (error) {
         res.send(error.stack)
+        if (client) client.close()
     }
 })
 
 // Get edit form
 app.get('/:id/edit', async (req, res) => {
+    var client;
     try {
         // Connect to mongo
-        let client = await MongoClient.connect(MONGOLAB_URI, {
+        client = await MongoClient.connect(MONGOLAB_URI, {
             useNewUrlParser: true })
 
         // Query for the note by the given id
@@ -109,14 +116,16 @@ app.get('/:id/edit', async (req, res) => {
         client.close()
     } catch (error) {
         res.send(error.stack)
+        if (client) client.close()
     }
 })
 
 // Post edit form
 app.post('/:id/edit', async (req, res) => {
+    var client;
     try {
         // Connect to mongo
-        let client = await MongoClient.connect(MONGOLAB_URI, {
+        client = await MongoClient.connect(MONGOLAB_URI, {
             useNewUrlParser: true })
 
         // Replace note
@@ -131,14 +140,16 @@ app.post('/:id/edit', async (req, res) => {
         client.close()
     } catch (error) {
         res.send(error.stack)
+        if (client) client.close()
     }
 })
 
 // Note delete form
 app.get('/:id/delete', async (req, res) => {
+    var client;
     try {
         // Connect to mongo
-        let client = await MongoClient.connect(MONGOLAB_URI, {
+        client = await MongoClient.connect(MONGOLAB_URI, {
             useNewUrlParser: true })
 
         // Query for the note by the given id
@@ -150,14 +161,16 @@ app.get('/:id/delete', async (req, res) => {
         client.close()
     } catch (error) {
         res.send(error.stack)
+        if (client) client.close()
     }
 })
 
 // Delete note
 app.post('/:id/delete', async (req, res) => {
+    var client;
     try {
         // Connect to mongo
-        let client = await MongoClient.connect(MONGOLAB_URI, {
+        client = await MongoClient.connect(MONGOLAB_URI, {
             useNewUrlParser: true })
 
         // Delete note
@@ -169,6 +182,7 @@ app.post('/:id/delete', async (req, res) => {
         client.close()
     } catch (error) {
         res.send(error.stack)
+        if (client) client.close()
     }
 })
 
