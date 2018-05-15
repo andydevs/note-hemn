@@ -10,7 +10,7 @@ import express from 'express'
 import handlebars from 'express-handlebars'
 import bodyParser from 'body-parser'
 import notes from './routes/notes'
-import { dbConnect } from './db'
+import { dbConnect, indexNotes } from './db'
 import { MongoClient, ObjectId } from 'mongodb'
 import { MONGO_URI, MONGO_DBNAME } from './consts'
 
@@ -43,8 +43,7 @@ app.get('/', async (req, res) => {
         client = await dbConnect()
 
         // Query for all notes
-        let notes = await client.db(MONGO_DBNAME).collection('notes')
-            .find({}).toArray()
+        let notes = await indexNotes(client)
 
         // Render notes and close client
         res.render('index', { notes: notes })

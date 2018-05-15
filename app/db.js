@@ -7,7 +7,11 @@
  * Created: 5 - 12 - 2018
  */
 import { MongoClient, ObjectId } from 'mongodb'
-import { MONGO_URI, MONGO_DBNAME, MONGO_COLLEC_NOTES } from './consts'
+import {
+    MONGO_URI,
+    MONGO_DBNAME,
+    MONGO_COLLEC_NOTES
+} from './consts'
 
 /**
  * Connects to mongodb client
@@ -29,4 +33,17 @@ export function dbConnect() {
  */
 export function idFilter(id) {
     return { _id: ObjectId(id) }
+}
+
+/**
+ * Returns the list of notes in the database
+ *
+ * @param {MongoClient} client mongo client to retrieve from
+ *
+ * @return {Promise<[Note]>} note array
+ */
+export function indexNotes(client) {
+    return client.db(MONGO_DBNAME)
+        .collection(MONGO_COLLEC_NOTES)
+        .find({}).toArray()
 }
