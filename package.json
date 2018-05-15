@@ -6,7 +6,7 @@
   "scripts": {
     "devserver": "node_modules/.bin/grunt devserver",
     "build": "node_modules/.bin/grunt build",
-    "start": "build/start"
+    "start": "node build/start.js"
   },
   "keywords": [
     "note",
