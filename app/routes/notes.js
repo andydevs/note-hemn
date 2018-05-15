@@ -10,7 +10,8 @@ import { Router } from 'express'
 import {
     dbConnect,
     idFilter,
-    createNote
+    createNote,
+    readNote
 } from '../db'
 
 // Define Express router
@@ -57,8 +58,7 @@ notes.get('/:id', async (req, res) => {
         client = await dbConnect()
 
         // Query for the note by the given id
-        let note = await client.db(MONGO_DBNAME).collection('notes')
-            .find(idFilter(req.params.id)).limit(1).next()
+        let note = await readNote(client, req.params.id)
 
         // Render note and close client
         res.render('note-view', note)
@@ -81,8 +81,7 @@ notes.get('/:id/edit', async (req, res) => {
         client = await dbConnect()
 
         // Query for the note by the given id
-        let note = await client.db(MONGO_DBNAME).collection('notes')
-            .find(idFilter(req.params.id)).limit(1).next()
+        let note = await readNote(client, req.params.id)
 
         // Render note and close client
         res.render('note-form', { note: note, action: `${note._id}/edit` })
@@ -132,8 +131,7 @@ notes.get('/:id/delete', async (req, res) => {
         client = await dbConnect()
 
         // Query for the note by the given id
-        let note = await client.db(MONGO_DBNAME).collection('notes')
-            .find(idFilter(req.params.id)).limit(1).next()
+        let note = await readNote(client, req.params.id)
 
         // Render note form
         res.render('note-delete', { note: note })

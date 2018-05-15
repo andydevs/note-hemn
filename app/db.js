@@ -14,6 +14,18 @@ import {
 } from './consts'
 
 /**
+ * Returns the notes collection in the given client
+ *
+ * @param {MongoClient} client mongo client to retrieve from
+ *
+ * @return {Collection} notes collection
+ */
+function notesCollection(client) {
+    return client.db(MONGO_DBNAME)
+        .collection(MONGO_COLLEC_NOTES)
+}
+
+/**
  * Connects to mongodb client
  *
  * @return {Promise<MongoClient>} mongodb client connection
@@ -43,9 +55,21 @@ export function idFilter(id) {
  * @return {Promise<[Note]>} note array
  */
 export function indexNotes(client) {
-    return client.db(MONGO_DBNAME)
-        .collection(MONGO_COLLEC_NOTES)
+    return notesCollection(client)
         .find({}).toArray()
+}
+
+/**
+ * Returns the note specified by the given id in the database
+ *
+ * @param {MongoClient} client the mongo client to connect to
+ * @param {string} id the id of the note to retrieve
+ *
+ * @return {Promise<Note>} the note associated with the given id
+ */
+export function readNote(client, id) {
+    return notesCollection(client)
+        .find(idFilter(id)).limit(1).next()
 }
 
 /**
@@ -57,7 +81,6 @@ export function indexNotes(client) {
  * @return {Promise<[CreateResult]>} result of creation
  */
 export function createNote(client, note) {
-    return client.db(MONGO_DBNAME)
-        .collection(MONGO_COLLEC_NOTES)
+    return notesCollection(client)
         .insertOne(note)
 }
