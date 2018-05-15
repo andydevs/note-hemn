@@ -30,17 +30,21 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // Create index route
 app.get('/', async (req, res) => {
-    // Connect to mongo
-    let client = await MongoClient.connect(MONGOLAB_URI, {
-        useNewUrlParser: true })
+    try {
+        // Connect to mongo
+        let client = await MongoClient.connect(MONGOLAB_URI, {
+            useNewUrlParser: true })
 
-    // Query for all notes
-    let notes = await client.db(MONGO_DBNAME).collection('notes')
-        .find({}).toArray()
+        // Query for all notes
+        let notes = await client.db(MONGO_DBNAME).collection('notes')
+            .find({}).toArray()
 
-    // Render notes and close client
-    res.render('index', { notes: notes })
-    client.close()
+        // Render notes and close client
+        res.render('index', { notes: notes })
+        client.close()
+    } catch (error) {
+        res.send(error.stack)
+    }
 })
 
 // Get new form
@@ -50,98 +54,122 @@ app.get('/new', (req, res) => {
 
 // Post new form
 app.post('/new', async (req, res) => {
-    // Connect to mongo
-    let client = await MongoClient.connect(MONGOLAB_URI, {
-        useNewUrlParser: true })
+    try {
+        // Connect to mongo
+        let client = await MongoClient.connect(MONGOLAB_URI, {
+            useNewUrlParser: true })
 
-    // Insert new note
-    let result = await client.db(MONGO_DBNAME).collection('notes')
-        .insertOne({
-            labels: req.body.labels.split(/\s+/),
-            content: req.body.content
-        })
+        // Insert new note
+        let result = await client.db(MONGO_DBNAME).collection('notes')
+            .insertOne({
+                labels: req.body.labels.split(/\s+/),
+                content: req.body.content
+            })
 
-    // Redirect back to home and close client
-    res.redirect('/')
-    client.close()
+        // Redirect back to home and close client
+        res.redirect('/')
+        client.close()
+    } catch (error) {
+        res.send(error.stack)
+    }
 })
 
 // Get id route
 app.get('/:id', async (req, res) => {
-    // Connect to mongo
-    let client = await MongoClient.connect(MONGOLAB_URI, {
-        useNewUrlParser: true })
+    try {
+        // Connect to mongo
+        let client = await MongoClient.connect(MONGOLAB_URI, {
+            useNewUrlParser: true })
 
-    // Query for the note by the given id
-    let note = await client.db(MONGO_DBNAME).collection('notes')
-        .find({ _id: ObjectId(req.params.id) }).limit(1).next()
+        // Query for the note by the given id
+        let note = await client.db(MONGO_DBNAME).collection('notes')
+            .find({ _id: ObjectId(req.params.id) }).limit(1).next()
 
-    // Render note and close client
-    res.render('note-view', note)
-    client.close()
+        // Render note and close client
+        res.render('note-view', note)
+        client.close()
+    } catch (error) {
+        res.send(error.stack)
+    }
 })
 
 // Get edit form
 app.get('/:id/edit', async (req, res) => {
-    // Connect to mongo
-    let client = await MongoClient.connect(MONGOLAB_URI, {
-        useNewUrlParser: true })
+    try {
+        // Connect to mongo
+        let client = await MongoClient.connect(MONGOLAB_URI, {
+            useNewUrlParser: true })
 
-    // Query for the note by the given id
-    let note = await client.db(MONGO_DBNAME).collection('notes')
-        .find({ _id: ObjectId(req.params.id) }).limit(1).next()
+        // Query for the note by the given id
+        let note = await client.db(MONGO_DBNAME).collection('notes')
+            .find({ _id: ObjectId(req.params.id) }).limit(1).next()
 
-    // Render note and close client
-    res.render('note-form', { note: note, action: `${note._id}/edit` })
-    client.close()
+        // Render note and close client
+        res.render('note-form', { note: note, action: `${note._id}/edit` })
+        client.close()
+    } catch (error) {
+        res.send(error.stack)
+    }
 })
 
 // Post edit form
 app.post('/:id/edit', async (req, res) => {
-    // Connect to mongo
-    let client = await MongoClient.connect(MONGOLAB_URI, {
-        useNewUrlParser: true })
+    try {
+        // Connect to mongo
+        let client = await MongoClient.connect(MONGOLAB_URI, {
+            useNewUrlParser: true })
 
-    // Replace note
-    let result = await client.db(MONGO_DBNAME).collection('notes')
-        .replaceOne({ _id: ObjectId(req.params.id) }, {
-            labels: req.body.labels.split(/\s+/),
-            content: req.body.content
-        })
+        // Replace note
+        let result = await client.db(MONGO_DBNAME).collection('notes')
+            .replaceOne({ _id: ObjectId(req.params.id) }, {
+                labels: req.body.labels.split(/\s+/),
+                content: req.body.content
+            })
 
-    // Redirect back to home and close client
-    res.redirect('/')
-    client.close()
+        // Redirect back to home and close client
+        res.redirect('/')
+        client.close()
+    } catch (error) {
+        res.send(error.stack)
+    }
 })
 
 // Note delete form
 app.get('/:id/delete', async (req, res) => {
-    // Connect to mongo
-    let client = await MongoClient.connect(MONGOLAB_URI, {
-        useNewUrlParser: true })
+    try {
+        // Connect to mongo
+        let client = await MongoClient.connect(MONGOLAB_URI, {
+            useNewUrlParser: true })
 
-    // Query for the note by the given id
-    let note = await client.db(MONGO_DBNAME).collection('notes')
-        .find({ _id: ObjectId(req.params.id) }).limit(1).next()
+        // Query for the note by the given id
+        let note = await client.db(MONGO_DBNAME).collection('notes')
+            .find({ _id: ObjectId(req.params.id) }).limit(1).next()
 
-    // Render note form
-    res.render('note-delete', { note: note })
-    client.close()
+        // Render note form
+        res.render('note-delete', { note: note })
+        client.close()
+    } catch (error) {
+        res.send(error.stack)
+    }
 })
 
 // Delete note
 app.post('/:id/delete', async (req, res) => {
-    // Connect to mongo
-    let client = await MongoClient.connect(MONGOLAB_URI, {
-        useNewUrlParser: true })
+    try {
+        // Connect to mongo
+        let client = await MongoClient.connect(MONGOLAB_URI, {
+            useNewUrlParser: true })
 
-    // Delete note
-    let result = await client.db(MONGO_DBNAME).collection('notes')
-        .deleteOne({ _id: ObjectId(req.params.id) })
+        // Delete note
+        let result = await client.db(MONGO_DBNAME).collection('notes')
+            .deleteOne({ _id: ObjectId(req.params.id) })
 
-    // Redirect back to home and close client
-    res.redirect('/')
-    client.close()
+        // Redirect back to home and close client
+        res.redirect('/')
+        client.close()
+    } catch (error) {
+        res.send(error.stack)
+    }
 })
 
 // Export app
