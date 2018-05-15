@@ -12,7 +12,7 @@
             {{ note.content }}
         </div>
     </div>
-    <form class="delete-confirm-form" action="/{{ note._id }}/delete" method="post">
+    <form class="delete-confirm-form" action="/note/{{ note._id }}/delete" method="post">
         <input class="delete-confirm-form-submit"
             type="submit" name="confirm" value="Confirm">
         <a class="delete-confirm-form-cancel"
