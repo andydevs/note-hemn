@@ -17,11 +17,13 @@ module.exports = function(grunt) {
     grunt.initConfig({
         babel: {
             dist: {
-                files: {
-                    'build/consts.js': 'app/consts.js',
-                    'build/server.js': 'app/server.js',
-                    'build/index.js': 'app/index.js'
-                }
+                files: [{
+                    expand: true,
+                    cwd: 'app/',
+                    src: ['**/*.js'],
+                    dest: 'build/',
+                    ext: '.js'
+                }]
             }
         },
         express: {
@@ -34,7 +36,7 @@ module.exports = function(grunt) {
         watch: {
             scripts: {
                 files: ['app/**/*.js'],
-                tasks: ['express:dev'],
+                tasks: ['build', 'express:dev'],
                 options: {
                     spawn: false
                 }

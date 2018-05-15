@@ -10,8 +10,7 @@
 // Port constant
 export const PORT = process.env.PORT || 8080
 
-// URI constant for mongo lab
-export const MONGOLAB_URI = process.env.MONGOLAB_URI
-
-// Mongo dbname
-export const MONGO_DBNAME = 'notedb'
+// MONGO CONSTANTS
+export const MONGO_URI = process.env.MONGOLAB_URI // URI constant for mongo lab
+export const MONGO_DBNAME = 'notedb' // Mongo dbname
+export const MONGO_COLLEC_NOTES = 'notes' // Mongo collection name for notes
