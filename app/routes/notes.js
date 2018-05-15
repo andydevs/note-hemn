@@ -11,7 +11,8 @@ import {
     dbConnect,
     idFilter,
     createNote,
-    readNote
+    readNote,
+    updateNote
 } from '../db'
 
 // Define Express router
@@ -104,11 +105,10 @@ notes.post('/:id/edit', async (req, res) => {
         client = await dbConnect()
 
         // Replace note
-        let result = await client.db(MONGO_DBNAME).collection('notes')
-            .replaceOne(idFilter(req.params.id), {
-                labels: req.body.labels.split(/\s+/),
-                content: req.body.content
-            })
+        let result = await updateNote(client, req.params.id, {
+            labels: req.body.labels.split(/\s+/),
+            content: req.body.content
+        })
 
         // Redirect back to home and close client
         res.redirect('/')

@@ -84,3 +84,17 @@ export function createNote(client, note) {
     return notesCollection(client)
         .insertOne(note)
 }
+
+/**
+ * Updates the note of the given id with the given new note info
+ *
+ * @param {MongoClient} client mongo client to update in
+ * @param {string} id the id of the note to update
+ * @param {Note} note the new note to update to
+ *
+ * @return {Promise<[UpdateResult]>} result of updating
+ */
+export function updateNote(client, id, note) {
+    return notesCollection(client)
+        .replaceOne(idFilter(id), note)
+}
