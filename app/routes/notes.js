@@ -7,9 +7,11 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
-import { dbConnect, idFilter } from '../db'
-import { MongoClient, ObjectId } from 'mongodb'
-import { MONGO_URI, MONGO_DBNAME, MONGO_COLLEC_NOTES } from '../consts'
+import {
+    dbConnect,
+    idFilter,
+    createNote
+} from '../db'
 
 // Define Express router
 var notes = Router()
@@ -29,11 +31,10 @@ notes.post('/new', async (req, res) => {
         client = await dbConnect()
 
         // Insert new note
-        let result = await client.db(MONGO_DBNAME).collection('notes')
-            .insertOne({
-                labels: req.body.labels.split(/\s+/),
-                content: req.body.content
-            })
+        let result = await createNote(client, {
+            labels: req.body.labels.split(/\s+/),
+            content: req.body.content
+        })
 
         // Redirect back to home and close client
         res.redirect('/')

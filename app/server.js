@@ -11,8 +11,6 @@ import handlebars from 'express-handlebars'
 import bodyParser from 'body-parser'
 import notes from './routes/notes'
 import { dbConnect, indexNotes } from './db'
-import { MongoClient, ObjectId } from 'mongodb'
-import { MONGO_URI, MONGO_DBNAME } from './consts'
 
 // Create app
 var app = express()

@@ -47,3 +47,17 @@ export function indexNotes(client) {
         .collection(MONGO_COLLEC_NOTES)
         .find({}).toArray()
 }
+
+/**
+ * Creates a new note in the database
+ *
+ * @param {MongoClient} client mongo client to create in
+ * @param {Note} note the note to create
+ *
+ * @return {Promise<[CreateResult]>} result of creation
+ */
+export function createNote(client, note) {
+    return client.db(MONGO_DBNAME)
+        .collection(MONGO_COLLEC_NOTES)
+        .insertOne(note)
+}
