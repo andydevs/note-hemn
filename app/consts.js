@@ -8,7 +8,7 @@
  */
 
 // Port constant
-export const PORT = 8080
+export const PORT = process.env.PORT || 8080
 
 // URI constant for mongo lab
 export const MONGOLAB_URI = process.env.MONGOLAB_URI
