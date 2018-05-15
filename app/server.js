@@ -30,7 +30,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // Create index route
 app.get('/', async (req, res) => {
+    // Mongo client
     var client;
+
     try {
         // Connect to mongo
         client = await MongoClient.connect(MONGOLAB_URI, {
@@ -43,7 +45,9 @@ app.get('/', async (req, res) => {
         // Render notes and close client
         res.render('index', { notes: notes })
         client.close()
-    } catch (error) {
+    }
+    catch (error) {
+        // Send error and close client
         res.send(error.stack)
         if (client) client.close()
     }
@@ -56,7 +60,9 @@ app.get('/new', (req, res) => {
 
 // Post new form
 app.post('/new', async (req, res) => {
+    // Mongo client
     var client;
+
     try {
         // Connect to mongo
         client = await MongoClient.connect(MONGOLAB_URI, {
@@ -72,7 +78,9 @@ app.post('/new', async (req, res) => {
         // Redirect back to home and close client
         res.redirect('/')
         client.close()
-    } catch (error) {
+    }
+    catch (error) {
+        // Send error and close client
         res.send(error.stack)
         if (client) client.close()
     }
@@ -80,7 +88,9 @@ app.post('/new', async (req, res) => {
 
 // Get id route
 app.get('/:id', async (req, res) => {
+    // Mongo client
     var client;
+
     try {
         // Connect to mongo
         client = await MongoClient.connect(MONGOLAB_URI, {
@@ -93,7 +103,9 @@ app.get('/:id', async (req, res) => {
         // Render note and close client
         res.render('note-view', note)
         client.close()
-    } catch (error) {
+    }
+    catch (error) {
+        // Send error and close client
         res.send(error.stack)
         if (client) client.close()
     }
@@ -101,7 +113,9 @@ app.get('/:id', async (req, res) => {
 
 // Get edit form
 app.get('/:id/edit', async (req, res) => {
+    // Mongo client
     var client;
+
     try {
         // Connect to mongo
         client = await MongoClient.connect(MONGOLAB_URI, {
@@ -114,7 +128,9 @@ app.get('/:id/edit', async (req, res) => {
         // Render note and close client
         res.render('note-form', { note: note, action: `${note._id}/edit` })
         client.close()
-    } catch (error) {
+    }
+    catch (error) {
+        // Send error and close client
         res.send(error.stack)
         if (client) client.close()
     }
@@ -122,7 +138,9 @@ app.get('/:id/edit', async (req, res) => {
 
 // Post edit form
 app.post('/:id/edit', async (req, res) => {
+    // Mongo client
     var client;
+
     try {
         // Connect to mongo
         client = await MongoClient.connect(MONGOLAB_URI, {
@@ -138,7 +156,9 @@ app.post('/:id/edit', async (req, res) => {
         // Redirect back to home and close client
         res.redirect('/')
         client.close()
-    } catch (error) {
+    }
+    catch (error) {
+        // Send error and close client
         res.send(error.stack)
         if (client) client.close()
     }
@@ -146,7 +166,9 @@ app.post('/:id/edit', async (req, res) => {
 
 // Note delete form
 app.get('/:id/delete', async (req, res) => {
+    // Mongo client
     var client;
+
     try {
         // Connect to mongo
         client = await MongoClient.connect(MONGOLAB_URI, {
@@ -159,7 +181,9 @@ app.get('/:id/delete', async (req, res) => {
         // Render note form
         res.render('note-delete', { note: note })
         client.close()
-    } catch (error) {
+    }
+    catch (error) {
+        // Send error and close client
         res.send(error.stack)
         if (client) client.close()
     }
@@ -167,7 +191,9 @@ app.get('/:id/delete', async (req, res) => {
 
 // Delete note
 app.post('/:id/delete', async (req, res) => {
+    // Mongo client
     var client;
+
     try {
         // Connect to mongo
         client = await MongoClient.connect(MONGOLAB_URI, {
@@ -180,7 +206,9 @@ app.post('/:id/delete', async (req, res) => {
         // Redirect back to home and close client
         res.redirect('/')
         client.close()
-    } catch (error) {
+    }
+    catch (error) {
+        // Send error and close client
         res.send(error.stack)
         if (client) client.close()
     }
