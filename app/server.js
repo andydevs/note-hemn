@@ -10,6 +10,7 @@ import express from 'express'
 import handlebars from 'express-handlebars'
 import bodyParser from 'body-parser'
 import notes from './routes/notes'
+import { dbConnect } from './db'
 import { MongoClient, ObjectId } from 'mongodb'
 import { MONGO_URI, MONGO_DBNAME } from './consts'
 
@@ -39,8 +40,7 @@ app.get('/', async (req, res) => {
 
     try {
         // Connect to mongo
-        client = await MongoClient.connect(MONGO_URI, {
-            useNewUrlParser: true })
+        client = await dbConnect()
 
         // Query for all notes
         let notes = await client.db(MONGO_DBNAME).collection('notes')

@@ -7,6 +7,7 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
+import { dbConnect, idFilter } from '../db'
 import { MongoClient, ObjectId } from 'mongodb'
 import { MONGO_URI, MONGO_DBNAME, MONGO_COLLEC_NOTES } from '../consts'
 
@@ -25,8 +26,7 @@ notes.post('/new', async (req, res) => {
 
     try {
         // Connect to mongo
-        client = await MongoClient.connect(MONGO_URI, {
-            useNewUrlParser: true })
+        client = await dbConnect()
 
         // Insert new note
         let result = await client.db(MONGO_DBNAME).collection('notes')
@@ -53,12 +53,11 @@ notes.get('/:id', async (req, res) => {
 
     try {
         // Connect to mongo
-        client = await MongoClient.connect(MONGO_URI, {
-            useNewUrlParser: true })
+        client = await dbConnect()
 
         // Query for the note by the given id
         let note = await client.db(MONGO_DBNAME).collection('notes')
-            .find({ _id: ObjectId(req.params.id) }).limit(1).next()
+            .find(idFilter(req.params.id)).limit(1).next()
 
         // Render note and close client
         res.render('note-view', note)
@@ -78,12 +77,11 @@ notes.get('/:id/edit', async (req, res) => {
 
     try {
         // Connect to mongo
-        client = await MongoClient.connect(MONGO_URI, {
-            useNewUrlParser: true })
+        client = await dbConnect()
 
         // Query for the note by the given id
         let note = await client.db(MONGO_DBNAME).collection('notes')
-            .find({ _id: ObjectId(req.params.id) }).limit(1).next()
+            .find(idFilter(req.params.id)).limit(1).next()
 
         // Render note and close client
         res.render('note-form', { note: note, action: `${note._id}/edit` })
@@ -103,12 +101,11 @@ notes.post('/:id/edit', async (req, res) => {
 
     try {
         // Connect to mongo
-        client = await MongoClient.connect(MONGO_URI, {
-            useNewUrlParser: true })
+        client = await dbConnect()
 
         // Replace note
         let result = await client.db(MONGO_DBNAME).collection('notes')
-            .replaceOne({ _id: ObjectId(req.params.id) }, {
+            .replaceOne(idFilter(req.params.id), {
                 labels: req.body.labels.split(/\s+/),
                 content: req.body.content
             })
@@ -131,12 +128,11 @@ notes.get('/:id/delete', async (req, res) => {
 
     try {
         // Connect to mongo
-        client = await MongoClient.connect(MONGO_URI, {
-            useNewUrlParser: true })
+        client = await dbConnect()
 
         // Query for the note by the given id
         let note = await client.db(MONGO_DBNAME).collection('notes')
-            .find({ _id: ObjectId(req.params.id) }).limit(1).next()
+            .find(idFilter(req.params.id)).limit(1).next()
 
         // Render note form
         res.render('note-delete', { note: note })
@@ -156,12 +152,11 @@ notes.post('/:id/delete', async (req, res) => {
 
     try {
         // Connect to mongo
-        client = await MongoClient.connect(MONGO_URI, {
-            useNewUrlParser: true })
+        client = await dbConnect()
 
         // Delete note
         let result = await client.db(MONGO_DBNAME).collection('notes')
-            .deleteOne({ _id: ObjectId(req.params.id) })
+            .deleteOne(idFilter(req.params.id))
 
         // Redirect back to home and close client
         res.redirect('/')
