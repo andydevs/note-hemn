@@ -45,7 +45,7 @@ app.get('/', async (req, res) => {
 
 // Get new form
 app.get('/new', (req, res) => {
-    res.render('note-edit', { note: null, action: 'new' })
+    res.render('note-form', { note: null, action: 'new' })
 })
 
 // Post new form
@@ -102,12 +102,42 @@ app.post('/:id/edit', async (req, res) => {
     let client = await MongoClient.connect(MONGOLAB_URI, {
         useNewUrlParser: true })
 
-    // Insert new note
+    // Replace note
     let result = await client.db(MONGO_DBNAME).collection('notes')
         .replaceOne({ _id: ObjectId(req.params.id) }, {
             labels: req.body.labels.split(/\s+/),
             content: req.body.content
         })
+
+    // Redirect back to home and close client
+    res.redirect('/')
+    client.close()
+})
+
+// Note delete form
+app.get('/:id/delete', async (req, res) => {
+    // Connect to mongo
+    let client = await MongoClient.connect(MONGOLAB_URI, {
+        useNewUrlParser: true })
+
+    // Query for the note by the given id
+    let note = await client.db(MONGO_DBNAME).collection('notes')
+        .find({ _id: ObjectId(req.params.id) }).limit(1).next()
+
+    // Render note form
+    res.render('note-delete', { note: note })
+    client.close()
+})
+
+// Delete note
+app.post('/:id/delete', async (req, res) => {
+    // Connect to mongo
+    let client = await MongoClient.connect(MONGOLAB_URI, {
+        useNewUrlParser: true })
+
+    // Delete note
+    let result = await client.db(MONGO_DBNAME).collection('notes')
+        .deleteOne({ _id: ObjectId(req.params.id) })
 
     // Redirect back to home and close client
     res.redirect('/')
