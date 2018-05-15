@@ -11,4 +11,6 @@ import server from './server'
 import { PORT } from './consts'
 
 // Listen on 8080
-server.listen(PORT, () => console.log('Server is listening...'))
+server.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}...`)
+})
