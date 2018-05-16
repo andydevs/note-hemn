@@ -78,7 +78,7 @@ export function readNote(client, id) {
  * @param {MongoClient} client mongo client to create in
  * @param {Note} note the note to create
  *
- * @return {Promise<[CreateResult]>} result of creation
+ * @return {Promise<CreateResult>} result of creation
  */
 export function createNote(client, note) {
     return notesCollection(client)
@@ -92,9 +92,22 @@ export function createNote(client, note) {
  * @param {string} id the id of the note to update
  * @param {Note} note the new note to update to
  *
- * @return {Promise<[UpdateResult]>} result of updating
+ * @return {Promise<UpdateResult>} result of updating
  */
 export function updateNote(client, id, note) {
     return notesCollection(client)
         .replaceOne(idFilter(id), note)
+}
+
+/**
+ * Deletes the note of the given id from the database
+ *
+ * @param {MongoClient} client mongo client to delete
+ * @param {string} id the id of the note to delete
+ *
+ * @return {Promise<DeleteResult>} result of deleting
+ */
+export function deleteNote(client, id) {
+    return notesCollection(client)
+        .deleteOne(idFilter(id))
 }

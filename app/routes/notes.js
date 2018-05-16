@@ -12,8 +12,10 @@ import {
     idFilter,
     createNote,
     readNote,
-    updateNote
+    updateNote,
+    deleteNote
 } from '../db'
+import { MONGO_DBNAME } from '../consts'
 
 // Define Express router
 var notes = Router()
@@ -154,8 +156,7 @@ notes.post('/:id/delete', async (req, res) => {
         client = await dbConnect()
 
         // Delete note
-        let result = await client.db(MONGO_DBNAME).collection('notes')
-            .deleteOne(idFilter(req.params.id))
+        let result = await deleteNote(client, req.params.id)
 
         // Redirect back to home and close client
         res.redirect('/')
