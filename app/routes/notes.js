@@ -15,7 +15,6 @@ import {
     updateNote,
     deleteNote
 } from '../models/note'
-import { MONGO_DBNAME } from '../consts'
 
 // Define Express router
 var notes = Router()
