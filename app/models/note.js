@@ -11,6 +11,20 @@ import {
     idFilter
 } from '../db'
 
+/**
+ * Returns the note parsed from the request body
+ *
+ * @param {object} body request body
+ *
+ * @return {Note} note parsed from request body
+ */
+export function fromRequestBody(body) {
+    return {
+        labels: body.labels.split(/\s+/),
+        content: body.content
+    }
+}
+
  /**
   * Returns the list of notes in the database
   *

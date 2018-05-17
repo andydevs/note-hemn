@@ -9,6 +9,7 @@
 import { Router } from 'express'
 import { dbConnect } from '../db'
 import {
+    fromRequestBody,
     createNote,
     readNote,
     updateNote,
@@ -34,10 +35,7 @@ notes.post('/new', async (req, res) => {
         client = await dbConnect()
 
         // Insert new note
-        let result = await createNote(client, {
-            labels: req.body.labels.split(/\s+/),
-            content: req.body.content
-        })
+        let result = await createNote(client, fromRequestBody(req.body))
 
         // Redirect back to home and close client
         res.redirect('/')
@@ -106,10 +104,9 @@ notes.post('/:id/edit', async (req, res) => {
         client = await dbConnect()
 
         // Replace note
-        let result = await updateNote(client, req.params.id, {
-            labels: req.body.labels.split(/\s+/),
-            content: req.body.content
-        })
+        let result = await updateNote(client,
+            req.params.id,
+            fromRequestBody(req.body))
 
         // Redirect back to home and close client
         res.redirect('/')
