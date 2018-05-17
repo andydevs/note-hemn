@@ -10,7 +10,8 @@ import express from 'express'
 import handlebars from 'express-handlebars'
 import bodyParser from 'body-parser'
 import notes from './routes/notes'
-import { dbConnect, indexNotes } from './db'
+import { dbConnect } from './db'
+import { indexNotes } from './models/note'
 
 // Create app
 var app = express()

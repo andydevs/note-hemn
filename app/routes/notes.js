@@ -7,14 +7,13 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
+import { dbConnect } from '../db'
 import {
-    dbConnect,
-    idFilter,
     createNote,
     readNote,
     updateNote,
     deleteNote
-} from '../db'
+} from '../models/note'
 import { MONGO_DBNAME } from '../consts'
 
 // Define Express router
