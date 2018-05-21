@@ -12,12 +12,15 @@ import { dbConnect, usersCollection } from '../db'
 // Create users router
 var users = Router()
 
+// Login user page
 users.get('/login', (req, res) => {
-    res.render('user-login-form', {
+    res.render('user-login', {
+        user: req.session.user,
         notfound: req.query.notfound
     })
 })
 
+// Post user login
 users.post('/login', async (req, res) => {
     // Mongo client
     var client;
@@ -32,7 +35,9 @@ users.post('/login', async (req, res) => {
 
         // Get user from client
         let user = await usersCollection(client)
-            .find({ email: email, passhash: passhash })
+            .find({
+                email: email,
+                passhash: passhash })
             .limit(1)
             .next()
 
@@ -56,6 +61,19 @@ users.post('/login', async (req, res) => {
         res.send(error.stack)
         if (client) client.close()
     }
+})
+
+// User logout page
+users.get('/logout', (req, res) => {
+    res.render('user-logout', {
+        user: req.session.user
+    })
+})
+
+// User post logout
+users.post('/logout', (req, res) => {
+    req.session.destroy()
+    res.redirect('/')
 })
 
 // Export users router

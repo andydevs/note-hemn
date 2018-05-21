@@ -54,7 +54,9 @@ app.get('/', async (req, res) => {
         let notes = await indexNotes(client)
 
         // Render notes and close client
-        res.render('index', { user: req.session.user, notes: notes })
+        res.render('index', {
+            user: req.session.user,
+            notes: notes })
         client.close()
     }
     catch (error) {

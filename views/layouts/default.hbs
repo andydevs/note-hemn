@@ -9,6 +9,7 @@
             {{#if user}}
                 <p>Name: {{ user.name }}</p>
                 <p>Email: {{ user.email }}</p>
+                <a class='note-control-login' href="/user/logout">Logout</a>
             {{else}}
                 <a class='note-control-login' href="/user/login">Login</a>
             {{/if}}
