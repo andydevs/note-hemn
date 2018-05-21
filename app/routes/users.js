@@ -7,7 +7,12 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
+import { genSaltSync, hash, compare } from 'bcryptjs'
 import { dbConnect, usersCollection } from '../db'
+import { BCRYPT_SALT_ROUNDS } from '../consts'
+
+// Generate salt
+const SALT = genSaltSync(BCRYPT_SALT_ROUNDS)
 
 // Create users router
 var users = Router()
@@ -31,7 +36,7 @@ users.post('/signup', async (req, res) => {
         // Check password and verify
         if (req.body.password === req.body.verify) {
             // Hash password
-            let passhash = req.body.password
+            let passhash = await hash(req.body.password, SALT)
 
             // Insert new user
             let result = await usersCollection(client)
@@ -80,20 +85,17 @@ users.post('/login', async (req, res) => {
         // Connect to mongo
         client = await dbConnect()
 
-        // Hash password
-        let email = req.body.email
-        let passhash = req.body.password
-
         // Get user from client
         let user = await usersCollection(client)
-            .find({
-                email: email,
-                passhash: passhash })
+            .find({ email: req.body.email })
             .limit(1)
             .next()
 
-        // If user exists
-        if (user) {
+        // Check if password matches
+        let pwdMatch = await compare(req.body.password, user.passhash)
+
+        // If user exists and password matches
+        if (user && pwdMatch) {
             // Store user in session if user exists
             req.session.user = user
 
