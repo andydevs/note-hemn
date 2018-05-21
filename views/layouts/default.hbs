@@ -5,6 +5,16 @@
         <title>Note HEMN</title>
     </head>
     <body>
-        {{{ body }}}
+        <div class='note-hemn-navbar'>
+            {{#if user}}
+                <p>Name: {{ user.name }}</p>
+                <p>Email: {{ user.email }}</p>
+            {{else}}
+                <a class='note-control-login' href="/user/login">Login</a>
+            {{/if}}
+        </div>
+        <div class='note-hemn-content'>
+            {{{ body }}}
+        </div>
     </body>
 </html>

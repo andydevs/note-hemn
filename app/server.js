@@ -7,12 +7,14 @@
  * Created: 5 - 12 - 2018
  */
 import express from 'express'
+import session from 'express-session'
 import handlebars from 'express-handlebars'
 import bodyParser from 'body-parser'
 import notes from './routes/notes'
 import users from './routes/users'
 import { dbConnect } from './db'
 import { indexNotes } from './models/note'
+import { EXPRESS_SESSION_SECRET } from './consts'
 
 // Create app
 var app = express()
@@ -29,6 +31,11 @@ app.set('view engine', '.hbs')
 
 // Configure app
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(session({
+    secret: EXPRESS_SESSION_SECRET,
+    saveUninitialized: true,
+    resave: false
+}))
 
 // Routes
 app.use('/note', notes)
@@ -47,7 +54,7 @@ app.get('/', async (req, res) => {
         let notes = await indexNotes(client)
 
         // Render notes and close client
-        res.render('index', { notes: notes })
+        res.render('index', { user: req.session.user, notes: notes })
         client.close()
     }
     catch (error) {

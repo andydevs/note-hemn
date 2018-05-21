@@ -7,8 +7,11 @@
  * Created: 5 - 12 - 2018
  */
 
-// Port constant
-export const PORT = process.env.PORT || 8080
+// Server constants
+export const PORT = process.env.PORT || 8080 // Server port
+
+// Express constants
+export const EXPRESS_SESSION_SECRET = '0k4yit5chi1dish94m6in0' // Session secret
 
 // MONGO CONSTANTS
 export const MONGO_URI = process.env.MONGOLAB_URI // URI constant for mongo lab

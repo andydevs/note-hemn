@@ -39,7 +39,7 @@ users.post('/login', async (req, res) => {
         // If user exists
         if (user) {
             // Store user in session if user exists
-            let session = user
+            req.session.user = user
 
             // Redirect back to home
             res.redirect('/')
