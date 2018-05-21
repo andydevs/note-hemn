@@ -10,8 +10,21 @@ import { MongoClient, ObjectId } from 'mongodb'
 import {
     MONGO_URI,
     MONGO_DBNAME,
-    MONGO_COLLEC_NOTES
+    MONGO_COLLEC_NOTES,
+    MONGO_COLLEC_USERS
 } from './consts'
+
+/**
+ * Returns the users collection in the given client
+ *
+ * @param {MongoClient} client mongo client to retrieve from
+ *
+ * @return {Collection} users collection
+ */
+export function usersCollection(client) {
+    return client.db(MONGO_DBNAME)
+        .collection(MONGO_COLLEC_USERS)
+}
 
 /**
  * Returns the notes collection in the given client

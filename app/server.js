@@ -10,6 +10,7 @@ import express from 'express'
 import handlebars from 'express-handlebars'
 import bodyParser from 'body-parser'
 import notes from './routes/notes'
+import users from './routes/users'
 import { dbConnect } from './db'
 import { indexNotes } from './models/note'
 
@@ -31,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // Routes
 app.use('/note', notes)
+app.use('/user', users)
 
 // Create index route
 app.get('/', async (req, res) => {
