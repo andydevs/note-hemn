@@ -25,6 +25,7 @@ users.get('/signup', (req, res) => {
     })
 })
 
+// Post signup
 users.post('/signup', async (req, res) => {
     // Mongo client
     var client;
