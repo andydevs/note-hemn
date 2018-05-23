@@ -30,7 +30,7 @@ export function setSessionAndRedirect(req, res, user) {
  *
  * @param {object} user the object to validate
  *
- * @return true if the object is a valid user signup
+ * @return {boolean} true if the object is a valid user signup
  */
 export function validUserSignup(user) {
     return user.email
@@ -41,22 +41,6 @@ export function validUserSignup(user) {
 }
 
 /**
- * Hashes password within user signup info
- *
- * @param {UserSignup} user user signup info
- *
- * @return {UserSignupHashed} user signup with hashed password
- */
-export function hashUserSignupPassword(user) {
-    return hash(user.password, SALT)
-        .then(passhash => ({
-            name: user.name,
-            email: user.email,
-            passhash: passhash
-        }))
-}
-
-/**
  * Signs up the given user
  *
  * @param {MongoClient} client the mongo client to signup
@@ -64,36 +48,43 @@ export function hashUserSignupPassword(user) {
  *
  * @return {Promise<User>} result user from signup
  */
-export function signupUser(client, user) {
-    return usersCollection(client)
-        .insertOne(user)
-        .then(res => res.result.ok ? res.ops[0] : null)
+export async function signupUser(client, signup) {
+    // Extract info needed from signup
+    let { name, email, password } = signup
+
+    // Hash password and insert user with passhash
+    let passhash = await hash(signup.password, SALT)
+    let result = await usersCollection(client)
+        .insertOne({ name: name, email: email, passhash: passhash })
+
+    // Return user if insert passes else null
+    return result.result.ok ? result.ops[0] : null
 }
 
 /**
- * Returns user for the given email
+ * Returns the user for the given login information (or null)
  *
- * @param {MongoClient} client the mongo client to retrieve from
- * @param {string} email the email to retrieve
+ * @param {MongoClient} client the mongo client to login in
+ * @param {Login} login user login information
  *
- * @return {Promise<User>} user from email
+ * @return {Promise<User>} result user from login
  */
-export function getUserByEmail(client, email) {
-    return usersCollection(client)
-        .find({ email: email })
-        .limit(1)
-        .next()
-}
+export async function loginUser(client, login) {
+    // Extract info needed from login
+    let { email, password } = login
 
-/**
- * Compares the given password with the passhash stored
- * in the actual user
- *
- * @param {object} login user login info
- * @param {User} user user to compare to
- *
- * @return {Promise<Boolean>} true if the password matches the passhash
- */
-export function compareUserPassword(login, user) {
-    return compare(login.password, user.passhash)
+    // Find user and check password
+    let user = await usersCollection(client)
+        .find({ email: email }).limit(1).next()
+
+    // If user exists
+    if (user) {
+        // Compare password
+        let valid = await compare(password, user.passhash)
+
+        // Return user if password matches (else null)
+        return valid ? user : null
+    }
+    // Else just return null
+    else return null
 }

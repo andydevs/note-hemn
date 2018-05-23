@@ -12,11 +12,9 @@ import { dbConnect, usersCollection } from '../db'
 import { BCRYPT_SALT_ROUNDS } from '../consts'
 import {
     setSessionAndRedirect,
-    hashUserSignupPassword,
     validUserSignup,
     signupUser,
-    getUserByEmail,
-    compareUserPassword
+    loginUser
 } from '../models/user'
 
 // Generate salt
@@ -44,9 +42,8 @@ users.post('/signup', async (req, res) => {
 
         // Check user signup info
         if (validUserSignup(req.body)) {
-            // Get hashed signup info and insert new user
-            let hSignup = await hashUserSignupPassword(req.body)
-            let user = await signupUser(client, hSignup)
+            // Sign up user
+            let user = await signupUser(client, req.body)
 
             // If new user is inserted, set user in session
             // Else redirect to error
@@ -80,13 +77,11 @@ users.post('/login', async (req, res) => {
         // Connect to mongo
         client = await dbConnect()
 
-        // Get user from client and check if password matches
-        let user = await getUserByEmail(client, req.body.email)
-        let match = await compareUserPassword(req.body, user)
+        // Log in user from client and check if password matches
+        let user = await loginUser(client, req.body)
 
-        // If user exists and password matches, set user in session
-        // Else redirect to error
-        if (user && match) setSessionAndRedirect(req, res, user)
+        // If valid user, set user in session, else redirect to error
+        if (user) setSessionAndRedirect(req, res, user)
         else res.redirect('/user/login?notfound=true')
 
         // Close client
