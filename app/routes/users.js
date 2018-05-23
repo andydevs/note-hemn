@@ -8,7 +8,7 @@
  */
 import { Router } from 'express'
 import { genSaltSync, hash, compare } from 'bcryptjs'
-import { dbConnect, usersCollection } from '../db'
+import { dbConnect, using } from '../db'
 import { BCRYPT_SALT_ROUNDS } from '../consts'
 import {
     setSessionAndRedirect,
@@ -33,13 +33,8 @@ users.get('/signup', (req, res) => {
 
 // Post signup
 users.post('/signup', async (req, res) => {
-    // Mongo client
-    var client;
-
-    try {
-        // Connect to mongo
-        client = await dbConnect()
-
+    // Within mongoclient context
+    await using(dbConnect, async client => {
         // Sign up user
         let result = await signupUser(client, req.body)
 
@@ -47,12 +42,7 @@ users.post('/signup', async (req, res) => {
         // Else redirect back to page with flags
         if (result.user) setSessionAndRedirect(req, res, result.user)
         else res.redirect(`/signup?error=${result.error}&unmatch=${result.unmatch}`)
-    }
-    catch (error) {
-        // Send error to client
-        res.send(error.stack)
-        if (client) client.close()
-    }
+    })
 })
 
 // Login user page
@@ -65,28 +55,15 @@ users.get('/login', (req, res) => {
 
 // Post user login
 users.post('/login', async (req, res) => {
-    // Mongo client
-    var client;
-
-    try {
-        // Connect to mongo
-        client = await dbConnect()
-
+    // Within mongoclient context
+    await using(dbConnect, async client => {
         // Log in user from client and check if password matches
         let user = await loginUser(client, req.body)
 
         // If valid user, set user in session, else redirect to error
         if (user) setSessionAndRedirect(req, res, user)
         else res.redirect('/user/login?notfound=true')
-
-        // Close client
-        client.close()
-    }
-    catch (error) {
-        // Send error and close client
-        res.send(error.stack)
-        if (client) client.close()
-    }
+    })
 })
 
 // User logout page

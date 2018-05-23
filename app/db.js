@@ -59,3 +59,28 @@ export function dbConnect() {
 export function idFilter(id) {
     return { _id: ObjectId(id) }
 }
+
+/**
+ * Runs the callback exposing the given closable asyncronous context
+ * object. If an error is thrown, ensures that context is closed before
+ * error gets thrown outside context
+ *
+ * @param {Function} contextConstructor constructs a context asyncronously
+ * @param {Function} callback block to execute within context
+ */
+export async function using(contextConstructor, callback) {
+    // Context handler
+    let context;
+
+    try {
+        // Construct context, run callback with it, and then close it
+        context = await contextConstructor()
+        await callback(context)
+        context.close()
+    }
+    catch (error) {
+        // Ensure context is closed before returning error
+        if (context) context.close()
+        throw error
+    }
+}
