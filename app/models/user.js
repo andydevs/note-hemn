@@ -50,15 +50,27 @@ export function validUserSignup(user) {
  */
 export async function signupUser(client, signup) {
     // Extract info needed from signup
-    let { name, email, password } = signup
+    let { name, email, password, verify } = signup
 
-    // Hash password and insert user with passhash
-    let passhash = await hash(signup.password, SALT)
-    let result = await usersCollection(client)
-        .insertOne({ name: name, email: email, passhash: passhash })
+    // If password and verify match
+    if (password === verify) {
+        // Hash password and insert user with passhash
+        let passhash = await hash(signup.password, SALT)
+        let mongoresult = await usersCollection(client)
+            .insertOne({
+                name: name,
+                email: email,
+                passhash: passhash })
 
-    // Return user if insert passes else null
-    return result.result.ok ? result.ops[0] : null
+        // Return result of operation
+        return {
+            unmatch: false,
+            error: !mongoresult.result.ok,
+            user: mongoresult.ops[0]
+        }
+    }
+    // Else return unmatch result
+    else return { unmatch: true, error: false, user: null }
 }
 
 /**

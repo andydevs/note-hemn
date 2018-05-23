@@ -40,18 +40,13 @@ users.post('/signup', async (req, res) => {
         // Connect to mongo
         client = await dbConnect()
 
-        // Check user signup info
-        if (validUserSignup(req.body)) {
-            // Sign up user
-            let user = await signupUser(client, req.body)
+        // Sign up user
+        let result = await signupUser(client, req.body)
 
-            // If new user is inserted, set user in session
-            // Else redirect to error
-            if (user) setSessionAndRedirect(req, res, user)
-            else res.redirect('/signup?error=true')
-        }
-        // Redirect to unmatch signup
-        else res.redirect('/signup?unmatch=true')
+        // If user exist, set session and redirect
+        // Else redirect back to page with flags
+        if (result.user) setSessionAndRedirect(req, res, result.user)
+        else res.redirect(`/signup?error=${result.error}&unmatch=${result.unmatch}`)
     }
     catch (error) {
         // Send error to client
