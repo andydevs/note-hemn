@@ -10,6 +10,14 @@ import { Router } from 'express'
 import { genSaltSync, hash, compare } from 'bcryptjs'
 import { dbConnect, usersCollection } from '../db'
 import { BCRYPT_SALT_ROUNDS } from '../consts'
+import {
+    setSessionAndRedirect,
+    hashUserSignupPassword,
+    validUserSignup,
+    signupUser,
+    getUserByEmail,
+    compareUserPassword
+} from '../models/user'
 
 // Generate salt
 const SALT = genSaltSync(BCRYPT_SALT_ROUNDS)
@@ -34,35 +42,21 @@ users.post('/signup', async (req, res) => {
         // Connect to mongo
         client = await dbConnect()
 
-        // Check password and verify
-        if (req.body.password === req.body.verify) {
-            // Hash password
-            let passhash = await hash(req.body.password, SALT)
+        // Check user signup info
+        if (validUserSignup(req.body)) {
+            // Get hashed signup info and insert new user
+            let hSignup = await hashUserSignupPassword(req.body)
+            let user = await signupUser(client, hSignup)
 
-            // Insert new user
-            let result = await usersCollection(client)
-                .insertOne({
-                    name: req.body.name,
-                    email: req.body.email,
-                    passhash: passhash
-                })
-
-            // If it's good
-            if (result.result.ok) {
-                // Save created user
-                req.session.user = result.ops[0]
-
-                // Redirect back to home
-                res.redirect('/')
-            }
-            else {
-                res.redirect('/signup?error=true')
-            }
+            // If new user is inserted, set user in session
+            // Else redirect to error
+            if (user) setSessionAndRedirect(req, res, user)
+            else res.redirect('/signup?error=true')
         }
-        else {
-            res.redirect('/signup?unmatch=true')
-        }
-    } catch (error) {
+        // Redirect to unmatch signup
+        else res.redirect('/signup?unmatch=true')
+    }
+    catch (error) {
         // Send error to client
         res.send(error.stack)
         if (client) client.close()
@@ -86,27 +80,14 @@ users.post('/login', async (req, res) => {
         // Connect to mongo
         client = await dbConnect()
 
-        // Get user from client
-        let user = await usersCollection(client)
-            .find({ email: req.body.email })
-            .limit(1)
-            .next()
+        // Get user from client and check if password matches
+        let user = await getUserByEmail(client, req.body.email)
+        let match = await compareUserPassword(req.body, user)
 
-        // Check if password matches
-        let pwdMatch = await compare(req.body.password, user.passhash)
-
-        // If user exists and password matches
-        if (user && pwdMatch) {
-            // Store user in session if user exists
-            req.session.user = user
-
-            // Redirect back to home
-            res.redirect('/')
-        }
-        else {
-            // Redirect to not found page
-            res.redirect('/user/login?notfound=true')
-        }
+        // If user exists and password matches, set user in session
+        // Else redirect to error
+        if (user && match) setSessionAndRedirect(req, res, user)
+        else res.redirect('/user/login?notfound=true')
 
         // Close client
         client.close()
