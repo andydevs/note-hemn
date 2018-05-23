@@ -7,7 +7,7 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
-import { dbConnect } from '../db'
+import { dbConnect, using } from '../db'
 import {
     fromRequestBody,
     createNote,
@@ -26,82 +26,44 @@ notes.get('/new', (req, res) => {
 
 // Post new form
 notes.post('/new', async (req, res) => {
-    // Mongo client
-    var client;
-
-    try {
-        // Connect to mongo
-        client = await dbConnect()
-
+    // Within mongoclient context
+    await using(dbConnect, async client => {
         // Insert new note
         let result = await createNote(client, fromRequestBody(req.body))
 
         // Redirect back to home and close client
         res.redirect('/')
-        client.close()
-    }
-    catch (error) {
-        // Send error and close client
-        res.send(error.stack)
-        if (client) client.close()
-    }
+    })
 })
 
 // Get id route
 notes.get('/:id', async (req, res) => {
-    // Mongo client
-    var client;
-
-    try {
-        // Connect to mongo
-        client = await dbConnect()
-
+    // Within mongoclient context
+    await using(dbConnect, async client => {
         // Query for the note by the given id
         let note = await readNote(client, req.params.id)
 
         // Render note and close client
         res.render('note-view', note)
-        client.close()
-    }
-    catch (error) {
-        // Send error and close client
-        res.send(error.stack)
-        if (client) client.close()
-    }
+    })
 })
 
 // Get edit form
 notes.get('/:id/edit', async (req, res) => {
-    // Mongo client
-    var client;
-
-    try {
-        // Connect to mongo
-        client = await dbConnect()
-
+    // Within mongoclient context
+    await using(dbConnect, async client => {
         // Query for the note by the given id
         let note = await readNote(client, req.params.id)
 
         // Render note and close client
         res.render('note-form', { note: note, action: `${note._id}/edit` })
-        client.close()
-    }
-    catch (error) {
-        // Send error and close client
-        res.send(error.stack)
-        if (client) client.close()
-    }
+    })
 })
 
 // Post edit form
 notes.post('/:id/edit', async (req, res) => {
-    // Mongo client
-    var client;
-
-    try {
-        // Connect to mongo
-        client = await dbConnect()
-
+    // Within mongoclient context
+    await using(dbConnect, async client => {
         // Replace note
         let result = await updateNote(client,
             req.params.id,
@@ -109,59 +71,31 @@ notes.post('/:id/edit', async (req, res) => {
 
         // Redirect back to home and close client
         res.redirect('/')
-        client.close()
-    }
-    catch (error) {
-        // Send error and close client
-        res.send(error.stack)
-        if (client) client.close()
-    }
+    })
 })
 
 // Note delete form
 notes.get('/:id/delete', async (req, res) => {
-    // Mongo client
-    var client;
-
-    try {
-        // Connect to mongo
-        client = await dbConnect()
-
+    // Within mongoclient context
+    await using(dbConnect, async client => {
         // Query for the note by the given id
         let note = await readNote(client, req.params.id)
 
         // Render note form
         res.render('note-delete', { note: note })
-        client.close()
-    }
-    catch (error) {
-        // Send error and close client
-        res.send(error.stack)
-        if (client) client.close()
-    }
+    })
 })
 
 // Delete note
 notes.post('/:id/delete', async (req, res) => {
-    // Mongo client
-    var client;
-
-    try {
-        // Connect to mongo
-        client = await dbConnect()
-
+    // Within mongoclient context
+    await using(dbConnect, async client => {
         // Delete note
         let result = await deleteNote(client, req.params.id)
 
         // Redirect back to home and close client
         res.redirect('/')
-        client.close()
-    }
-    catch (error) {
-        // Send error and close client
-        res.send(error.stack)
-        if (client) client.close()
-    }
+    })
 })
 
 // Export router
