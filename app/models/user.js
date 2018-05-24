@@ -41,36 +41,16 @@ export function validUserSignup(user) {
 }
 
 /**
- * Signs up the given user
+ * Returns user by email
  *
- * @param {MongoClient} client the mongo client to signup
- * @param {User} the user to signup
+ * @param {MongoClient} client the mongo client to check
+ * @param {string} email the email to check
  *
- * @return {Promise<User>} result user from signup
+ * @return {Promise<User>} result user from email
  */
-export async function signupUser(client, signup) {
-    // Extract info needed from signup
-    let { name, email, password, verify } = signup
-
-    // If password and verify match
-    if (password === verify) {
-        // Hash password and insert user with passhash
-        let passhash = await hash(signup.password, SALT)
-        let mongoresult = await usersCollection(client)
-            .insertOne({
-                name: name,
-                email: email,
-                passhash: passhash })
-
-        // Return result of operation
-        return {
-            unmatch: false,
-            error: !mongoresult.result.ok,
-            user: mongoresult.ops[0]
-        }
-    }
-    // Else return unmatch result
-    else return { unmatch: true, error: false, user: null }
+function getUserByEmail(client, email) {
+    return usersCollection(client)
+        .find({ email: email }).limit(1).next()
 }
 
 /**
@@ -86,8 +66,7 @@ export async function loginUser(client, login) {
     let { email, password } = login
 
     // Find user and check password
-    let user = await usersCollection(client)
-        .find({ email: email }).limit(1).next()
+    let user = await getUserByEmail(client, email)
 
     // If user exists
     if (user) {
@@ -99,4 +78,56 @@ export async function loginUser(client, login) {
     }
     // Else just return null
     else return null
+}
+
+/**
+ * Signs up the given user
+ *
+ * @param {MongoClient} client the mongo client to signup
+ * @param {User} the user to signup
+ *
+ * @return {Promise<User>} result user from signup
+ */
+export async function signupUser(client, signup) {
+    // Extract info needed from signup
+    let { name, email, password, verify } = signup
+
+    // Get user if it exists
+    let user = await getUserByEmail(client, email)
+
+    // If user already exists
+    if (user) {
+        // Return user exists error
+        return {
+            unmatch: false,
+            error: false,
+            exists: true,
+            user: null
+        }
+    }
+    // If password and verify match
+    else if (password === verify) {
+        // Hash password and insert user with passhash
+        let passhash = await hash(signup.password, SALT)
+        let mongoresult = await usersCollection(client)
+            .insertOne({
+                name: name,
+                email: email,
+                passhash: passhash })
+
+        // Return result of operation
+        return {
+            unmatch: false,
+            error: !mongoresult.result.ok,
+            exists: false,
+            user: mongoresult.ops[0]
+        }
+    }
+    // Else return unmatch result
+    else return {
+        unmatch: true,
+        error: false,
+        exists: false,
+        user: null
+    }
 }

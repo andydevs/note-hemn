@@ -27,5 +27,9 @@
         {{#if unmatch}}
             <p class='user-signup-unmatch'>Password and verify do not match!</p>
         {{/if}}
+
+        {{#if exists}}
+            <p class='user-signup-exists'>User already exists!</p>
+        {{/if}}
     </div>
 </div>

@@ -27,8 +27,9 @@ var users = Router()
 // Signup user page
 users.get('/signup', (req, res) => {
     res.render('user-signup', {
-        error: req.query.error,
-        unmatch: req.query.unmatch
+        error: req.query.error === "true",
+        unmatch: req.query.unmatch === "true",
+        exists: req.query.exists === "true"
     })
 })
 
@@ -42,15 +43,17 @@ users.post('/signup', async (req, res) => {
         // If user exist, set session and redirect
         // Else redirect back to page with flags
         if (result.user) setSessionAndRedirect(req, res, result.user)
-        else res.redirect(`/signup?error=${result.error}&unmatch=${result.unmatch}`)
+        else res.redirect(`/user/signup?error=${result.error}`
+                          + `&unmatch=${result.unmatch}`
+                          + `&exists=${result.exists}`)
     })
 })
 
 // Login user page
 users.get('/login', (req, res) => {
     res.render('user-login', {
-        user: req.session.user,
-        notfound: req.query.notfound
+        user: req.session.user === "true",
+        notfound: req.query.notfound === "true"
     })
 })
 

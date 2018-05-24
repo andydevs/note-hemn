@@ -24,7 +24,8 @@ app.engine('.hbs', handlebars({
     extname: '.hbs',
     defaultLayout: 'default',
     helpers: {
-        join: (items, block) => items ? items.join(" ") : ""
+        join: (items, block) => items ? items.join(" ") : "",
+        eqlTrueStr: (item, block) => item === "true"
     }
 }))
 app.set('view engine', '.hbs')
