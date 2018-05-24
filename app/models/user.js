@@ -14,33 +14,6 @@ import { usersCollection } from '../db'
 const SALT = genSaltSync(BCRYPT_SALT_ROUNDS)
 
 /**
- * Set given user in session and redirect back to home
- *
- * @param {express.Request} req request object
- * @param {express.Response} res response object
- * @param {User} user user to set in session
- */
-export function setSessionAndRedirect(req, res, user) {
-    req.session.user = user
-    res.redirect('/')
-}
-
-/**
- * Returns true if the given user signup is valid
- *
- * @param {object} user the object to validate
- *
- * @return {boolean} true if the object is a valid user signup
- */
-export function validUserSignup(user) {
-    return user.email
-        && user.name
-        && user.password
-        && user.verify
-        && user.password === user.verify;
-}
-
-/**
  * Returns user by email
  *
  * @param {MongoClient} client the mongo client to check
@@ -51,6 +24,18 @@ export function validUserSignup(user) {
 function getUserByEmail(client, email) {
     return usersCollection(client)
         .find({ email: email }).limit(1).next()
+}
+
+/**
+ * Set given user in session and redirect back to home
+ *
+ * @param {express.Request} req request object
+ * @param {express.Response} res response object
+ * @param {User} user user to set in session
+ */
+export function setSessionAndRedirect(req, res, user) {
+    req.session.user = user
+    res.redirect('/')
 }
 
 /**

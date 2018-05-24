@@ -13,7 +13,6 @@ import { authenticate } from '../authenticate'
 import { BCRYPT_SALT_ROUNDS } from '../consts'
 import {
     setSessionAndRedirect,
-    validUserSignup,
     signupUser,
     loginUser
 } from '../models/user'
