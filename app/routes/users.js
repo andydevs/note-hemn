@@ -9,6 +9,7 @@
 import { Router } from 'express'
 import { genSaltSync, hash, compare } from 'bcryptjs'
 import { dbConnect, using } from '../db'
+import { authenticate } from '../authenticate'
 import { BCRYPT_SALT_ROUNDS } from '../consts'
 import {
     setSessionAndRedirect,
@@ -77,6 +78,11 @@ users.get('/logout', (req, res) => {
 users.post('/logout', (req, res) => {
     req.session.destroy()
     res.redirect('/')
+})
+
+// User get profile
+users.get('/profile', authenticate, (req, res) => {
+    res.render('user-view', req.session.user)
 })
 
 // Export users router
