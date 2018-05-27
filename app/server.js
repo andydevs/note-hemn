@@ -12,6 +12,7 @@ import handlebars from 'express-handlebars'
 import bodyParser from 'body-parser'
 import notes from './routes/notes'
 import users from './routes/users'
+import authenticate from './authenticate'
 import { dbConnect } from './db'
 import { indexNotes } from './models/note'
 import { EXPRESS_SESSION_SECRET } from './consts'
@@ -43,7 +44,7 @@ app.use('/note', notes)
 app.use('/user', users)
 
 // Create index route
-app.get('/', async (req, res) => {
+app.get('/', authenticate, async (req, res) => {
     // Mongo client
     var client;
 

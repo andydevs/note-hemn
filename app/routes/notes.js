@@ -8,6 +8,7 @@
  */
 import { Router } from 'express'
 import { dbConnect, using } from '../db'
+import authenticate from '../authenticate'
 import {
     fromRequestBody,
     createNote,
@@ -20,12 +21,12 @@ import {
 var notes = Router()
 
 // Get new form
-notes.get('/new', (req, res) => {
+notes.get('/new', authenticate, (req, res) => {
     res.render('note-form', { note: null, action: 'new' })
 })
 
 // Post new form
-notes.post('/new', async (req, res) => {
+notes.post('/new', authenticate, async (req, res) => {
     // Within mongoclient context
     await using(dbConnect, async client => {
         // Insert new note
@@ -37,7 +38,7 @@ notes.post('/new', async (req, res) => {
 })
 
 // Get id route
-notes.get('/:id', async (req, res) => {
+notes.get('/:id', authenticate, async (req, res) => {
     // Within mongoclient context
     await using(dbConnect, async client => {
         // Query for the note by the given id
@@ -49,7 +50,7 @@ notes.get('/:id', async (req, res) => {
 })
 
 // Get edit form
-notes.get('/:id/edit', async (req, res) => {
+notes.get('/:id/edit', authenticate, async (req, res) => {
     // Within mongoclient context
     await using(dbConnect, async client => {
         // Query for the note by the given id
@@ -61,7 +62,7 @@ notes.get('/:id/edit', async (req, res) => {
 })
 
 // Post edit form
-notes.post('/:id/edit', async (req, res) => {
+notes.post('/:id/edit', authenticate, async (req, res) => {
     // Within mongoclient context
     await using(dbConnect, async client => {
         // Replace note
@@ -75,7 +76,7 @@ notes.post('/:id/edit', async (req, res) => {
 })
 
 // Note delete form
-notes.get('/:id/delete', async (req, res) => {
+notes.get('/:id/delete', authenticate, async (req, res) => {
     // Within mongoclient context
     await using(dbConnect, async client => {
         // Query for the note by the given id
@@ -87,7 +88,7 @@ notes.get('/:id/delete', async (req, res) => {
 })
 
 // Delete note
-notes.post('/:id/delete', async (req, res) => {
+notes.post('/:id/delete', authenticate, async (req, res) => {
     // Within mongoclient context
     await using(dbConnect, async client => {
         // Delete note
