@@ -8,7 +8,7 @@
  */
 import { Router } from 'express'
 import { dbConnect, using } from '../db'
-import { authenticate } from '../authenticate'
+import authenticate from '../authenticate'
 import {
     setSessionAndRedirect,
     signupUser,
