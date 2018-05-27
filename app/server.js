@@ -53,7 +53,7 @@ app.get('/', authenticate, async (req, res) => {
         client = await dbConnect()
 
         // Query for all notes
-        let notes = await indexNotes(client)
+        let notes = await indexNotes(client, req.session.user)
 
         // Render notes and close client
         res.render('index', {

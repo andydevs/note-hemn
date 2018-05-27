@@ -30,7 +30,10 @@ notes.post('/new', authenticate, async (req, res) => {
     // Within mongoclient context
     await using(dbConnect, async client => {
         // Insert new note
-        let result = await createNote(client, fromRequestBody(req.body))
+        let result = await createNote(
+            client,
+            req.session.user,
+            fromRequestBody(req.body))
 
         // Redirect back to home and close client
         res.redirect('/')
@@ -42,7 +45,9 @@ notes.get('/:id', authenticate, async (req, res) => {
     // Within mongoclient context
     await using(dbConnect, async client => {
         // Query for the note by the given id
-        let note = await readNote(client, req.params.id)
+        let note = await readNote(client,
+            req.session.user,
+            req.params.id)
 
         // Render note and close client
         res.render('note-view', note)
@@ -54,7 +59,9 @@ notes.get('/:id/edit', authenticate, async (req, res) => {
     // Within mongoclient context
     await using(dbConnect, async client => {
         // Query for the note by the given id
-        let note = await readNote(client, req.params.id)
+        let note = await readNote(client,
+            res.session.user,
+            req.params.id)
 
         // Render note and close client
         res.render('note-form', { note: note, action: `${note._id}/edit` })
@@ -68,6 +75,7 @@ notes.post('/:id/edit', authenticate, async (req, res) => {
         // Replace note
         let result = await updateNote(client,
             req.params.id,
+            req.session.user,
             fromRequestBody(req.body))
 
         // Redirect back to home and close client
@@ -80,7 +88,9 @@ notes.get('/:id/delete', authenticate, async (req, res) => {
     // Within mongoclient context
     await using(dbConnect, async client => {
         // Query for the note by the given id
-        let note = await readNote(client, req.params.id)
+        let note = await readNote(client,
+            req.session.user,
+            req.params.id)
 
         // Render note form
         res.render('note-delete', { note: note })
@@ -92,7 +102,9 @@ notes.post('/:id/delete', authenticate, async (req, res) => {
     // Within mongoclient context
     await using(dbConnect, async client => {
         // Delete note
-        let result = await deleteNote(client, req.params.id)
+        let result = await deleteNote(client,
+            req.session.user,
+            req.params.id)
 
         // Redirect back to home and close client
         res.redirect('/')

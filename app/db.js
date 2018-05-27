@@ -61,6 +61,19 @@ export function idFilter(id) {
 }
 
 /**
+ * Returns a mongodb filter for the given id and given user
+ * to be used in querying
+ *
+ * @param {User} user the user to filter by
+ * @param {string} id the id to get
+ *
+ * @return {object} the mongo filter
+ */
+export function userIdFilter(user, id) {
+    return { user: user._id, _id: ObjectId(id) }
+}
+
+/**
  * Runs the callback exposing the given closable asyncronous context
  * object. If an error is thrown, ensures that context is closed before
  * error gets thrown outside context
