@@ -1,8 +1,11 @@
 <div class="user-update-name-container">
+    <!-- Title -->
+    <h3>Update Name</h3>
+
     <form class="user-update-name-form" action="/user/update/name" method="post">
         <!-- New Name -->
-        <label for="name">New Name:</label>
-        <input type="text" name="name" value="{{ name }}">
+        <label for="name">New Name</label>
+        <input type="text" name="name" value="{{ user.name }}">
 
         <!-- Submit -->
         <input type="submit" name="update" value="Update Name">

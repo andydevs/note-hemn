@@ -124,37 +124,85 @@ export async function signupUser(client, signup) {
  * @param {User} user the user to update
  * @param {UpdateName} updateName the name to set
  *
- * @return {Promise<UpdateResult>} result of update
+ * @return {Promise<UpdateNameResult>} result of update
  */
 export async function updateNameOfUser(client, user, updateName) {
-    // Log start
-    console.log(user);
+    // Get name from updateName
+    let { name } = name
 
     // Update user with id in database
     let update = await usersCollection(client)
-        .updateOne(idFilter(user._id), { $set : {
-            name: updateName.name
-        }})
-
-    // Log end of update
-    console.log(user);
+        .updateOne(idFilter(user._id), { $set : { name: name } })
 
     // If update successful
     if (update.result.ok) {
-        // Log within result
-        console.log(user);
-
         // Get user by id from database
-        var user = await usersCollection(client)
+        let user = await usersCollection(client)
             .find(idFilter(user._id))
             .limit(1).next()
-
-        // Log after result
-        console.log(user);
 
         // Return user in result
         return { error: false, user: user }
 
     // Else return error in result
     } else return { error: true, user: null }
+}
+
+/**
+ * Updates the password in the user
+ *
+ * @param {MongoClient} client the client to update in
+ * @param {User} user the user to update
+ * @param {UpdatePassword} updatePassword password info to update
+ *
+ * @return {Promise<UpdatePasswordResult>} result of operation
+ */
+export async function updatePasswordOfUser(client, user, updatePassword) {
+    // Get old, new_, and verify from updatePassword
+    let { old, new_, verify } = updatePassword
+
+    // Check if old password matches
+    let oldMatches = await compare(old, user.passhash)
+    if (!oldMatches) return {
+        user: null,
+        invalid: true,
+        unmatch: false,
+        error: false
+    }
+
+    // Check if new password matches verify
+    if (new_ !== verify) return {
+        user: null,
+        invalid: false,
+        unmatch: true,
+        error: false
+    }
+
+    // Hash new password
+    let new_hash = await hash(new_, SALT)
+
+    // Perform update action
+    let update = await usersCollection(client)
+        .updateOne(idFilter(user._id), { $set: { passhash: new_hash } })
+
+    // If update was successful
+    if (update.result.ok) {
+        // Get user by id from database
+        let updatedUser = await usersCollection(client)
+            .find(idFilter(user._id))
+            .limit(1)
+            .next()
+
+        // Return user in status
+        return {
+            user: updatedUser,
+            invalid: false,
+            unmatch: false,
+            error: false }
+    // Else return error
+    } else return {
+        user: null,
+        invalid: false,
+        unmatch: false,
+        error: true }
 }

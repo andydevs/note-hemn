@@ -13,7 +13,8 @@ import {
     setSessionAndRedirect,
     signupUser,
     loginUser,
-    updateNameOfUser
+    updateNameOfUser,
+    updatePasswordOfUser
 } from '../models/user'
 
 // Create users router
@@ -103,6 +104,33 @@ users.post('/update/name', authenticate, async (req, res) => {
         // else redirect to error
         if (update.user) setSessionAndRedirect(req, res, update.user)
         else res.redirect('/user/update/name?error='+update.error)
+    })
+})
+
+// User update password page
+users.get('/update/password', authenticate, (req, res) => {
+    res.render('user-update-password', {
+        user: req.session.user,
+        invalid: req.params.invalid === "true",
+        unmatch: req.params.unmatch === "true",
+        error: req.params.error === "true"
+    })
+})
+
+// User update password
+users.post('/update/password', authenticate, async (req, res) => {
+    // Connect to mongo
+    await using(dbConnect, async client => {
+        // Update password of user in database
+        let update = await updatePasswordOfUser(
+            client, req.session.user, req.body)
+
+        // If successful updated user set user in session
+        // else redirect to error
+        if (update.user) setSessionAndRedirect(req, res, update.user)
+        else res.redirect('/user/update/name?error='+update.error
+                                         + '&invalid='+update.invalid,
+                                         + '&unmatch='+update.unmatch)
     })
 })
 
