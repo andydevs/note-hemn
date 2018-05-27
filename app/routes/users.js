@@ -12,7 +12,8 @@ import authenticate from '../authenticate'
 import {
     setSessionAndRedirect,
     signupUser,
-    loginUser
+    loginUser,
+    updateNameOfUser
 } from '../models/user'
 
 // Create users router
@@ -80,6 +81,29 @@ users.post('/logout', (req, res) => {
 // User get profile
 users.get('/profile', authenticate, (req, res) => {
     res.render('user-view', req.session.user)
+})
+
+// User update-name page
+users.get('/update/name', authenticate, (req, res) => {
+    res.render('user-update-name', {
+        user: req.session.user,
+        error: req.params.error === "true"
+    })
+})
+
+// User update name
+users.post('/update/name', authenticate, async (req, res) => {
+    // Connect to mongo
+    await using(dbConnect, async client => {
+        // Update name of user in database
+        let update = await updateNameOfUser(
+            client, req.session.user, req.body)
+
+        // If successful updated user set user in session
+        // else redirect to error
+        if (update.user) setSessionAndRedirect(req, res, update.user)
+        else res.redirect('/user/update/name?error='+update.error)
+    })
 })
 
 // Export users router

@@ -8,7 +8,7 @@
  */
 import { genSaltSync, hash, compare } from 'bcryptjs'
 import { BCRYPT_SALT_ROUNDS } from '../consts'
-import { usersCollection } from '../db'
+import { usersCollection, idFilter } from '../db'
 
 // Generate salt
 const SALT = genSaltSync(BCRYPT_SALT_ROUNDS)
@@ -115,4 +115,46 @@ export async function signupUser(client, signup) {
         exists: false,
         user: null
     }
+}
+
+/**
+ * Updates the name of the given user to the given name
+ *
+ * @param {MongoClient} client the mongo client to update in
+ * @param {User} user the user to update
+ * @param {UpdateName} updateName the name to set
+ *
+ * @return {Promise<UpdateResult>} result of update
+ */
+export async function updateNameOfUser(client, user, updateName) {
+    // Log start
+    console.log(user);
+
+    // Update user with id in database
+    let update = await usersCollection(client)
+        .updateOne(idFilter(user._id), { $set : {
+            name: updateName.name
+        }})
+
+    // Log end of update
+    console.log(user);
+
+    // If update successful
+    if (update.result.ok) {
+        // Log within result
+        console.log(user);
+
+        // Get user by id from database
+        var user = await usersCollection(client)
+            .find(idFilter(user._id))
+            .limit(1).next()
+
+        // Log after result
+        console.log(user);
+
+        // Return user in result
+        return { error: false, user: user }
+
+    // Else return error in result
+    } else return { error: true, user: null }
 }
