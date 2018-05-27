@@ -7,18 +7,13 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
-import { genSaltSync, hash, compare } from 'bcryptjs'
 import { dbConnect, using } from '../db'
 import { authenticate } from '../authenticate'
-import { BCRYPT_SALT_ROUNDS } from '../consts'
 import {
     setSessionAndRedirect,
     signupUser,
     loginUser
 } from '../models/user'
-
-// Generate salt
-const SALT = genSaltSync(BCRYPT_SALT_ROUNDS)
 
 // Create users router
 var users = Router()
