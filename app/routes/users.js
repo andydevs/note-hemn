@@ -23,6 +23,7 @@ var users = Router()
 // Signup user page
 users.get('/signup', (req, res) => {
     res.render('user-signup', {
+        layout: 'base',
         error: req.query.error === "true",
         unmatch: req.query.unmatch === "true",
         exists: req.query.exists === "true"
@@ -48,6 +49,7 @@ users.post('/signup', async (req, res) => {
 // Login user page
 users.get('/login', (req, res) => {
     res.render('user-login', {
+        layout: 'base',
         user: req.session.user === "true",
         notfound: req.query.notfound === "true"
     })
@@ -81,7 +83,7 @@ users.post('/logout', (req, res) => {
 
 // User get profile
 users.get('/profile', authenticate, (req, res) => {
-    res.render('user-view', req.session.user)
+    res.render('user-view', { ...req.session.user, layout: 'base' })
 })
 
 // User update-name page

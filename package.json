@@ -30,9 +30,11 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.46",
     "bcryptjs": "^2.4.3",
+    "bootstrap": "^4.1.1",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
+    "less-middleware": "^3.0.0",
     "mongodb": "^3.1.0-beta4"
   }
 }
