@@ -6,6 +6,7 @@
  * Author:  Anshul Kharbanda
  * Created: 5 - 12 - 2018
  */
+import path from 'path'
 import express from 'express'
 import session from 'express-session'
 import handlebars from 'express-handlebars'
@@ -39,6 +40,12 @@ app.use(session({
 }))
 
 // Routes
+app.use('/jquery',
+    express.static(
+        path.join(__dirname, '../node_modules/jquery/dist')))
+app.use('/bootstrap',
+    express.static(
+        path.join(__dirname, '../node_modules/bootstrap/dist')))
 app.use('/note', notes)
 app.use('/user', users)
 
