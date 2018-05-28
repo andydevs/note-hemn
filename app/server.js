@@ -13,7 +13,7 @@ import bodyParser from 'body-parser'
 import notes from './routes/notes'
 import users from './routes/users'
 import authenticate from './authenticate'
-import { dbConnect } from './db'
+import { dbConnect, using } from './db'
 import { indexNotes } from './models/note'
 import { EXPRESS_SESSION_SECRET } from './consts'
 
@@ -44,13 +44,8 @@ app.use('/user', users)
 
 // Create index route
 app.get('/', authenticate, async (req, res) => {
-    // Mongo client
-    var client;
-
-    try {
-        // Connect to mongo
-        client = await dbConnect()
-
+    // Connect to mongo
+    await using(dbConnect, async client => {
         // Query for all notes
         let notes = await indexNotes(client, req.session.user)
 
@@ -58,13 +53,7 @@ app.get('/', authenticate, async (req, res) => {
         res.render('index', {
             user: req.session.user,
             notes: notes })
-        client.close()
-    }
-    catch (error) {
-        // Send error and close client
-        res.send(error.stack)
-        if (client) client.close()
-    }
+    })
 })
 
 // Export app
