@@ -11,7 +11,8 @@ import {
     MONGO_URI,
     MONGO_DBNAME,
     MONGO_COLLEC_NOTES,
-    MONGO_COLLEC_USERS
+    MONGO_COLLEC_USERS,
+    MONGO_COLLEC_LABELS
 } from './consts'
 
 /**
@@ -36,6 +37,18 @@ export function usersCollection(client) {
 export function notesCollection(client) {
     return client.db(MONGO_DBNAME)
         .collection(MONGO_COLLEC_NOTES)
+}
+
+/**
+ * Returns the labels collection in the given client
+ *
+ * @param {MongoClient} client mongo client to retrieve from
+ *
+ * @return {Collection} notes collection
+ */
+export function labelsCollection(client) {
+    return client.db(MONGO_DBNAME)
+        .collection(MONGO_COLLEC_LABELS)
 }
 
 /**

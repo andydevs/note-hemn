@@ -6,11 +6,65 @@
  * Author:  Anshul Kharbanda
  * Created: 5 - 12 - 2018
  */
+import { notesCollection, idFilter, userIdFilter } from '../db'
 import {
-    notesCollection,
-    idFilter,
-    userIdFilter
-} from '../db'
+    getLabelByName,
+    getLabelById,
+    createLabelWithRandomColor
+} from './label'
+
+/**
+ * Converts a list of label names into a list of new label documents
+ *
+ * @param {MongoClient} client client to find labels in
+ * @param {User} user user to find labels from
+ * @param {[string]} labels list of label names
+ *
+ * @return {Promise<[Label]>} list of label documents
+ */
+async function labelMongoDocsFromNames(client, user, labels) {
+    // Convert label names into label documents
+    let labeldocs = []
+    for (let label of labels) {
+        // Check if label exsits
+        let doc = await getLabelByName(client, user, label)
+
+        // If it does just push it to the docs list
+        if (doc) labeldocs.push(doc)
+        else {
+            // Create new doc and push to array
+            let doc = await createLabelWithRandomColor(client, user, label)
+            labeldocs.push(doc)
+        }
+    }
+
+    // Return document ids
+    return labeldocs.map(doc => doc._id)
+}
+
+/**
+* Converts a list of label ids into a list of new label documents
+*
+* @param {MongoClient} client client to find labels in
+* @param {User} user user to find labels from
+* @param {[string]} labels list of label ids
+*
+* @return {Promise<[Label]>} list of label documents
+ */
+async function labelMongoDocsFromIds(client, user, labels) {
+    // Convert label names into label documents
+    let labeldocs = []
+    for (let label of labels) {
+        // Find label by id
+        let doc = await getLabelById(client, user, label)
+
+        // Push it to the docs list
+        labeldocs.push(doc)
+    }
+
+    // Return documents
+    return labeldocs
+}
 
 /**
  * Returns the note parsed from the request body
@@ -34,9 +88,19 @@ export function fromRequestBody(body) {
   *
   * @return {Promise<[Note]>} note array
   */
-export function indexNotes(client, user) {
-    return notesCollection(client)
+export async function indexNotes(client, user) {
+    // Get notes from collection
+    let notes = await notesCollection(client)
         .find({ user: user._id }).toArray()
+
+    // Populate label info for all notes
+    for (var note of notes) {
+        let labeldocs = await labelMongoDocsFromIds(client, user, note.labels)
+        note.labels = labeldocs
+    }
+
+    // Return notes
+    return notes
 }
 
  /**
@@ -48,10 +112,20 @@ export function indexNotes(client, user) {
   *
   * @return {Promise<Note>} the note associated with the given id
   */
-export function readNote(client, user, id) {
-    return notesCollection(client)
+export async function readNote(client, user, id) {
+    // Get note from client
+    let note = await notesCollection(client)
         .find(userIdFilter(user, id))
         .limit(1).next()
+
+    // Get list of full label documents and set in note
+    if (note) {
+        let labeldocs = await labelMongoDocsFromIds(client, user, note.labels)
+        note.labels = labeldocs
+    }
+
+    // Return note
+    return note
 }
 
  /**
@@ -63,13 +137,20 @@ export function readNote(client, user, id) {
   *
   * @return {Promise<CreateResult>} result of creation
   */
-export function createNote(client, user, note) {
-    return notesCollection(client)
+export async function createNote(client, user, note) {
+    // Create/Get label documents
+    let labeldocs = await labelMongoDocsFromNames(client, user, note.labels)
+
+    // Insert note with label documents
+    let insertResult = notesCollection(client)
         .insertOne({
             user: user._id,
-            labels: note.labels,
+            labels: labeldocs,
             content: note.content
         })
+
+    // Return create result
+    return insertResult
 }
 
  /**
@@ -82,9 +163,19 @@ export function createNote(client, user, note) {
   *
   * @return {Promise<UpdateResult>} result of updating
   */
-export function updateNote(client, user, id, note) {
-    return notesCollection(client)
-        .updateOne(userIdFilter(user, id), { $set : note })
+export async function updateNote(client, user, id, note) {
+    // Create/Get label documents
+    let labeldocs = await labelMongoDocsFromNames(client, user, note.labels)
+
+    // Update note
+    let result = await notesCollection(client)
+        .updateOne(userIdFilter(user, id), { $set : {
+            labels : labeldocs,
+            content: note.content
+        }})
+
+    // Return result of update
+    return result
 }
 
  /**
