@@ -1,36 +1,3 @@
-<div class="note-snippets-group">
-    {{#each notes}}
-        <div class="note-snippet">
-            <ul class="note-labels">
-                {{#each labels}}
-                    <li class="note-label" style="color:{{ color }};">
-                        {{ name }}
-                    </li>
-                {{/each}}
-            </ul>
-            <div class="note-content">
-                {{ content }}
-            </div>
-            <ul class="note-controls">
-                <li class="note-control-item">
-                    <a class="note-control note-control-view" href="/note/{{ _id }}">
-                        View
-                    </a>
-                </li>
-                <li class="note-control-item">
-                    <a class="note-control note-control-edit" href="/note/{{ _id }}/edit">
-                        Edit
-                    </a>
-                </li>
-                <li class="note-control-item">
-                    <a class="note-control note-control-edit" href="/note/{{ _id }}/delete">
-                        Delete
-                    </a>
-                </li>
-            </ul>
-        </div>
-    {{/each}}
+<div class="container-fluid">
+    {{#each notes}}{{> noteSnippet}}{{/each}}
 </div>
-<p class='note-index-control'>
-    <a class='note-index-control-new' href="/note/new">Create New Note</a>
-</p>
