@@ -10,6 +10,7 @@ import {
     labelsCollection,
     userIdFilter
 } from '../db'
+import { LABEL_COLORS } from '../consts'
 
 /**
  * Returns the given label in the given user label collection by the given id
@@ -53,12 +54,8 @@ export function getLabelByName(client, user, name) {
  * @return {Promise<Label>} the inserted label
  */
 export async function createLabelWithRandomColor(client, user, name) {
-    // Create random color
-    let hexchars = '0123456789ABCDEF'
-    var color = '#'
-    for (var i = 0; i < 6; i++) {
-        color += hexchars[Math.floor(Math.random()*16)]
-    }
+    // Choose random color
+    let color = LABEL_COLORS[Math.floor(Math.random()*LABEL_COLORS.length)]
 
     // Insert color
     let insert = await labelsCollection(client)
