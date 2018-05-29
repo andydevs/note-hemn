@@ -7,10 +7,14 @@
  * Created: 5 - 12 - 2018
  */
 import '@babel/polyfill'
+import createDebug from 'debug'
 import server from './server'
 import { PORT } from './consts'
 
+// Create debug context
+var debug = createDebug('note-hemn:server')
+
 // Listen on 8080
 server.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}...`)
+    debug(`Server is listening on port ${PORT}...`)
 })
