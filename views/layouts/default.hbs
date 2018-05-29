@@ -13,17 +13,7 @@
         <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     </head>
     <body>
-        <div class='note-hemn-userbar'>
-            {{#if user}}
-                <p>Name: {{ user.name }}</p>
-                <p>Email: {{ user.email }}</p>
-                <a class='note-control-login' href="/user/logout">Logout</a>
-                <a class='note-control-profile' href="/user/profile">Profile</a>
-            {{else}}
-                <a class='note-control-login' href="/user/login">Login</a>
-                <a class='note-control-signup' href="/user/signup">Signup</a>
-            {{/if}}
-        </div>
+        {{> userbar}}
         {{{ body }}}
     </body>
 </html>
