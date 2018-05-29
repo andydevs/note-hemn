@@ -1,19 +1,25 @@
-<div class="user-login-group">
-    <form class="user-login-form" action="/user/login" method="post">
-        <!-- Email -->
-        <label for="email">Email</label>
-        <input type="text" name="email">
+<div class="container-fluid">
+    <form class="my-3" action="/user/login" method="post">
+        {{!-- Email --}}
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input class="form-control" type="text" name="email">
+        </div>
 
-        <!-- Password -->
-        <label for="password">Password</label>
-        <input type="password" name="password">
+        {{!-- Password --}}
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" type="password" name="password">
+        </div>
 
-        <!-- Submit -->
-        <input type="submit" name="login" value="Log In">
+        {{!-- Submit --}}
+        <input class="btn btn-primary" type="submit" value="Log In">
     </form>
-    <div class='form-notification-area'>
-        {{#if notfound}}
-            <p class='user-login-not-found'>User was not found!</p>
-        {{/if}}
-    </div>
+
+    {{!-- Not Found Alert --}}
+    {{#if notfound}}
+        <div class="my-3 alert alert-danger" role="alert">
+            ALERT: User was not found!
+        </div>
+    {{/if}}
 </div>
