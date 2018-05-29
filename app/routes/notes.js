@@ -50,7 +50,9 @@ notes.get('/:id', authenticate, async (req, res) => {
             req.params.id)
 
         // Render note and close client
-        res.render('note-view', note)
+        res.render('note-view', {
+            ...note,
+            user: req.session.user})
     })
 })
 
@@ -60,11 +62,15 @@ notes.get('/:id/edit', authenticate, async (req, res) => {
     await using(dbConnect, async client => {
         // Query for the note by the given id
         let note = await readNote(client,
-            res.session.user,
+            req.session.user,
             req.params.id)
 
         // Render note and close client
-        res.render('note-form', { note: note, action: `${note._id}/edit` })
+        res.render('note-form', {
+            user: req.session.user,
+            note: note,
+            action: `${note._id}/edit`
+        })
     })
 })
 

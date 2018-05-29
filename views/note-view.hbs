@@ -1,19 +1,16 @@
-<div class='note-main-view'>
-    <ul class='note-labels'>
-        {{#each labels}}
-            <li class="note-label" style="color:{{ color }}">
-                {{ name }}
-            </li>
-        {{/each}}
-    </ul>
-    <div class='note-content'>
-        {{ content }}
+<div class="container-fluid">
+    <div class="card my-3">
+        <div class="card-header">
+            {{#each labels}}
+                <span style="color:{{ color }};">{{ name }}</span>
+            {{/each}}
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{ content }}</p>
+            <a class="card-link" href="/note/{{ _id }}/edit">Edit</a>
+            <a class="card-link text-danger"
+                href="/note/{{ _id }}/delete">Delete</a>
+        </div>
     </div>
-    <ul class='note-controls'>
-        <li class="note-control-item">
-            <a class="note-control note-control-home" href="/">
-                Home
-            </a>
-        </li>
-    </ul>
+    <a class="btn btn-primary" href="/">Home</a>
 </div>
