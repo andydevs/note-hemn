@@ -98,7 +98,9 @@ notes.get('/:id/delete', authenticate, async (req, res) => {
             req.params.id)
 
         // Render note form
-        res.render('note-delete', { note: note })
+        res.render('note-delete', {
+            ...note,
+            user: req.session.user })
     })
 })
 
