@@ -1,12 +1,20 @@
-<div class="note-form-container">
-    <form class="note-form" action="/note/{{ action }}" method="post">
+<div class="container-fluid">
+    <form action="/note/{{ action }}" method="post">
         <!-- Labels -->
-        <label for="labels">Labels</label>
-        <input type="text" name="labels" value="{{lString note.labels}}">
+        <div class="form-group">
+            <label for="labels">Labels</label>
+            <input class="form-control"
+                   type="text"
+                   name="labels"
+                   value="{{lString note.labels}}">
+        </div>
 
         <!-- Content -->
-        <label for="content">Content</label>
-        <textarea name="content" rows="8" cols="80">{{ note.content }}</textarea>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea class="form-control"
+                      name="content">{{ note.content }}</textarea>
+        </div>
 
         <!-- Submit -->
         <input type="submit" name="Submit" value="Submit">
