@@ -71,6 +71,7 @@ users.post('/login', async (req, res) => {
 // User logout page
 users.get('/logout', (req, res) => {
     res.render('user-logout', {
+        layout: 'base',
         user: req.session.user
     })
 })
