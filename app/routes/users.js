@@ -84,7 +84,7 @@ users.post('/logout', (req, res) => {
 
 // User get profile
 users.get('/profile', authenticate, (req, res) => {
-    res.render('user-view', { ...req.session.user, layout: 'base' })
+    res.render('user-view', { user: req.session.user })
 })
 
 // User update-name page

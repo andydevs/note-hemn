@@ -1,9 +1,15 @@
-<div class="user-view-group">
-    <h1>{{ name }}</h1>
-    <h2>{{ email }}</h2>
-    <div class="user-view-control">
-        <a class="user-view-control-home" href="/">Home</a>
-        <a class="user-view-control-update-name" href="/user/update/name">Update Name</a>
-        <a class="user-view-control-update-password" href="/user/update/password">Update Password</a>
+<div class="container-fluid">
+    <h1 class="my-3">{{ user.name }}</h1>
+    <h2 class="my-3">{{ user.email }}</h2>
+    <div class="my-3">
+        <span>Update</span>
+        <div class="btn-group"
+             role="group"
+             aria-label="Update Group">
+            <a class="btn btn-primary"
+               href="/user/update/name">Name</a>
+            <a class="btn btn-primary"
+               href="/user/update/password">Password</a>
+        </div>
     </div>
 </div>
