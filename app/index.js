@@ -17,4 +17,5 @@ var debug = createDebug('note-hemn:server')
 // Listen on 8080
 server.listen(PORT, () => {
     debug(`Server is listening on port ${PORT}...`)
+    console.log('-')
 })
