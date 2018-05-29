@@ -26,7 +26,8 @@ app.engine('.hbs', handlebars({
     extname: '.hbs',
     defaultLayout: 'default',
     helpers: {
-        join: (items, block) => items ? items.join(" ") : ""
+        lString: (labels, block) =>
+            labels ? labels.map(label => label.name).join(" ") : ""
     }
 }))
 app.set('view engine', '.hbs')

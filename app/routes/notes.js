@@ -30,8 +30,7 @@ notes.post('/new', authenticate, async (req, res) => {
     // Within mongoclient context
     await using(dbConnect, async client => {
         // Insert new note
-        let result = await createNote(
-            client,
+        let result = await createNote(client,
             req.session.user,
             fromRequestBody(req.body))
 
@@ -80,8 +79,8 @@ notes.post('/:id/edit', authenticate, async (req, res) => {
     await using(dbConnect, async client => {
         // Replace note
         let result = await updateNote(client,
-            req.params.id,
             req.session.user,
+            req.params.id,
             fromRequestBody(req.body))
 
         // Redirect back to home and close client

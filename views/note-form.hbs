@@ -2,7 +2,7 @@
     <form class="note-form" action="/note/{{ action }}" method="post">
         <!-- Labels -->
         <label for="labels">Labels</label>
-        <input type="text" name="labels" value="{{join note.labels}}">
+        <input type="text" name="labels" value="{{lString note.labels}}">
 
         <!-- Content -->
         <label for="content">Content</label>
