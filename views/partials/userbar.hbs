@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+<nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-primary">
     {{!-- Main  --}}
     <a class="navbar-brand" href="/">Note HEMN</a>
     <button class="navbar-toggler" type="button"
@@ -8,7 +8,7 @@
 
     {{!-- User Info --}}
     <div class="collapse navbar-collapse" id="navbarContent">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav">
             {{!-- User Info --}}
             {{#if user}}
                 <li class="nav-item">
@@ -26,8 +26,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/user/signup">Sign Up</a>
                 </li>
-                
+
             {{/if}}
         </ul>
     </div>
+</nav>
+
+{{!-- Utility spaced navbar --}}
+<nav class="navbar navbar-expand-sm navbar-light invisible">
+    <a class="navbar-brand" href="#">Bootstrap should fix it's fixed navbar.</a>
 </nav>
