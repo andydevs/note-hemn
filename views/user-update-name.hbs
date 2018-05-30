@@ -1,13 +1,25 @@
-<div class="user-update-name-container">
-    <!-- Title -->
-    <h3>Update Name</h3>
+<div class="container-fluid">
+    {{!-- Title --}}
+    <h3 class="my-3">Update Name</h3>
 
-    <form class="user-update-name-form" action="/user/update/name" method="post">
-        <!-- New Name -->
-        <label for="name">New Name</label>
-        <input type="text" name="name" value="{{ user.name }}">
+    {{!-- Edit Name Form --}}
+    <form class="my-3"
+          action="/user/update/name"
+          method="post">
+          
+        {{!-- New Name --}}
+        <div class="form-group">
+            <label for="name">New Name</label>
+            <input class="form-control"
+                   type="text"
+                   name="name"
+                   value="{{ user.name }}">
+        </div>
 
-        <!-- Submit -->
-        <input type="submit" name="update" value="Update Name">
+        {{!-- Submit --}}
+        <input class="btn btn-primary"
+               type="submit"
+               name="update"
+               value="Update Name">
     </form>
 </div>
