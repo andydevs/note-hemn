@@ -11,11 +11,9 @@ import express from 'express'
 import session from 'express-session'
 import handlebars from 'express-handlebars'
 import bodyParser from 'body-parser'
-import notes from './routes/notes'
-import users from './routes/users'
 import authenticate from './authenticate'
-import { dbConnect, using } from './db'
-import { indexNotes } from './models/note'
+import users from './routes/users'
+import notes, { indexRoute } from './routes/notes'
 import { EXPRESS_SESSION_SECRET } from './consts'
 
 // Create app
@@ -40,29 +38,20 @@ app.use(session({
     resave: false
 }))
 
-// Routes
+// Static routes
 app.use('/jquery',
     express.static(
         path.join(__dirname, '../node_modules/jquery/dist')))
 app.use('/bootstrap',
     express.static(
         path.join(__dirname, '../node_modules/bootstrap/dist')))
+
+// App routes
 app.use('/note', notes)
 app.use('/user', users)
 
-// Create index route
-app.get('/', authenticate, async (req, res) => {
-    // Connect to mongo
-    await using(dbConnect, async client => {
-        // Query for all notes
-        let notes = await indexNotes(client, req.session.user)
-
-        // Render notes and close client
-        res.render('index', {
-            user: req.session.user,
-            notes: notes })
-    })
-})
+// Undex route
+app.get('/', authenticate, indexRoute)
 
 // Export app
 export default app

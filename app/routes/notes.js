@@ -11,6 +11,7 @@ import { dbConnect, using } from '../db'
 import authenticate from '../authenticate'
 import {
     fromRequestBody,
+    indexNotes,
     createNote,
     readNote,
     updateNote,
@@ -117,6 +118,26 @@ notes.post('/:id/delete', authenticate, async (req, res) => {
         res.redirect('/')
     })
 })
+
+/**
+ * Handles the index route with the given
+ * request and response
+ *
+ * @param {express.Request} req request object
+ * @param {express.Response} res response object
+ */
+export async function indexRoute(req, res) {
+    // Within mongoclient context
+    await using(dbConnect, async client => {
+        // Query for all notes
+        let notes = await indexNotes(client, req.session.user)
+
+        // Render notes and close client
+        res.render('index', {
+            user: req.session.user,
+            notes: notes })
+    })
+}
 
 // Export router
 export default notes
