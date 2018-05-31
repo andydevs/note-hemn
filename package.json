@@ -36,7 +36,6 @@
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
     "jquery": "^3.3.1",
-    "mongodb": "^3.1.0-beta4",
-    "node-sass-middleware": "^0.11.0"
+    "mongodb": "^3.1.0-beta4"
   }
 }

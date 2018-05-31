@@ -39,15 +39,6 @@ app.use(session({
     resave: false
 }))
 
-// Scss route
-app.use(sass({
-    src: path.join(__dirname, '..', 'scss'),
-    dest: path.join(__dirname, '..', 'css'),
-    debug: false,
-    outputStyle: 'compressed',
-    prefix: '/style'
-}))
-
 // Static routes
 app.use('/jquery',
     express.static(
