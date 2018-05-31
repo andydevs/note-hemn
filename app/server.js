@@ -9,6 +9,7 @@
 import path from 'path'
 import express from 'express'
 import session from 'express-session'
+import sass from 'node-sass-middleware'
 import handlebars from 'express-handlebars'
 import bodyParser from 'body-parser'
 import authenticate from './authenticate'
@@ -30,12 +31,21 @@ app.engine('.hbs', handlebars({
 }))
 app.set('view engine', '.hbs')
 
-// Configure app
+// Support routes
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(session({
     secret: EXPRESS_SESSION_SECRET,
     saveUninitialized: true,
     resave: false
+}))
+
+// Scss route
+app.use(sass({
+    src: path.join(__dirname, '..', 'scss'),
+    dest: path.join(__dirname, '..', 'css'),
+    debug: false,
+    outputStyle: 'compressed',
+    prefix: '/style'
 }))
 
 // Static routes
