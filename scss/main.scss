@@ -5,7 +5,7 @@
 }
 
 // Card color
-@mixin card($bg-color) {
+@mixin card-header($bg-color) {
     background-color: $bg-color;
 }
 
@@ -21,12 +21,12 @@
 .badge-grey { @include badge(grey, white); }
 
 // Badge classes
-.card-pink { @include card(pink); }
-.card-red { @include card(red); }
-.card-yellow { @include card(yellow); }
-.card-green { @include card(green); }
-.card-turquoise { @include card(turquoise); }
-.card-cyan { @include card(cyan); }
-.card-blue { @include card(blue); }
-.card-violet { @include card(violet); }
-.card-grey { @include card(grey); }
+.card-header-pink { @include card-header(pink); }
+.card-header-red { @include card-header(red); }
+.card-header-yellow { @include card-header(yellow); }
+.card-header-green { @include card-header(green); }
+.card-header-turquoise { @include card-header(turquoise); }
+.card-header-cyan { @include card-header(cyan); }
+.card-header-blue { @include card-header(blue); }
+.card-header-violet { @include card-header(violet); }
+.card-header-grey { @include card-header(grey); }
