@@ -25,7 +25,12 @@ export const MONGO_COLLEC_LABELS = 'labels' // Mongo collection name for labels
 
 // Label colors
 export const LABEL_COLORS = [
+    'pink',
     'red',
+    'yellow',
     'green',
-    'blue'
+    'cyan',
+    'blue',
+    'violet',
+    'gray'
 ]
