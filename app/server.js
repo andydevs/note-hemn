@@ -32,12 +32,25 @@ app.engine('.hbs', handlebars({
 app.set('view engine', '.hbs')
 
 // Support routes
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
 app.use(session({
     secret: EXPRESS_SESSION_SECRET,
     saveUninitialized: true,
     resave: false
 }))
+
+// Sass middleware
+app.use(sass({
+    src: path.join(__dirname, '../scss'),
+    dest: path.join(__dirname, '../css'),
+    debug: true,
+    prefix: '/style'
+}))
+app.use('/style',
+    express.static(
+        path.join(__dirname, '../css')))
 
 // Static routes
 app.use('/jquery',

@@ -1,0 +1,32 @@
+// Badge mixin
+@mixin badge($bg-color, $text-color) {
+    background-color: $bg-color;
+    color: $text-color;
+}
+
+// Card color
+@mixin card($bg-color) {
+    background-color: $bg-color;
+}
+
+// Badge classes
+.badge-pink { @include badge(pink, black); }
+.badge-red { @include badge(red, white); }
+.badge-yellow { @include badge(yellow, black); }
+.badge-green { @include badge(green, white); }
+.badge-turquoise { @include badge(turquoise, black); }
+.badge-cyan { @include badge(cyan, black); }
+.badge-blue { @include badge(blue, white); }
+.badge-violet { @include badge(violet, white); }
+.badge-grey { @include badge(grey, white); }
+
+// Badge classes
+.card-pink { @include card(pink); }
+.card-red { @include card(red); }
+.card-yellow { @include card(yellow); }
+.card-green { @include card(green); }
+.card-turquoise { @include card(turquoise); }
+.card-cyan { @include card(cyan); }
+.card-blue { @include card(blue); }
+.card-violet { @include card(violet); }
+.card-grey { @include card(grey); }

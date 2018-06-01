@@ -1,8 +1,6 @@
 <div class="card my-3">
     <div class="card-header">
-        {{#each labels}}
-            <span style="color:{{ color }};">{{ name }}</span>
-        {{/each}}
+        {{#each labels}}{{> label}}{{/each}}
     </div>
     <div class="card-body">
         <p class="card-text">{{ content }}</p>

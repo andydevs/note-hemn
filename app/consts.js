@@ -29,6 +29,7 @@ export const LABEL_COLORS = [
     'red',
     'yellow',
     'green',
+    'turquoise',
     'cyan',
     'blue',
     'violet',
