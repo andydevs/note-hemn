@@ -1,5 +1,7 @@
 <div class="container-fluid">
-    {{#each notes}}{{> note-snippet}}{{/each}}
+    {{#grid notes}}
+        {{> note-snippet}}
+    {{/grid}}
 </div>
 <nav class="navbar fixed-bottom navbar-light">
     <a class="btn btn-primary ml-auto" href="/note/new">New Note</a>

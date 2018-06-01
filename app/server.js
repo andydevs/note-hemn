@@ -6,6 +6,7 @@
  * Author:  Anshul Kharbanda
  * Created: 5 - 12 - 2018
  */
+import _ from 'lodash'
 import path from 'path'
 import express from 'express'
 import session from 'express-session'
@@ -27,7 +28,15 @@ app.engine('.hbs', handlebars({
     helpers: {
         labelString: (labels, opts) =>
             labels ? labels.map(label => label.name).join(" ") : "",
-        noteColor: (labels, opts) => labels[0].color
+        noteColor: (labels, opts) => labels[0].color,
+        grid: (notes, opts) =>
+            _.chunk(notes, 3)
+                .map(slice =>
+                    '<div class="row">'
+                    + slice.map(note =>
+                        `<div class="col-md-4">${opts.fn(note)}</div>`)
+                      .join('')
+                    + '</div>')
     }
 }))
 app.set('view engine', '.hbs')
