@@ -52,17 +52,6 @@ export function labelsCollection(client) {
 }
 
 /**
- * Connects to mongodb client
- *
- * @return {Promise<MongoClient>} mongodb client connection
- */
-export function dbConnect() {
-    return MongoClient.connect(MONGO_URI, {
-        useNewUrlParser: true
-    })
-}
-
-/**
  * Returns a mongodb filter for the given id to be used in querying
  *
  * @param {string} id the id to get
@@ -87,20 +76,17 @@ export function userIdFilter(user, id) {
 }
 
 /**
- * Runs the callback exposing the given closable asyncronous context
- * object. If an error is thrown, ensures that context is closed before
- * error gets thrown outside context
- *
- * @param {Function} contextConstructor constructs a context asyncronously
- * @param {Function} callback block to execute within context
+ * Connects to mongodb client and runs callback routine
  */
-export async function using(contextConstructor, callback) {
+export async function dbConnect(callback) {
     // Context handler
     let context;
 
     try {
         // Construct context, run callback with it, and then close it
-        context = await contextConstructor()
+        context = await MongoClient.connect(MONGO_URI, {
+            useNewUrlParser: true
+        })
         await callback(context)
         context.close()
     }

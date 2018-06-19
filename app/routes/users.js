@@ -33,7 +33,7 @@ users.get('/signup', (req, res) => {
 // Post signup
 users.post('/signup', async (req, res) => {
     // Within mongoclient context
-    await using(dbConnect, async client => {
+    await dbConnect(async client => {
         // Sign up user
         let result = await signupUser(client, req.body)
 
@@ -58,7 +58,7 @@ users.get('/login', (req, res) => {
 // Post user login
 users.post('/login', async (req, res) => {
     // Within mongoclient context
-    await using(dbConnect, async client => {
+    await dbConnect(async client => {
         // Log in user from client and check if password matches
         let user = await loginUser(client, req.body)
 
@@ -98,7 +98,7 @@ users.get('/update/name', authenticate, (req, res) => {
 // User update name
 users.post('/update/name', authenticate, async (req, res) => {
     // Connect to mongo
-    await using(dbConnect, async client => {
+    await dbConnect(async client => {
         // Update name of user in database
         let update = await updateNameOfUser(
             client, req.session.user, req.body)
@@ -123,7 +123,7 @@ users.get('/update/password', authenticate, (req, res) => {
 // User update password
 users.post('/update/password', authenticate, async (req, res) => {
     // Connect to mongo
-    await using(dbConnect, async client => {
+    await dbConnect(async client => {
         // Update password of user in database
         let update = await updatePasswordOfUser(
             client, req.session.user, req.body)

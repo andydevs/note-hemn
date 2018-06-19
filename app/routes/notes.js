@@ -29,7 +29,7 @@ notes.get('/new', authenticate, (req, res) => {
 // Post new form
 notes.post('/new', authenticate, async (req, res) => {
     // Within mongoclient context
-    await using(dbConnect, async client => {
+    await dbConnect(async client => {
         // Insert new note
         let result = await createNote(client,
             req.session.user,
@@ -43,7 +43,7 @@ notes.post('/new', authenticate, async (req, res) => {
 // Get id route
 notes.get('/:id', authenticate, async (req, res) => {
     // Within mongoclient context
-    await using(dbConnect, async client => {
+    await dbConnect(async client => {
         // Query for the note by the given id
         let note = await readNote(client,
             req.session.user,
@@ -59,7 +59,7 @@ notes.get('/:id', authenticate, async (req, res) => {
 // Get edit form
 notes.get('/:id/edit', authenticate, async (req, res) => {
     // Within mongoclient context
-    await using(dbConnect, async client => {
+    await dbConnect(async client => {
         // Query for the note by the given id
         let note = await readNote(client,
             req.session.user,
@@ -77,7 +77,7 @@ notes.get('/:id/edit', authenticate, async (req, res) => {
 // Post edit form
 notes.post('/:id/edit', authenticate, async (req, res) => {
     // Within mongoclient context
-    await using(dbConnect, async client => {
+    await dbConnect(async client => {
         // Replace note
         let result = await updateNote(client,
             req.session.user,
@@ -92,7 +92,7 @@ notes.post('/:id/edit', authenticate, async (req, res) => {
 // Note delete form
 notes.get('/:id/delete', authenticate, async (req, res) => {
     // Within mongoclient context
-    await using(dbConnect, async client => {
+    await dbConnect(async client => {
         // Query for the note by the given id
         let note = await readNote(client,
             req.session.user,
@@ -108,7 +108,7 @@ notes.get('/:id/delete', authenticate, async (req, res) => {
 // Delete note
 notes.post('/:id/delete', authenticate, async (req, res) => {
     // Within mongoclient context
-    await using(dbConnect, async client => {
+    await dbConnect(async client => {
         // Delete note
         let result = await deleteNote(client,
             req.session.user,
@@ -128,7 +128,7 @@ notes.post('/:id/delete', authenticate, async (req, res) => {
  */
 export async function indexRoute(req, res) {
     // Within mongoclient context
-    await using(dbConnect, async client => {
+    await dbConnect(async client => {
         // Query for all notes
         let notes = await indexNotes(client, req.session.user)
 
