@@ -16,7 +16,10 @@ import bodyParser from 'body-parser'
 import authenticate from './authenticate'
 import users from './routes/users'
 import notes, { indexRoute } from './routes/notes'
-import { EXPRESS_SESSION_SECRET } from './consts'
+import {
+    EXPRESS_SESSION_SECRET,
+    EXPRESS_SESSION_AGE
+} from './consts'
 
 // Create app
 var app = express()
@@ -47,6 +50,7 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(session({
     secret: EXPRESS_SESSION_SECRET,
+    maxAge: EXPRESS_SESSION_AGE,
     saveUninitialized: true,
     resave: false
 }))

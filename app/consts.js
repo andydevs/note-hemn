@@ -10,8 +10,9 @@
 // Server constants
 export const PORT = process.env.PORT || 8080 // Server port
 
-// Express session secret constant
-export const EXPRESS_SESSION_SECRET = '0k4yit5chi1dish94m6in0'
+// Express session constants
+export const EXPRESS_SESSION_SECRET = '0k4yit5chi1di5h94m6in0'
+export const EXPRESS_SESSION_AGE = 30*60*1000 // Session lasts for 30 minutes
 
 // Bcrypt salt rounds constant
 export const BCRYPT_SALT_ROUNDS = 8
