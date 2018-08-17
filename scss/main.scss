@@ -1,32 +1,14 @@
-// Badge mixin
-@mixin badge($bg-color, $text-color) {
-    background-color: $bg-color;
-    color: $text-color;
-}
+$theme-colors: (
+    "primary": #444,
+    "pink": pink,
+    "red": red,
+    "yellow": #aaaa00,
+    "green": green,
+    "turquoise": turquoise,
+    "cyan": cyan,
+    "blue": blue,
+    "violet": violet,
+    "gray": gray
+);
 
-// Card color
-@mixin card-header($bg-color) {
-    background-color: $bg-color;
-}
-
-// Badge classes
-.badge-pink { @include badge(pink, black); }
-.badge-red { @include badge(red, white); }
-.badge-yellow { @include badge(yellow, black); }
-.badge-green { @include badge(green, white); }
-.badge-turquoise { @include badge(turquoise, black); }
-.badge-cyan { @include badge(cyan, black); }
-.badge-blue { @include badge(blue, white); }
-.badge-violet { @include badge(violet, white); }
-.badge-grey { @include badge(grey, white); }
-
-// Badge classes
-.card-header-pink { @include card-header(pink); }
-.card-header-red { @include card-header(red); }
-.card-header-yellow { @include card-header(yellow); }
-.card-header-green { @include card-header(green); }
-.card-header-turquoise { @include card-header(turquoise); }
-.card-header-cyan { @include card-header(cyan); }
-.card-header-blue { @include card-header(blue); }
-.card-header-violet { @include card-header(violet); }
-.card-header-grey { @include card-header(grey); }
+@import "node_modules/bootstrap/scss/bootstrap"
