@@ -75,7 +75,7 @@ app.use('/bootstrap',
         path.join(__dirname, '../node_modules/bootstrap/dist')))
 
 // App routes
-app.use('/note', notes)
+app.use('/note', notes())
 app.use('/user', users)
 
 // Undex route

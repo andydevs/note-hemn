@@ -18,106 +18,114 @@ import {
     deleteNote
 } from '../models/note'
 
-// Define Express router
-var notes = Router()
+/**
+ * Notes router
+ */
+export default function() {
+    // Define Express router
+    var notes = Router()
 
-// Get new form
-notes.get('/new', authenticate, (req, res) => {
-    res.render('note-form', { note: null, action: 'new' })
-})
-
-// Post new form
-notes.post('/new', authenticate, async (req, res) => {
-    // Within mongoclient context
-    await dbConnect(async client => {
-        // Insert new note
-        let result = await createNote(client,
-            req.session.user,
-            fromRequestBody(req.body))
-
-        // Redirect back to home and close client
-        res.redirect('/')
+    // Get new form
+    notes.get('/new', authenticate, (req, res) => {
+        res.render('note-form', { note: null, action: 'new' })
     })
-})
 
-// Get id route
-notes.get('/:id', authenticate, async (req, res) => {
-    // Within mongoclient context
-    await dbConnect(async client => {
-        // Query for the note by the given id
-        let note = await readNote(client,
-            req.session.user,
-            req.params.id)
+    // Post new form
+    notes.post('/new', authenticate, async (req, res) => {
+        // Within mongoclient context
+        await dbConnect(async client => {
+            // Insert new note
+            let result = await createNote(client,
+                req.session.user,
+                fromRequestBody(req.body))
 
-        // Render note and close client
-        res.render('note-view', {
-            ...note,
-            user: req.session.user})
-    })
-})
-
-// Get edit form
-notes.get('/:id/edit', authenticate, async (req, res) => {
-    // Within mongoclient context
-    await dbConnect(async client => {
-        // Query for the note by the given id
-        let note = await readNote(client,
-            req.session.user,
-            req.params.id)
-
-        // Render note and close client
-        res.render('note-form', {
-            user: req.session.user,
-            note: note,
-            action: `${note._id}/edit`
+            // Redirect back to home and close client
+            res.redirect('/')
         })
     })
-})
 
-// Post edit form
-notes.post('/:id/edit', authenticate, async (req, res) => {
-    // Within mongoclient context
-    await dbConnect(async client => {
-        // Replace note
-        let result = await updateNote(client,
-            req.session.user,
-            req.params.id,
-            fromRequestBody(req.body))
+    // Get id route
+    notes.get('/:id', authenticate, async (req, res) => {
+        // Within mongoclient context
+        await dbConnect(async client => {
+            // Query for the note by the given id
+            let note = await readNote(client,
+                req.session.user,
+                req.params.id)
 
-        // Redirect back to home and close client
-        res.redirect('/')
+            // Render note and close client
+            res.render('note-view', {
+                ...note,
+                user: req.session.user})
+        })
     })
-})
 
-// Note delete form
-notes.get('/:id/delete', authenticate, async (req, res) => {
-    // Within mongoclient context
-    await dbConnect(async client => {
-        // Query for the note by the given id
-        let note = await readNote(client,
-            req.session.user,
-            req.params.id)
+    // Get edit form
+    notes.get('/:id/edit', authenticate, async (req, res) => {
+        // Within mongoclient context
+        await dbConnect(async client => {
+            // Query for the note by the given id
+            let note = await readNote(client,
+                req.session.user,
+                req.params.id)
 
-        // Render note form
-        res.render('note-delete', {
-            ...note,
-            user: req.session.user })
+            // Render note and close client
+            res.render('note-form', {
+                user: req.session.user,
+                note: note,
+                action: `${note._id}/edit`
+            })
+        })
     })
-})
 
-// Delete note
-notes.post('/:id/delete', authenticate, async (req, res) => {
-    // Within mongoclient context
-    await dbConnect(async client => {
-        // Delete note
-        let result = await deleteNote(client,
-            req.session.user,
-            req.params.id)
+    // Post edit form
+    notes.post('/:id/edit', authenticate, async (req, res) => {
+        // Within mongoclient context
+        await dbConnect(async client => {
+            // Replace note
+            let result = await updateNote(client,
+                req.session.user,
+                req.params.id,
+                fromRequestBody(req.body))
 
-        // Redirect back to home and close client
-        res.redirect('/')
+            // Redirect back to home and close client
+            res.redirect('/')
+        })
     })
-})
+
+    // Note delete form
+    notes.get('/:id/delete', authenticate, async (req, res) => {
+        // Within mongoclient context
+        await dbConnect(async client => {
+            // Query for the note by the given id
+            let note = await readNote(client,
+                req.session.user,
+                req.params.id)
+
+            // Render note form
+            res.render('note-delete', {
+                ...note,
+                user: req.session.user })
+        })
+    })
+
+    // Delete note
+    notes.post('/:id/delete', authenticate, async (req, res) => {
+        // Within mongoclient context
+        await dbConnect(async client => {
+            // Delete note
+            let result = await deleteNote(client,
+                req.session.user,
+                req.params.id)
+
+            // Redirect back to home and close client
+            res.redirect('/')
+        })
+    })
+
+    // Return router
+    return notes
+}
 
 /**
  * Handles the index route with the given
@@ -138,6 +146,3 @@ export async function indexRoute(req, res) {
             notes: notes })
     })
 }
-
-// Export router
-export default notes
