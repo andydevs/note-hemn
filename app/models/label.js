@@ -13,6 +13,15 @@ import {
 import { LABEL_COLORS } from '../consts'
 
 /**
+ * Generate random color for new label
+ *
+ * @return {string} random color name
+ */
+function randomColor() {
+    return LABEL_COLORS[Math.floor(Math.random()*LABEL_COLORS.length)]
+}
+
+/**
  * Returns the given label in the given user label collection by the given id
  *
  * @param {MongoClient} client the mongo client to get label in
@@ -54,15 +63,12 @@ export function getLabelByName(client, user, name) {
  * @return {Promise<Label>} the inserted label
  */
 export async function createLabelWithRandomColor(client, user, name) {
-    // Choose random color
-    let color = LABEL_COLORS[Math.floor(Math.random()*LABEL_COLORS.length)]
-
-    // Insert color
+    // Insert new label
     let insert = await labelsCollection(client)
         .insertOne({
             user: user._id,
             name: name,
-            color: color
+            color: randomColor()
         })
 
     // Return
