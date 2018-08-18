@@ -1,6 +1,6 @@
-$enable-shadows: true;
+// Theme colors
 $theme-colors: (
-    "primary": #444,
+    "primary": #555,
     "pink": pink,
     "red": red,
     "yellow": #aaaa00,
@@ -12,4 +12,9 @@ $theme-colors: (
     "gray": gray
 );
 
+// Shadows
+$enable-shadows: true;
+$btn-box-shadow: none;
+
+// Import bootstrap
 @import "node_modules/bootstrap/scss/bootstrap"
