@@ -76,7 +76,7 @@ app.use('/bootstrap',
 
 // App routes
 app.use('/note', notes())
-app.use('/user', users)
+app.use('/user', users())
 
 // Undex route
 app.get('/', authenticate, indexRoute)
