@@ -18,6 +18,9 @@ import users from './routes/users'
 import notes, { indexRoute } from './routes/notes'
 import { EXPRESS_SESSION_SECRET, EXPRESS_SESSION_AGE } from './consts'
 
+// Create debug
+const debug = require('debug')('note-hemn')
+
 // Create app
 var app = express()
 
@@ -44,7 +47,7 @@ app.use(session({
 app.use(sass({
     src: path.join(__dirname, '../scss'),
     dest: path.join(__dirname, '../css'),
-    debug: true,
+    debug: false,
     prefix: '/style'
 }))
 app.use('/style',

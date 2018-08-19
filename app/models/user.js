@@ -10,6 +10,9 @@ import { genSaltSync, hash, compare } from 'bcryptjs'
 import { BCRYPT_SALT_ROUNDS } from '../consts'
 import { usersCollection, idFilter } from '../db'
 
+// Debug
+const debug = require('debug')('note-hemn:models:user')
+
 // Generate salt
 const SALT = genSaltSync(BCRYPT_SALT_ROUNDS)
 
@@ -34,6 +37,8 @@ function getUserByEmail(client, email) {
  * @param {User} user user to set in session
  */
 export function setSessionAndRedirect(req, res, user) {
+    debug('Setting user in session...')
+    debug(user)
     req.session.user = user
     res.redirect('/')
 }
