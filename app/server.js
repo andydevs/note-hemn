@@ -54,10 +54,9 @@ app.use('/style',
 // Static routes
 app.use('/jquery',
     express.static(
-        path.join(__dirname, '../node_modules/jquery/dist')))
-app.use('/bootstrap',
-    express.static(
-        path.join(__dirname, '../node_modules/bootstrap/dist')))
+        path.join(
+            __dirname,
+            '../node_modules/jquery/dist')))
 
 // App routes
 app.use('/note', notes())
