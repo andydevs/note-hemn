@@ -6,20 +6,17 @@
  * Author:  Anshul Kharbanda
  * Created: 5 - 12 - 2018
  */
-import _ from 'lodash'
 import path from 'path'
 import express from 'express'
 import session from 'express-session'
 import sass from 'node-sass-middleware'
 import handlebars from 'express-handlebars'
 import bodyParser from 'body-parser'
+import * as handlebarsHelpers from './handlebars-helpers'
 import authenticate from './authenticate'
 import users from './routes/users'
 import notes, { indexRoute } from './routes/notes'
-import {
-    EXPRESS_SESSION_SECRET,
-    EXPRESS_SESSION_AGE
-} from './consts'
+import { EXPRESS_SESSION_SECRET, EXPRESS_SESSION_AGE } from './consts'
 
 // Create app
 var app = express()
@@ -28,19 +25,7 @@ var app = express()
 app.engine('.hbs', handlebars({
     extname: '.hbs',
     defaultLayout: 'default',
-    helpers: {
-        labelString: (labels, opts) =>
-            labels ? labels.map(label => label.name).join(" ") : "",
-        noteColor: (labels, opts) => labels[0].color,
-        grid: (notes, opts) =>
-            _.chunk(notes, 3)
-                .map(slice =>
-                    '<div class="row">'
-                    + slice.map(note =>
-                        `<div class="col-md-4">${opts.fn(note)}</div>`)
-                      .join('')
-                    + '</div>')
-    }
+    helpers: handlebarsHelpers
 }))
 app.set('view engine', '.hbs')
 
