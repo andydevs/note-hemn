@@ -13,9 +13,7 @@ import sass from 'node-sass-middleware'
 import handlebars from 'express-handlebars'
 import bodyParser from 'body-parser'
 import * as handlebarsHelpers from './handlebars-helpers'
-import authenticate from './authenticate'
 import users from './routes/users'
-import notes, { indexRoute } from './routes/notes'
 import { EXPRESS_SESSION_SECRET, EXPRESS_SESSION_AGE } from './consts'
 
 // Create debug
@@ -67,11 +65,7 @@ app.use('/bootstrap',
             '../node_modules/bootstrap/dist')))
 
 // App routes
-app.use('/note', notes())
 app.use('/user', users())
-
-// Undex route
-app.get('/', authenticate, indexRoute)
 
 // Export app
 export default app
