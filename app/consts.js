@@ -18,7 +18,7 @@ export const EXPRESS_SESSION_AGE = 30*60*1000 // Session lasts for 30 minutes
 export const BCRYPT_SALT_ROUNDS = 8
 
 // MONGO CONSTANTS
-export const MONGO_URI = process.env.MONGOLAB_URI // URI constant for mongo lab
+export const MONGO_URI = process.env.MONGO_URI // URI constant for mongodb
 export const MONGO_DBNAME = 'notedb' // Mongo dbname
 export const MONGO_COLLEC_NOTES = 'notes' // Mongo collection name for notes
 export const MONGO_COLLEC_USERS = 'users' // Mongo collection name for users
