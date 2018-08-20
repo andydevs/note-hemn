@@ -1,35 +1,52 @@
-<div class="user-signup-group">
-    <form class="user-signup-form" action="/user/signup" method="post">
-        <!-- Name -->
-        <label for="name">Name</label>
-        <input type="text" name="name">
+<div class="container-fluid">
+    {{!-- Error Signing Up User Alert --}}
+    {{#if error}}
+        <div class='my-3 alert alert-danger' role='alert'>
+            Error signing up user!
+        </div>
+    {{/if}}
 
-        <!-- Email -->
-        <label for="email">Email</label>
-        <input type="text" name="email">
+    {{!-- Password and Verify Do Not Match Alert --}}
+    {{#if unmatch}}
+        <div class='my-3 alert alert-danger' role='alert'>
+            Password and verify do not match!
+        </div>
+    {{/if}}
 
-        <!-- Password -->
-        <label for="password">Password</label>
-        <input type="password" name="password">
+    {{!-- User Already Exists Alert --}}
+    {{#if exists}}
+        <div class='my-3 alert alert-danger' role='alert'>
+            User already exists!
+        </div>
+    {{/if}}
 
-        <!-- Verify -->
-        <label for="verify">Verify</label>
-        <input type="password" name="verify">
+    {{!-- Signup Form --}}
+    <form class="my-3" action="/user/signup" method="post">
+        {{!-- Name --}}
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input class="form-control" type="text" name="name">
+        </div>
 
-        <!-- Submit -->
-        <input type="submit" name="signup" value="Sign Up">
+        {{!-- Email --}}
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input class="form-control" type="text" name="email">
+        </div>
+
+        {{!-- Password --}}
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" type="password" name="password">
+        </div>
+
+        {{!-- Verify --}}
+        <div class="form-group">
+            <label for="verify">Verify</label>
+            <input class="form-control" type="password" name="verify">
+        </div>
+
+        {{!-- Submit --}}
+        <input class="btn btn-primary" type="submit" value="Sign Up">
     </form>
-    <div class='form-notification-area'>
-        {{#if error}}
-            <p class='user-signup-error'>Error signing up user!</p>
-        {{/if}}
-
-        {{#if unmatch}}
-            <p class='user-signup-unmatch'>Password and verify do not match!</p>
-        {{/if}}
-
-        {{#if exists}}
-            <p class='user-signup-exists'>User already exists!</p>
-        {{/if}}
-    </div>
 </div>

@@ -1,4 +1,12 @@
 <div class="container-fluid">
+    {{!-- Not Found Alert --}}
+    {{#if notfound}}
+        <div class="my-3 alert alert-danger" role="alert">
+            ALERT: User was not found!
+        </div>
+    {{/if}}
+
+    {{!-- Login Form --}}
     <form class="my-3" action="/user/login" method="post">
         {{!-- Email --}}
         <div class="form-group">
@@ -12,14 +20,8 @@
             <input class="form-control" type="password" name="password">
         </div>
 
-        {{!-- Submit --}}
+        {{!-- Submit (and Signup Button) --}}
         <input class="btn btn-primary" type="submit" value="Log In">
+        <a class="btn btn-secondary" href="/user/signup">Sign Up</a>
     </form>
-
-    {{!-- Not Found Alert --}}
-    {{#if notfound}}
-        <div class="my-3 alert alert-danger" role="alert">
-            ALERT: User was not found!
-        </div>
-    {{/if}}
 </div>
