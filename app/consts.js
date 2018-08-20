@@ -19,10 +19,6 @@ export const BCRYPT_SALT_ROUNDS = 8
 
 // MONGO CONSTANTS
 export const MONGO_URI = process.env.MONGO_URI // URI constant for mongodb
-export const MONGO_DBNAME = 'notedb' // Mongo dbname
-export const MONGO_COLLEC_NOTES = 'notes' // Mongo collection name for notes
-export const MONGO_COLLEC_USERS = 'users' // Mongo collection name for users
-export const MONGO_COLLEC_LABELS = 'labels' // Mongo collection name for labels
 
 // Label colors
 export const LABEL_COLORS = [

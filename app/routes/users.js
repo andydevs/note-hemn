@@ -7,6 +7,7 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
+import User from '../model/user.js'
 
 /**
  * Users router

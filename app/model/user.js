@@ -35,7 +35,7 @@ User.statics.localSignup = function(name, email, password, verify, cb) {
                         email,
                         passhash
                     }
-                }
+                },
                 name
             }, cb)
         })
@@ -43,11 +43,12 @@ User.statics.localSignup = function(name, email, password, verify, cb) {
         cb(new Error('Password and verify do not match!'))
 }
 
+// Local login
 User.statics.localLogin = function(email, password, cb) {
     User.findOne({ email }, function(err, user) {
         if (err) cb(err)
-        else if (user) user.localValid(password, function(err, valid) {
-            if (err) cb(err)
+        else if (user) user.localValid(password, function(err2, valid) {
+            if (err2) cb(err2)
             else if (valid) cb(null, user)
             else cb(new Error('User was not found!'))
         })

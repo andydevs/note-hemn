@@ -12,12 +12,23 @@ import session from 'express-session'
 import sass from 'node-sass-middleware'
 import handlebars from 'express-handlebars'
 import bodyParser from 'body-parser'
+import mongoose from 'mongoose'
 import * as handlebarsHelpers from './handlebars-helpers'
 import users from './routes/users'
-import { EXPRESS_SESSION_SECRET, EXPRESS_SESSION_AGE } from './consts'
+import {
+    MONGO_URI,
+    EXPRESS_SESSION_SECRET,
+    EXPRESS_SESSION_AGE
+} from './consts'
 
 // Create debug
 const debug = require('debug')('note-hemn')
+
+// Connect to mongoose
+mongoose.connect(MONGO_URI, { useNewUrlParser: true }, error => {
+    if (error) throw error
+    else debug('Mongoose connected!')
+})
 
 // Create app
 var app = express()
