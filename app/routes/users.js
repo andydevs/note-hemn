@@ -8,6 +8,7 @@
  */
 import { Router } from 'express'
 import User from '../model/user.js'
+import { authenticate } from '../passport'
 
 // Debugger
 const debug = require('debug')('note-hemn:users')
@@ -43,7 +44,7 @@ export default function() {
                 // Set session and redirect
                 debug('Signed up user!')
                 req.session.user = user
-                res.redirect('/user/profile')
+                res.redirect('/')
             }
         })
     })
@@ -72,13 +73,13 @@ export default function() {
                 // Set session and redirect
                 debug('Logged in user!')
                 req.session.user = user
-                res.redirect('/user/profile')
+                res.redirect('/')
             }
         })
     })
 
     // User logout page
-    users.get('/logout', (req, res) => {
+    users.get('/logout', authenticate, (req, res) => {
         res.render('user-logout', {
             layout: 'base',
             user: req.session.user
@@ -86,35 +87,37 @@ export default function() {
     })
 
     // User post logout
-    users.post('/logout', (req, res) => {
+    users.post('/logout', authenticate, (req, res) => {
         debug('Logged out user!')
         req.session.destroy()
         res.redirect('/user/login')
     })
 
     // User get profile
-    users.get('/profile', (req, res) => {
+    users.get('/profile', authenticate, (req, res) => {
         res.render('user-view', { user: req.session.user })
     })
 
     // User update-name page
-    users.get('/update/name', (req, res) => {
+    users.get('/update/name', authenticate, (req, res) => {
         res.render('user-update-name', { user: req.session.user })
     })
 
     // User update name
-    users.post('/update/name', (req, res) => {
+    users.post('/update/name', authenticate, (req, res) => {
         // Update name of user
+        res.redirect('/user/profile')
     })
 
     // User update password page
-    users.get('/update/password', (req, res) => {
+    users.get('/update/password', authenticate, (req, res) => {
         res.render('user-update-password', { user: req.session.user })
     })
 
     // User update password
-    users.post('/update/password', (req, res) => {
+    users.post('/update/password', authenticate, (req, res) => {
         // Update password of user
+        res.redirect('/user/profile')
     })
 
     // Return router

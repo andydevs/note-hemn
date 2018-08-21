@@ -16,6 +16,7 @@ import mongoose from 'mongoose'
 import path from 'path'
 import * as handlebarsHelpers from './handlebars-helpers'
 import users from './routes/users'
+import { authenticate } from './passport'
 import {
     MONGO_URI,
     EXPRESS_SESSION_SECRET,
@@ -79,6 +80,11 @@ app.use('/bootstrap',
 
 // App routes
 app.use('/user', users())
+
+// Main routes
+app.get('/', authenticate, (req, res) => {
+    res.redirect('/user/profile')
+})
 
 // Export app
 export default app
