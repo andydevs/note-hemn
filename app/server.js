@@ -6,13 +6,14 @@
  * Author:  Anshul Kharbanda
  * Created: 5 - 12 - 2018
  */
-import path from 'path'
 import express from 'express'
 import session from 'express-session'
-import sass from 'node-sass-middleware'
 import handlebars from 'express-handlebars'
+import flash from 'express-flash'
 import bodyParser from 'body-parser'
+import sass from 'node-sass-middleware'
 import mongoose from 'mongoose'
+import path from 'path'
 import * as handlebarsHelpers from './handlebars-helpers'
 import users from './routes/users'
 import {
@@ -51,6 +52,7 @@ app.use(session({
     saveUninitialized: true,
     resave: false
 }))
+app.use(flash())
 
 // Sass middleware
 app.use(sass({

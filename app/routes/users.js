@@ -21,7 +21,12 @@ export default function() {
 
     // Signup user page
     users.get('/signup', (req, res) => {
-        res.render('user-signup', { layout: 'base' })
+        let error = req.flash('error')
+        debug('Flash errors:', error)
+        res.render('user-signup', {
+            layout: 'base',
+            error: error
+        })
     })
 
     // Post signup
@@ -31,10 +36,12 @@ export default function() {
         User.localSignup(name, email, password, verify, (err, user) => {
             if (err) {
                 // Redirect back to signup
-                // TODO: Add flash messaging here
+                debug('Error logging in:', err.message)
+                req.flash('error', err.message)
                 res.redirect('/user/signup')
             } else {
                 // Set session and redirect
+                debug('Signed up user!')
                 req.session.user = user
                 res.redirect('/user/profile')
             }
@@ -43,7 +50,12 @@ export default function() {
 
     // Login user page
     users.get('/login', (req, res) => {
-        res.render('user-login', { layout: 'base' })
+        let error = req.flash('error')
+        debug('Flash errors:', error)
+        res.render('user-login', {
+            layout: 'base',
+            error: error
+        })
     })
 
     // Post user login
@@ -53,10 +65,12 @@ export default function() {
         User.localLogin(email, password, (err, user) => {
             if (err) {
                 // Redirect back to login
-                // TODO: Add flash messaging here
+                debug('Error logging in:', err.message)
+                req.flash('error', err.message)
                 res.redirect('/user/login')
             } else {
                 // Set session and redirect
+                debug('Logged in user!')
                 req.session.user = user
                 res.redirect('/user/profile')
             }
@@ -65,11 +79,15 @@ export default function() {
 
     // User logout page
     users.get('/logout', (req, res) => {
-        res.render('user-logout', { layout: 'base', user: req.session.user })
+        res.render('user-logout', {
+            layout: 'base',
+            user: req.session.user
+        })
     })
 
     // User post logout
     users.post('/logout', (req, res) => {
+        debug('Logged out user!')
         req.session.destroy()
         res.redirect('/user/login')
     })

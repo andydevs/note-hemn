@@ -1,22 +1,8 @@
 <div class="container-fluid">
-    {{!-- Error Signing Up User Alert --}}
+    {{!-- Server Errors --}}
     {{#if error}}
-        <div class='my-3 alert alert-danger' role='alert'>
-            Error signing up user!
-        </div>
-    {{/if}}
-
-    {{!-- Password and Verify Do Not Match Alert --}}
-    {{#if unmatch}}
-        <div class='my-3 alert alert-danger' role='alert'>
-            Password and verify do not match!
-        </div>
-    {{/if}}
-
-    {{!-- User Already Exists Alert --}}
-    {{#if exists}}
-        <div class='my-3 alert alert-danger' role='alert'>
-            User already exists!
+        <div class="my-3 alert alert-danger" role="alert">
+            {{ error }}
         </div>
     {{/if}}
 

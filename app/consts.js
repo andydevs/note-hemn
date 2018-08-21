@@ -6,7 +6,6 @@
  * Author:  Anshul Kharbanda
  * Created: 5 - 12 - 2018
  */
-
 // Server constants
 export const PORT = process.env.PORT || 8080 // Server port
 

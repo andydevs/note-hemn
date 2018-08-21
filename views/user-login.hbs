@@ -1,8 +1,8 @@
 <div class="container-fluid">
-    {{!-- Not Found Alert --}}
-    {{#if notfound}}
+    {{!-- Server Errors --}}
+    {{#if error}}
         <div class="my-3 alert alert-danger" role="alert">
-            ALERT: User was not found!
+            {{ error }}
         </div>
     {{/if}}
 
