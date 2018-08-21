@@ -32,15 +32,22 @@ User.statics.localSignup = function(name, email, password, verify, cb) {
     if (password === verify) hash(password, SALT, (err, passhash) => {
         debug('Hashed password')
         if (err) cb(err)
-        else this.create({
-            login: {
-                local: {
-                    email,
-                    passhash
-                }
-            },
-            name
-        }, cb)
+        else this.find({ 'login.local.email': email }, (err, user) => {
+            if (err) cb(err)
+            else if (user) {
+                debug('User already exists')
+                cb(new Error('User already exists!'))
+            } else
+                this.create({
+                    login: {
+                        local: {
+                            email,
+                            passhash
+                        }
+                    },
+                    name
+                }, cb)
+        })
     })
     else cb(new Error('Password and verify do not match!'))
 }
