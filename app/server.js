@@ -13,10 +13,11 @@ import flash from 'express-flash'
 import bodyParser from 'body-parser'
 import sass from 'node-sass-middleware'
 import mongoose from 'mongoose'
+import passport from 'passport'
 import path from 'path'
 import * as handlebarsHelpers from './handlebars-helpers'
 import users from './routes/users'
-import { authenticate } from './passport'
+import configurePassport, { authenticate } from './passport'
 import {
     MONGO_URI,
     EXPRESS_SESSION_SECRET,
@@ -31,6 +32,9 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true }, error => {
     if (error) throw error
     else debug('Mongoose connected!')
 })
+
+// Configure passport
+configurePassport(passport)
 
 // Create app
 var app = express()
@@ -53,6 +57,8 @@ app.use(session({
     saveUninitialized: true,
     resave: false
 }))
+app.use(passport.initialize())
+app.use(passport.session())
 app.use(flash())
 
 // Sass middleware
@@ -79,7 +85,7 @@ app.use('/bootstrap',
             '../node_modules/bootstrap/dist')))
 
 // App routes
-app.use('/user', users())
+app.use('/user', users(passport))
 
 // Main routes
 app.get('/', authenticate, (req, res) => {

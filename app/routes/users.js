@@ -7,7 +7,7 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
-import User from '../model/user.js'
+import User from '../models/user.js'
 import { authenticate } from '../passport'
 
 // Debugger
@@ -16,7 +16,7 @@ const debug = require('debug')('note-hemn:users')
 /**
  * Users router
  */
-export default function() {
+export default function(passport) {
     // Create users router
     var users = Router()
 
@@ -41,10 +41,16 @@ export default function() {
                 req.flash('error', err.message)
                 res.redirect('/user/signup')
             } else {
-                // Set session and redirect
+                // Log in user redirect
                 debug('Signed up user!')
-                req.session.user = user
-                res.redirect('/')
+                req.login(user, (err) => {
+                    if (err) {
+                        req.flash('error', err.message)
+                        res.redirect('/user/signup')
+                    } else {
+                        res.redirect('/')
+                    }
+                })
             }
         })
     })
@@ -60,47 +66,35 @@ export default function() {
     })
 
     // Post user login
-    users.post('/login', (req, res) => {
-        // Login user
-        let { email, password } = req.body
-        User.localLogin(email, password, (err, user) => {
-            if (err) {
-                // Redirect back to login
-                debug('Error logging in:', err.message)
-                req.flash('error', err.message)
-                res.redirect('/user/login')
-            } else {
-                // Set session and redirect
-                debug('Logged in user!')
-                req.session.user = user
-                res.redirect('/')
-            }
-        })
-    })
+    users.post('/login', passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/user/login',
+        failureFlash: 'User was not found!'
+    }))
 
     // User logout page
     users.get('/logout', authenticate, (req, res) => {
         res.render('user-logout', {
             layout: 'base',
-            user: req.session.user
+            user: req.user
         })
     })
 
     // User post logout
     users.post('/logout', authenticate, (req, res) => {
         debug('Logged out user!')
-        req.session.destroy()
+        req.logout()
         res.redirect('/user/login')
     })
 
     // User get profile
     users.get('/profile', authenticate, (req, res) => {
-        res.render('user-view', { user: req.session.user })
+        res.render('user-view', { user: req.user })
     })
 
     // User update-name page
     users.get('/update/name', authenticate, (req, res) => {
-        res.render('user-update-name', { user: req.session.user })
+        res.render('user-update-name', { user: req.user })
     })
 
     // User update name
@@ -111,7 +105,7 @@ export default function() {
 
     // User update password page
     users.get('/update/password', authenticate, (req, res) => {
-        res.render('user-update-password', { user: req.session.user })
+        res.render('user-update-password', { user: req.user })
     })
 
     // User update password

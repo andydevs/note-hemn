@@ -32,7 +32,7 @@ User.statics.localSignup = function(name, email, password, verify, cb) {
     if (password === verify) hash(password, SALT, (err, passhash) => {
         debug('Hashed password')
         if (err) cb(err)
-        else this.find({ 'login.local.email': email }, (err, user) => {
+        else this.findOne({ 'login.local.email': email }, (err, user) => {
             if (err) cb(err)
             else if (user) {
                 debug('User already exists')
@@ -58,13 +58,13 @@ User.statics.localLogin = function(email, password, cb) {
         if (err) cb(err)
         else if (user) {
             debug('Found user...')
-            user.localValid(password, (err2, valid) => {
-                if (err2) cb(err2)
+            user.localValid(password, (err, valid) => {
+                if (err) cb(err)
                 else if (valid) cb(null, user)
-                else cb(new Error('User was not found!'))
+                else cb(null, false)
             })
         }
-        else cb(new Error('User was not found!'))
+        else cb(null, false)
     })
 }
 
