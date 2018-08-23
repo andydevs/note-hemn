@@ -37,7 +37,8 @@ User.statics.localSignup = function(name, email, password, verify, cb) {
             else if (user) {
                 debug('User already exists')
                 cb(new Error('User already exists!'))
-            } else
+            } else {
+                debug('Creating user')
                 this.create({
                     login: {
                         local: {
@@ -47,6 +48,7 @@ User.statics.localSignup = function(name, email, password, verify, cb) {
                     },
                     name
                 }, cb)
+            }
         })
     })
     else cb(new Error('Password and verify do not match!'))
@@ -71,6 +73,35 @@ User.statics.localLogin = function(email, password, cb) {
 // Check if local user is valid with password
 User.methods.localValid = function(password, cb) {
     compare(password, this.login.local.passhash, cb)
+}
+
+// Update password of user
+User.methods.localUpdatePassword = function(oldpass, password, verify, cb) {
+    compare(oldpass, this.login.local.passhash, (err, valid) => {
+        if (err) {
+            debug('Some other error happened!')
+            debug(err.message)
+            cb(err)
+        } else if (valid) {
+            debug('Old password is valid!')
+            if (password === verify) {
+                hash(password, SALT, (err, passhash) => {
+                    if (err) cb(err)
+                    else {
+                        debug('Setting new password!')
+                        this.login.local.passhash = passhash
+                        this.save(cb)
+                    }
+                })
+            } else {
+                debug('Password and verify do not match!')
+                cb(new Error('Password and verify do not match!'))
+            }
+        } else {
+            debug('Old password is invalid!')
+            cb(new Error('Old password is invalid!'))
+        }
+    })
 }
 
 // Export new User
