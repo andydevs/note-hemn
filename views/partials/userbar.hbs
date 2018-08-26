@@ -9,25 +9,12 @@
     {{!-- User Info --}}
     <div class="collapse navbar-collapse" id="navbarContent">
         <ul class="navbar-nav ml-auto">
-            {{!-- User Info --}}
-            {{#if user}}
-                <li class="nav-item">
-                    <a class="nav-link" href="/user/settings">{{ user.name }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/auth/logout">Log Out</a>
-                </li>
-
-            {{!-- Basic Login-Signup --}}
-            {{else}}
-                <li class="nav-item">
-                    <a class="nav-link" href="/auth/login">Log In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/auth/signup">Sign Up</a>
-                </li>
-
-            {{/if}}
+            <li class="nav-item">
+                <a class="nav-link" href="/user/settings">{{ user.name }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/auth/logout">Log Out</a>
+            </li>
         </ul>
     </div>
 </nav>
