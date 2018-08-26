@@ -91,7 +91,7 @@ app.use('/user', user())
 
 // Main routes
 app.get('/', authenticate, (req, res) => {
-    res.redirect('/user/profile')
+    res.redirect('/user/settings')
 })
 
 // Export app

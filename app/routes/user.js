@@ -20,14 +20,9 @@ export default function userRouter() {
     // Create user router
     let user = Router()
 
-    // User get profile
-    user.get('/profile', authenticate, (req, res) => {
-        res.render('user-view', { user: req.user })
-    })
-
-    // User update-name page
-    user.get('/update/name', authenticate, (req, res) => {
-        res.render('user-update-name', { user: req.user })
+    // User get settings view
+    user.get('/settings', authenticate, (req, res) => {
+        res.render('user-settings', { user: req.user })
     })
 
     // User update name
@@ -35,15 +30,8 @@ export default function userRouter() {
         // Update name of user
         req.user.name = req.body.name
         req.user.save((err, updated) => {
-            res.redirect('/user/profile')
-        })
-    })
-
-    // User update password page
-    user.get('/update/password', authenticate, (req, res) => {
-        res.render('user-update-password', {
-            user: req.user,
-            error: req.flash('error')
+            if (err) { req.flash('error', err.message) }
+            res.redirect('/user/settings')
         })
     })
 
@@ -52,12 +40,8 @@ export default function userRouter() {
         // Update password of user
         let { old, new_, verify } = req.body
         req.user.localUpdatePassword(old, new_, verify, (err, updated) => {
-            if (err) {
-                req.flash('error', err.message)
-                res.redirect('/user/update/password')
-            } else {
-                res.redirect('/user/profile')
-            }
+            if (err) { req.flash('error', err.message) }
+            res.redirect('/user/settings')
         })
     })
 
