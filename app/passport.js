@@ -43,8 +43,5 @@ export default function(passport) {
  */
 export function authenticate(req, res, next) {
     if (req.isAuthenticated()) next()
-    else {
-        req.flash('error', 'Must log in!')
-        res.redirect('/user/login')
-    }
+    else res.redirect('/auth/login')
 }

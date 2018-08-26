@@ -16,7 +16,8 @@ import mongoose from 'mongoose'
 import passport from 'passport'
 import path from 'path'
 import * as handlebarsHelpers from './handlebars-helpers'
-import users from './routes/users'
+import user from './routes/user'
+import auth from './routes/auth'
 import configurePassport, { authenticate } from './passport'
 import {
     MONGO_URI,
@@ -85,7 +86,8 @@ app.use('/bootstrap',
             '../node_modules/bootstrap/dist')))
 
 // App routes
-app.use('/user', users(passport))
+app.use('/auth', auth(passport))
+app.use('/user', user())
 
 // Main routes
 app.get('/', authenticate, (req, res) => {
