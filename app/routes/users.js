@@ -33,8 +33,8 @@ export default function(passport) {
     // Post signup
     users.post('/signup', (req, res) => {
         // Signup new user
-        let { name, email, password, verify } = req.body
-        User.localSignup(name, email, password, verify, (err, user) => {
+        let { email, password, verify } = req.body
+        User.localSignup(email, password, verify, (err, user) => {
             if (err) {
                 // Redirect back to signup
                 debug('Error logging in:', err.message)
