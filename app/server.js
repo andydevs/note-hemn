@@ -18,7 +18,8 @@ import path from 'path'
 import * as handlebarsHelpers from './handlebars-helpers'
 import user from './routes/user'
 import auth from './routes/auth'
-import configurePassport, { authenticate } from './passport'
+import note from './routes/note'
+import configurePassport from './passport'
 import {
     MONGO_URI,
     EXPRESS_SESSION_SECRET,
@@ -88,11 +89,10 @@ app.use('/bootstrap',
 // App routes
 app.use('/auth', auth(passport))
 app.use('/user', user())
+app.use('/note', note())
 
 // Main routes
-app.get('/', authenticate, (req, res) => {
-    res.redirect('/user/settings')
-})
+app.get('/', (req, res) => { res.redirect('/note') })
 
 // Export app
 export default app

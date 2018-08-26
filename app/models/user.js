@@ -9,9 +9,6 @@
 import mongoose from 'mongoose'
 import localAuthPlugin from './plugins/local-auth';
 
-// Debug
-const debug = require('debug')('note-hemn:model:user');
-
 // User schema
 let User = new mongoose.Schema({
     login: {
