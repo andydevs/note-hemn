@@ -92,7 +92,7 @@ app.use('/user', user())
 app.use('/note', note())
 
 // Main routes
-app.get('/', (req, res) => { res.redirect('/note') })
+app.get('/', (req, res) => res.redirect('/note'))
 
 // Export app
 export default app

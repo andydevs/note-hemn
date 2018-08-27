@@ -8,7 +8,7 @@
  */
 import { Router } from 'express'
 import Note from '../models/note.js'
-import { authenticate } from '../passport'
+import { authenticate } from './auth'
 import mongoose from 'mongoose'
 
 // Debug

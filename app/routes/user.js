@@ -8,7 +8,7 @@
  */
 import { Router } from 'express'
 import User from '../models/user.js'
-import { authenticate } from '../passport'
+import { authenticate } from './auth'
 
 // Debugger
 const debug = require('debug')('note-hemn:routes:user')

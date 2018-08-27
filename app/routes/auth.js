@@ -8,7 +8,6 @@
  */
 import { Router } from 'express'
 import User from '../models/user.js'
-import { authenticate } from '../passport'
 
 // Debugger
 const debug = require('debug')('note-hemn:routes:auth')
@@ -86,4 +85,12 @@ export default function authRouter(passport) {
 
     // Return auth
     return auth
+}
+
+/**
+ * Authenticate user middleware. Redirect to login if not authenticated
+ */
+export function authenticate(req, res, next) {
+    if (req.isAuthenticated()) next()
+    else res.redirect('/auth/login')
 }
