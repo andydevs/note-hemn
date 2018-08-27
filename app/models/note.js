@@ -30,5 +30,21 @@ Note.statics.createWithLabels = function(user, labels, content, cb) {
     })
 }
 
+// Update note with labels
+Note.statics.updateWithLabels = function(user, _id, labels, content, cb) {
+    Label.findOrCreateAll(user, labels, (err, labels) => {
+        if (err) cb(err)
+        else {
+            this.findOneAndUpdate({
+                user: user._id,
+                _id: mongoose.Types.ObjectId(_id)
+            }, {
+                labels: labels.map(label => label._id),
+                content: content
+            }, cb)
+        }
+    })
+}
+
 // Export model
 export default mongoose.model('Note', Note)
