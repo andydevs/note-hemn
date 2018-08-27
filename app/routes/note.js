@@ -9,6 +9,10 @@
 import { Router } from 'express'
 import Note from '../models/note.js'
 import { authenticate } from '../passport'
+import mongoose from 'mongoose'
+
+// Debug
+const debug = require('debug')('note-hemn:routes:note')
 
 export default function noteRouter() {
     // Declare router
@@ -16,7 +20,7 @@ export default function noteRouter() {
 
     // Index route
     note.get('/', authenticate, (req, res) => {
-        Note.find({ user: req.user._id }, (err, notes) => {
+        Note.find({ user: req.user._id }).populate('labels').exec((err, notes) => {
             if (err) req.flash('error', err.message)
             res.render('index', {
                 error: req.flash('error'),
@@ -26,12 +30,34 @@ export default function noteRouter() {
         })
     })
 
+    // New note
+    note.get('/new', authenticate, (req, res) => {
+        res.render('note-form', {
+            user: req.user,
+            action: 'new',
+            note: null
+        })
+    })
+
+    // Post new note
+    note.post('/new', authenticate, (req, res) => {
+        let user = req.user
+        let labels = req.body.labels.split(' ')
+        let content = req.body.content
+        Note.createWithLabels(user, labels, content, (err, note) => {
+            if (err) req.flash('error')
+            res.redirect('/note')
+        })
+    })
+
     // View route
     note.get('/:id', authenticate, (req, res) => {
         Note.findOne({
             user: req.user._id,
-            _id: req.params.id
-        }, (err, note) => {
+            _id: mongoose.Types.ObjectId(req.params.id)
+        })
+        .populate('labels')
+        .exec((err, note) => {
             if (err) req.flash('error', err.message)
             res.render('note-view', {
                 error: req.flash('error'),

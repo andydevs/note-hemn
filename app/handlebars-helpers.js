@@ -23,7 +23,8 @@ export const labelString = (labels, opts) =>
  * @param {[Label]} labels the labels to get the color from
  * @param {object} opts handlebars options
  */
-export const noteColor = (labels, opts) => labels[0].color
+export const noteColor = (labels, opts) =>
+    labels && labels.length > 0 ? labels[0].color : 'primary'
 
 /**
  * Display notes in a grid
