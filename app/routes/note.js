@@ -101,6 +101,35 @@ export default function noteRouter() {
         })
     })
 
+    // Delete route
+    note.get('/:id/delete', authenticate, (req, res) => {
+        Note.findOne({
+            user: req.user._id,
+            _id: mongoose.Types.ObjectId(req.params.id)
+        })
+        .populate('labels')
+        .exec((err, note) => {
+            if (err) req.flash('error', err.message)
+            res.render('note-delete', {
+                error: req.flash('error'),
+                user: req.user,
+                note: note
+            })
+        })
+    })
+
+    // Post delete note
+    note.post('/:id/delete', authenticate, (req, res) => {
+        Note.findOneAndDelete({
+            user: req.user,
+            _id: mongoose.Types.ObjectId(req.params.id)
+        })
+        .exec((err, rslt) => {
+            if (err) req.flash('error', err.message)
+            res.redirect('/note')
+        })
+    })
+
     // Return router
     return note
 }
