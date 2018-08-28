@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <form class="my-3" action="/note/{{ action }}" method="post">
-        <!-- Labels -->
+        {{!-- Labels --}}
         <div class="form-group">
             <label for="labels">Labels</label>
             <input class="form-control"
@@ -9,7 +9,7 @@
                    value="{{labelString note.labels}}">
         </div>
 
-        <!-- Content -->
+        {{!-- Content --}}
         <div class="form-group">
             <label for="content">Content</label>
             <textarea class="form-control"
@@ -17,7 +17,10 @@
                       name="content">{{ note.content }}</textarea>
         </div>
 
-        <!-- Submit -->
-        <input class="btn btn-primary" type="submit" name="Submit" value="Submit">
+        {{!-- Submit --}}
+        <input class="btn btn-primary"
+               type="submit"
+               name="submit"
+               value="Submit">
     </form>
 </div>

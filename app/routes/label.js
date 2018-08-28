@@ -15,6 +15,7 @@ import mongoose from 'mongoose'
 const debug = require('debug')('note-hemn:routes:label')
 
 export default function labelRouter() {
+    // Declare router
     let label = Router()
 
     // Index route
@@ -32,5 +33,36 @@ export default function labelRouter() {
         })
     })
 
+    // Edit route
+    label.get('/:id/edit', authenticate, (req, res) => {
+        Label.findOne({
+            _id: mongoose.Types.ObjectId(req.params.id),
+            user: req.user._id
+        })
+        .exec((err, label) => {
+            if (err) req.flash('error', err.message)
+            res.render('label-form', {
+                error: req.flash('error'),
+                user: req.user,
+                label: label
+            })
+        })
+    })
+
+    // Edit post route
+    label.post('/:id/edit', authenticate, (req, res) => {
+        Label.findOneAndUpdate({
+            _id: mongoose.Types.ObjectId(req.params.id),
+            user: req.user._id
+        }, {
+            name: req.body.name
+        })
+        .exec((err, label) => {
+            if (err) req.flash('error', err.message)
+            res.redirect('/label')
+        })
+    })
+
+    // Return router
     return label
 }
