@@ -26,7 +26,7 @@ export default function noteRouter() {
         .populate('labels')
         .exec((err, notes) => {
             if (err) req.flash('error', err.message)
-            res.render('index', {
+            res.render('note-index', {
                 error: req.flash('error'),
                 user: req.user,
                 notes: notes
