@@ -54,23 +54,6 @@ export default function noteRouter() {
         })
     })
 
-    // View route
-    note.get('/:id', authenticate, (req, res) => {
-        Note.findOne({
-            user: req.user._id,
-            _id: mongoose.Types.ObjectId(req.params.id)
-        })
-        .populate('labels')
-        .exec((err, note) => {
-            if (err) req.flash('error', err.message)
-            res.render('note-view', {
-                error: req.flash('error'),
-                user: req.user,
-                note: note
-            })
-        })
-    })
-
     // Edit route
     note.get('/:id/edit', authenticate, (req, res) => {
         Note.findOne({
