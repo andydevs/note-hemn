@@ -1,4 +1,6 @@
 <div class="container-fluid">
+    {{> error-alert}}
+
     <form class="my-3" action="/label/{{ label._id }}/edit" method="post">
         {{!-- Label name --}}
         <div class="form-group">

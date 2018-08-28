@@ -1,10 +1,5 @@
 <div class="container-fluid">
-    {{!-- Server Errors --}}
-    {{#if error}}
-        <div class="my-3 alert alert-danger" role="alert">
-            {{ error }}
-        </div>
-    {{/if}}
+    {{> error-alert}}
 
     {{!-- Signup Form --}}
     <form class="my-3" action="/user/signup" method="post">

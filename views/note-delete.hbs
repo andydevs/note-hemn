@@ -1,4 +1,5 @@
 <div class="container-fluid">
+    {{> error-alert}}
     <h2 class="my-3">Are you sure you want to delete this note?</h2>
     {{> note-snippet note}}
     <form action="/note/{{ note._id }}/delete" method="post">
