@@ -19,6 +19,7 @@ import * as handlebarsHelpers from './handlebars-helpers'
 import user from './routes/user'
 import auth from './routes/auth'
 import note from './routes/note'
+import label from './routes/label'
 import configurePassport from './passport'
 import {
     MONGO_URI,
@@ -39,7 +40,7 @@ mongoose.connect(MONGO_URI, { useNewUrlParser: true }, error => {
 configurePassport(passport)
 
 // Create app
-var app = express()
+const app = express()
 
 // Configure handlebars
 app.engine('.hbs', handlebars({
@@ -70,26 +71,23 @@ app.use(sass({
     debug: false,
     prefix: '/style'
 }))
+
+// Static routes
 app.use('/style',
     express.static(
         path.join(__dirname, '../css')))
-
-// Static routes
 app.use('/jquery',
     express.static(
-        path.join(
-            __dirname,
-            '../node_modules/jquery/dist')))
+        path.join(__dirname, '../node_modules/jquery/dist')))
 app.use('/bootstrap',
     express.static(
-        path.join(
-            __dirname,
-            '../node_modules/bootstrap/dist')))
+        path.join(__dirname, '../node_modules/bootstrap/dist')))
 
 // App routes
 app.use('/auth', auth(passport))
 app.use('/user', user())
 app.use('/note', note())
+app.use('/label', label())
 
 // Main routes
 app.get('/', (req, res) => res.redirect('/note'))

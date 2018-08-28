@@ -6,9 +6,15 @@
             <span class="navbar-toggler-icon"></span>
     </button>
 
-    {{!-- User Info --}}
+    {{!-- Links --}}
     <div class="collapse navbar-collapse" id="navbarContent">
         <ul class="navbar-nav ml-auto">
+            {{!-- Labels --}}
+            <li class="nav-item">
+                <a class="nav-link" href="/label">Labels</a>
+            </li>
+
+            {{!-- User Info --}}
             <li class="nav-item">
                 <a class="nav-link" href="/user/settings">{{ user.name }}</a>
             </li>
@@ -19,7 +25,7 @@
     </div>
 </nav>
 
-{{!-- Utility spaced navbar --}}
+{{!-- Utility spacer navbar --}}
 <nav class="navbar navbar-expand-sm navbar-light invisible">
     <a class="navbar-brand" href="#">Bootstrap should fix it's fixed navbar.</a>
 </nav>
