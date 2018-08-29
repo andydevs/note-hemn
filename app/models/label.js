@@ -24,10 +24,9 @@ let Label = new mongoose.Schema({
 })
 
 // Automatically either finds or creates all the labels with the given names
-Label.statics.findOrCreateAll = function(user, names, cb) {
-    this.find({ user: user._id, name: { $in: names } }, (err, found) => {
-        if (err) cb(err)
-        else {
+Label.statics.findOrCreateAll = function(user, names) {
+    return this.find({ user: user._id, name: { $in: names } }).exec()
+        .then(found => {
             let foundNames = found.map(label => label.name)
             let docsToCreate = names
                 .filter(name => !foundNames.includes(name))
@@ -36,12 +35,9 @@ Label.statics.findOrCreateAll = function(user, names, cb) {
                     name: name,
                     color: randomColor()
                 }))
-            this.insertMany(docsToCreate, (err, created) => {
-                if (err) cb(err)
-                else cb(null, found.concat(created))
-            })
-        }
-    })
+            return this.insertMany(docsToCreate)
+                .then(created => found.concat(created))
+        })
 }
 
 // Export model
