@@ -63,6 +63,30 @@ export default function labelRouter() {
         })
     })
 
+    // Delete route
+    label.get('/:id/delete', authenticate, (req, res) => {
+        Label.findOne({
+            _id: mongoose.Types.ObjectId(req.params.id),
+            user: req.user._id
+        })
+        .exec((err, label) => {
+            if (err) req.flash('error', err.message)
+            res.render('label-delete', {
+                error: req.flash('error'),
+                user: req.user,
+                label: label
+            })
+        })
+    })
+
+    // Delete post route
+    label.post('/:id/delete', authenticate, (req, res) => {
+        Label.updateNotesAndDelete(req.user, req.params.id, (err, result) => {
+            if (err) req.flash('error', err.message)
+            res.redirect('/label')
+        })
+    })
+
     // Return router
     return label
 }
