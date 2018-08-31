@@ -31,3 +31,14 @@ export const LABEL_COLORS = [
     'violet',
     'gray'
 ]
+export const TEXT_COLOR = {
+    pink: 'dark',
+    red: 'white',
+    yellow: 'dark',
+    green: 'dark',
+    turquoise: 'dark',
+    cyan: 'dark',
+    blue: 'white',
+    violet: 'white',
+    gray: 'dark'
+}

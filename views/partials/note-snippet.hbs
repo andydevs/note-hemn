@@ -5,14 +5,14 @@
         </span>
         <span class="ml-auto">
             <a class="mr-2" href="/note/{{ _id }}/edit">
-                <span class="fa fa-edit"></span>
+                <span class="fa fa-edit text-{{ textColor labels }}"></span>
             </a>
             <a class="ml-2" href="/note/{{ _id }}/delete">
-                <span class="fa fa-trash"></span>
+                <span class="fa fa-trash text-{{ textColor labels }}"></span>
             </a>
         </span>
     </div>
     <div class="card-body">
-        <p class="card-text">{{ content }}</p>
+        <p class="card-text text-{{ textColor labels }}">{{ content }}</p>
     </div>
 </div>

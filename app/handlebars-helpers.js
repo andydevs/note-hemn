@@ -7,6 +7,7 @@
  * Created: 5 - 12 - 2018
  */
 import _ from 'lodash'
+import { TEXT_COLOR } from './consts'
 
 /**
  * String representation of labels
@@ -25,6 +26,15 @@ export const labelString = (labels, opts) =>
  */
 export const noteColor = (labels, opts) =>
     labels && labels.length > 0 ? labels[0].color : 'primary'
+
+/**
+ * Text color parsed from labels
+ *
+ * @param {[Label]} labels the labels to get the color from
+ * @param {object} opts handlebars options
+ */
+export const textColor = (labels, opts) =>
+    labels && labels.length > 0 ? TEXT_COLOR[labels[0].color] : 'dark'
 
 /**
  * Display notes in a grid
