@@ -9,6 +9,13 @@
     {{!-- Links --}}
     <div class="collapse navbar-collapse" id="navbarContent">
         <ul class="navbar-nav ml-auto">
+            {{!-- Add Note --}}
+            <li class="nav-item">
+                <a class="nav-link" href="/note/new">
+                    <span class="fa fa-plus"></span> New Note
+                </a>
+            </li>
+
             {{!-- Labels --}}
             <li class="nav-item">
                 <a class="nav-link" href="/label">
@@ -17,15 +24,18 @@
             </li>
 
             {{!-- User Info --}}
-            <li class="nav-item">
-                <a class="nav-link" href="/user/settings">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button">
                     <span class="fa fa-user"></span> {{ user.name }}
                 </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/auth/logout">
-                    <span class="fa fa-sign-out-alt"></span> Log Out
-                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/user/settings">
+                        <span class="fa fa-cog"></span> Settings
+                    </a>
+                    <a class="dropdown-item" href="/auth/logout">
+                        <span class="fa fa-sign-out-alt"></span> Logout
+                    </a>
+                </div>
             </li>
         </ul>
     </div>
