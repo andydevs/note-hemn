@@ -32,7 +32,7 @@ export const LABEL_COLORS = [
     'gray'
 ]
 export const TEXT_COLOR = {
-    pink: 'dark',
+    pink: 'white',
     red: 'white',
     yellow: 'dark',
     green: 'dark',
@@ -40,5 +40,5 @@ export const TEXT_COLOR = {
     cyan: 'dark',
     blue: 'white',
     violet: 'white',
-    gray: 'dark'
+    gray: 'white'
 }

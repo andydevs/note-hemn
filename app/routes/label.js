@@ -55,7 +55,8 @@ export default function labelRouter() {
             _id: mongoose.Types.ObjectId(req.params.id),
             user: req.user._id
         }, {
-            name: req.body.name
+            name: req.body.name,
+            color: req.body.color
         })
         .exec((err, label) => {
             if (err) req.flash('error', err.message)

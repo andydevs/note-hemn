@@ -2,6 +2,22 @@
     {{> error-alert}}
 
     <form class="my-3" action="/label/{{ label._id }}/edit" method="post">
+        {{!-- Label Color --}}
+        <div class="form-group">
+            <label for="color">Color:</label>
+            <select class="form-control" name="color" value="{{ label.color }}">
+                <option value="pink" class="bg-pink text-white">pink</option>
+                <option value="red" class="bg-red text-white">red</option>
+                <option value="yellow" class="bg-yellow text-dark">yellow</option>
+                <option value="green" class="bg-green text-dark">green</option>
+                <option value="turquoise" class="bg-turquoise text-dark">turquoise</option>
+                <option value="cyan" class="bg-cyan text-dark">cyan</option>
+                <option value="blue" class="bg-blue text-white">blue</option>
+                <option value="violet" class="bg-violet text-white">violet</option>
+                <option value="gray" class="bg-gray text-white">gray</option>
+            </select>
+        </div>
+
         {{!-- Label name --}}
         <div class="form-group">
             <label for="name">Name:</label>
