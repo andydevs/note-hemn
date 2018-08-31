@@ -6,6 +6,7 @@
  * Author:  Anshul Kharbanda
  * Created: 5 - 12 - 2018
  */
+import _ from 'lodash'
 import mongoose from 'mongoose'
 import { LABEL_COLORS } from '../consts'
 
@@ -13,7 +14,7 @@ import { LABEL_COLORS } from '../consts'
  * Pick random color from list
  */
 function randomColor() {
-    return LABEL_COLORS[Math.floor(Math.random()*LABEL_COLORS.length)]
+    return _.sample(LABEL_COLORS)
 }
 
 // Label schema
