@@ -11,15 +11,21 @@
         <ul class="navbar-nav ml-auto">
             {{!-- Labels --}}
             <li class="nav-item">
-                <a class="nav-link" href="/label">Labels</a>
+                <a class="nav-link" href="/label">
+                    <span class="fa fa-tags"></span> Labels
+                </a>
             </li>
 
             {{!-- User Info --}}
             <li class="nav-item">
-                <a class="nav-link" href="/user/settings">{{ user.name }}</a>
+                <a class="nav-link" href="/user/settings">
+                    <span class="fa fa-user"></span> {{ user.name }}
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/auth/logout">Log Out</a>
+                <a class="nav-link" href="/auth/logout">
+                    <span class="fa fa-sign-out-alt"></span> Log Out
+                </a>
             </li>
         </ul>
     </div>

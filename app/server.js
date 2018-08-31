@@ -82,6 +82,9 @@ app.use('/jquery',
 app.use('/bootstrap',
     express.static(
         path.join(__dirname, '../node_modules/bootstrap/dist')))
+app.use('/fontawesome',
+    express.static(
+        path.join(__dirname, '../node_modules/@fortawesome/fontawesome-free/webfonts')))
 
 // App routes
 app.use('/auth', auth(passport))

@@ -1,3 +1,6 @@
+// Font awesome path
+$fa-font-path: "/fontawesome" !default;
+
 // Theme colors
 $theme-colors: (
     "primary": #555,
@@ -18,4 +21,6 @@ $enable-shadows: true;
 $btn-box-shadow: none;
 
 // Import bootstrap
-@import "node_modules/bootstrap/scss/bootstrap"
+@import "node_modules/bootstrap/scss/bootstrap";
+@import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "node_modules/@fortawesome/fontawesome-free/scss/solid";
