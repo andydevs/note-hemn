@@ -1,11 +1,18 @@
 <div class="card shadow-sm border-{{ noteColor labels }} my-3">
-    <div class="card-header bg-{{ noteColor labels }}">
-        {{#each labels}}{{> label}}{{/each}}
+    <div class="card-header bg-{{ noteColor labels }} d-flex">
+        <span class="mr-auto">
+            {{#each labels}}{{> label}}{{/each}}
+        </span>
+        <span class="ml-auto">
+            <a class="mr-2" href="/note/{{ _id }}/edit">
+                <span class="fa fa-edit"></span>
+            </a>
+            <a class="ml-2" href="/note/{{ _id }}/delete">
+                <span class="fa fa-trash"></span>
+            </a>
+        </span>
     </div>
     <div class="card-body">
         <p class="card-text">{{ content }}</p>
-        <a class="card-link" href="/note/{{ _id }}/edit">Edit</a>
-        <a class="card-link text-danger"
-           href="/note/{{ _id }}/delete">Delete</a>
     </div>
 </div>
