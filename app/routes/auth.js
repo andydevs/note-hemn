@@ -21,7 +21,7 @@ export default function authRouter(passport) {
         let error = req.flash('error')
         debug('Flash errors:', error)
         res.render('auth-signup', {
-            layout: 'base',
+            layout: 'form',
             error: error
         })
     })
@@ -56,7 +56,7 @@ export default function authRouter(passport) {
         let error = req.flash('error')
         debug('Flash errors:', error)
         res.render('auth-login', {
-            layout: 'base',
+            layout: 'form',
             error: error
         })
     })
@@ -71,7 +71,7 @@ export default function authRouter(passport) {
     // User logout page
     auth.get('/logout', authenticate, (req, res) => {
         res.render('auth-logout', {
-            layout: 'base',
+            layout: 'form',
             user: req.user
         })
     })

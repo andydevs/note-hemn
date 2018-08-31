@@ -1,27 +1,31 @@
-<div class="container-fluid">
+{{!-- Signup Form --}}
+<form action="/user/signup" method="post">
+    {{!-- Title and Subtitle --}}
+    <h1 class="text-center">Note Hemn</h1>
+    <h5 class="text-center">Sign Up</h5>
+
+    <hr>
+
     {{> error-alert}}
 
-    {{!-- Signup Form --}}
-    <form class="my-3" action="/user/signup" method="post">
-        {{!-- Email --}}
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input class="form-control" type="text" name="email">
-        </div>
+    {{!-- Email --}}
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input class="form-control" type="text" name="email">
+    </div>
 
-        {{!-- Password --}}
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input class="form-control" type="password" name="password">
-        </div>
+    {{!-- Password --}}
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input class="form-control" type="password" name="password">
+    </div>
 
-        {{!-- Verify --}}
-        <div class="form-group">
-            <label for="verify">Verify</label>
-            <input class="form-control" type="password" name="verify">
-        </div>
+    {{!-- Verify --}}
+    <div class="form-group">
+        <label for="verify">Verify</label>
+        <input class="form-control" type="password" name="verify">
+    </div>
 
-        {{!-- Submit --}}
-        <input class="btn btn-primary" type="submit" value="Sign Up">
-    </form>
-</div>
+    {{!-- Submit --}}
+    <input class="btn btn-primary" type="submit" value="Sign Up">
+</form>

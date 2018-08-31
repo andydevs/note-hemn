@@ -1,22 +1,29 @@
-<div class="container-fluid">
+{{!-- Login Form --}}
+<form action="/auth/login" method="post">
+    {{!-- Title and Subtitle --}}
+    <h1 class="text-center">Note Hemn</h1>
+    <h5 class="text-center">Log In</h5>
+
+    <hr>
+
+    {{!-- Error --}}
     {{> error-alert}}
 
-    {{!-- Login Form --}}
-    <form class="my-3" action="/auth/login" method="post">
-        {{!-- Email --}}
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input class="form-control" type="text" name="email">
-        </div>
+    {{!-- Email --}}
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input class="form-control" type="text" name="email">
+    </div>
 
-        {{!-- Password --}}
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input class="form-control" type="password" name="password">
-        </div>
+    {{!-- Password --}}
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input class="form-control" type="password" name="password">
+    </div>
 
-        {{!-- Submit (and Signup Button) --}}
-        <input class="btn btn-primary" type="submit" value="Log In">
-        <a class="btn btn-secondary" href="/user/signup">Sign Up</a>
-    </form>
-</div>
+    {{!-- Submit Login --}}
+    <input class="btn btn-primary" type="submit" value="Log In">
+
+    {{!-- Go to Signup --}}
+    <a class="btn btn-secondary" href="/auth/signup">Sign Up</a>
+</form>
