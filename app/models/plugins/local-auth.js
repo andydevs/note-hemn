@@ -9,6 +9,26 @@
 import { hash, compare, genSaltSync } from 'bcryptjs'
 import { BCRYPT_SALT_ROUNDS } from '../../consts'
 
+// Promisified hash function
+function hashP(password, salt) {
+    return new Promise((resolve, reject) => {
+        hash(password, salt, (err, passhash) => {
+            if (err) reject(err)
+            else resolve(passhash)
+        })
+    })
+}
+
+// Promisified compare function
+function compareP(password, passhash) {
+    return new Promise((resolve, reject) => {
+        compare(password, passhash, (err, result) => {
+            if (err) reject(err)
+            else resolve(result)
+        })
+    });
+}
+
 // Debug
 const debug = require('debug')('note-hemn:models:plugins:local-auth')
 
@@ -20,42 +40,31 @@ const SALT = genSaltSync(BCRYPT_SALT_ROUNDS)
  */
 export default function localAuthPlugin(Schema, options) {
     // Signup new user using local strategy
-    Schema.statics.localSignup = function(email, password, verify, cb) {
-        if (password === verify) {
-            hash(password, SALT, (err, passhash) => {
-                debug('Hashed password')
-                if (err) {
-                    debug('Something bad happened!')
-                    debug(err)
-                    cb(err)
-                }
-                else this.findOne({ 'login.local.email': email }, (err, doc) => {
-                    if (err) {
-                        debug('Something bad happened!')
-                        debug(err)
-                        cb(err)
+    Schema.statics.localSignup = function(email, password, verify) {
+        // Check if user exists
+        return this.findOne({ 'login.local.email': email }).exec()
+            // If so, reject with error
+            .then(doc => doc
+                ? Promise.reject(new Error(`${this.modelName} already exists!`))
+                : Promise.resolve())
+            // Check if password !== verify
+            .then(() => password !== verify)
+            // If so, reject with error
+            .then(result => result
+                ? Promise.reject(new Error('Password and verify do not match!'))
+                : Promise.resolve())
+            // Hash password
+            .then(() => hashP(password, SALT))
+            // Create new user
+            .then(passhash =>
+                this.create({
+                    login: {
+                        local: {
+                            email,
+                            passhash
+                        }
                     }
-                    else if (doc) {
-                        debug(`${this.modelName} already exists`)
-                        cb(new Error(`${this.modelName} already exists!`))
-                    }
-                    else {
-                        debug(`Creating new local login ${this.modelName}`)
-                        this.create({
-                            login: {
-                                local: {
-                                    email,
-                                    passhash
-                                }
-                            }
-                        }, cb)
-                    }
-                })
-            })
-        }
-        else {
-            cb(new Error('Password and verify do not match!'))
-        }
+                }))
     }
 
     // Local login

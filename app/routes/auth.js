@@ -30,13 +30,8 @@ export default function authRouter(passport) {
     auth.post('/signup', (req, res) => {
         // Signup new user
         let { email, password, verify } = req.body
-        User.localSignup(email, password, verify, (err, user) => {
-            if (err) {
-                // Redirect back to signup
-                debug('Error logging in:', err.message)
-                req.flash('error', err.message)
-                res.redirect('/auth/signup')
-            } else {
+        User.localSignup(email, password, verify)
+            .then(user => {
                 // Log in user redirect
                 debug('Signed up user!')
                 req.login(user, (err) => {
@@ -47,8 +42,13 @@ export default function authRouter(passport) {
                         res.redirect('/')
                     }
                 })
-            }
-        })
+            })
+            .catch(err => {
+                // Redirect back to signup
+                debug('Error logging in:', err.message)
+                req.flash('error', err.message)
+                res.redirect('/auth/signup')
+            })
     })
 
     // Login user page
