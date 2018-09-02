@@ -19,9 +19,9 @@ export default function(passport) {
         usernameField: 'email',
         passwordField: 'password'
     }, (email, password, done) => {
-        User.localLogin(email, password, (err, user) => {
-            done(err, user)
-        })
+        User.localLogin(email, password)
+            .then(user => done(null, user))
+            .catch(err => done(err))
     }))
 
     // Serialize user

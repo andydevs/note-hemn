@@ -56,50 +56,25 @@ export default function localAuthPlugin(Schema, options) {
             // Hash password
             .then(() => hashP(password, SALT))
             // Create new user
-            .then(passhash =>
-                this.create({
-                    login: {
-                        local: {
-                            email,
-                            passhash
-                        }
-                    }
-                }))
+            .then(passhash => this.create({
+                login: { local: { email, passhash } }
+            }))
     }
 
     // Local login
     Schema.statics.localLogin = function(email, password, cb) {
-        this.findOne({ 'login.local.email': email }, (err, doc) => {
-            if (err) {
-                debug('Something bad happened!')
-                debug(err)
-                cb(err)
-            }
-            else if (doc) {
-                debug(`Found ${this.modelName}...`)
-                doc.localValid(password, (err, valid) => {
-                    if (err) {
-                        debug('Something bad happened!')
-                        debug(err)
-                        cb(err)
-                    }
-                    else if (valid) {
-                        debug('Password is valid!')
-                        cb(null, doc)
-                    }
-                    else {
-                        debug('Password is invalid!')
-                        cb(null, false)
-                    }
-                })
-            }
-            else cb(null, false)
-        })
+        // Find user by email
+        return this.findOne({ 'login.local.email': email }).exec()
+            .then(doc => doc
+                // Validate password if doc exists
+                ? doc.localValid(password).then(valid => valid ? doc : false)
+                // Return false
+                : Promise.resolve(false))
     }
 
     // Check if local user is valid with password
-    Schema.methods.localValid = function(password, cb) {
-        compare(password, this.login.local.passhash, cb)
+    Schema.methods.localValid = function(password) {
+        return compareP(password, this.login.local.passhash)
     }
 
     // Update password of user
