@@ -22,7 +22,10 @@ export default function userRouter() {
 
     // User get settings view
     user.get('/settings', authenticate, (req, res) => {
-        res.render('user-settings', { user: req.user })
+        res.render('user-settings', {
+            error: req.flash('error'),
+            user: req.user
+        })
     })
 
     // User update name
@@ -40,8 +43,12 @@ export default function userRouter() {
         // Update password of user
         let { old, new_, verify } = req.body
         req.user.localUpdatePassword(old, new_, verify)
-            .then(updated => res.redirect('/user/settings'))
+            .then(updated => {
+                debug(`Updated value: ${updated}`)
+                res.redirect('/user/settings')
+            })
             .catch(err => {
+                debug(`Error value: ${err}`)
                 req.flash('error', err.message)
                 res.redirect('/user/settings')
             })

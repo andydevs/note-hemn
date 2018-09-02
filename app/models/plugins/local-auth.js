@@ -8,6 +8,7 @@
  */
 import { hash, compare, genSaltSync } from 'bcryptjs'
 import { BCRYPT_SALT_ROUNDS } from '../../consts'
+import { resolveIfTrue } from '../../promise-helpers'
 
 // Promisified hash function
 function hashP(password, salt) {
@@ -47,12 +48,10 @@ export default function localAuthPlugin(Schema, options) {
             .then(doc => doc
                 ? Promise.reject(new Error(`${this.modelName} already exists!`))
                 : Promise.resolve())
-            // Check if password !== verify
+            // Check if password === verify
             .then(() => password !== verify)
-            // If so, reject with error
-            .then(result => result
-                ? Promise.reject(new Error('Password and verify do not match!'))
-                : Promise.resolve())
+            // If so, resolve, else reject with error
+            .then(resolveIfTrue('Password and verify do not match!'))
             // Hash password
             .then(() => hashP(password, SALT))
             // Create new user
@@ -82,15 +81,11 @@ export default function localAuthPlugin(Schema, options) {
         // Check old password
         return this.localValid(oldpass)
             // Resolve if valid (else reject with error)
-            .then(valid => valid
-                ? Promise.resolve()
-                : Promise.reject(new Error('Old password is invalid')))
+            .then(resolveIfTrue('Old password is invalid'))
             // Compare password and verify
             .then(() => password === verify)
             // Resolve if valid (else reject with error)
-            .then(valid => valid
-                ? Promise.resolve()
-                : Promise.reject(new Error('Password and verify do not match!')))
+            .then(resolveIfTrue('Password and verify do not match!'))
             // Hash password
             .then(() => hashP(password, SALT))
             // Set passhash in local and save

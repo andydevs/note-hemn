@@ -1,12 +1,6 @@
 <div class="container-fluid">
-    {{> error-alert}}
-    
     {{!-- Server Errors --}}
-    {{#if error}}
-        <div class="my-3 alert alert-danger" role="alert">
-            {{ error }}
-        </div>
-    {{/if}}
+    {{> error-alert}}
 
     {{!-- Main Title --}}
     <h1 class="my-3">{{ user.name }}</h1>
