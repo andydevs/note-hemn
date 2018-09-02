@@ -24,8 +24,16 @@ export default function noteRouter() {
             user: req.user._id
         })
         .populate('labels')
-        .exec((err, notes) => {
-            if (err) req.flash('error', err.message)
+        .exec()
+        .then(notes => {
+            res.render('note-index', {
+                error: req.flash('error'),
+                user: req.user,
+                notes: notes
+            })
+        })
+        .catch(err => {
+            req.flash('error', err.message)
             res.render('note-index', {
                 error: req.flash('error'),
                 user: req.user,
