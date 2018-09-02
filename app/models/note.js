@@ -17,19 +17,17 @@ let Note = new mongoose.Schema({
 })
 
 // Create note with the given labels
-Note.statics.createWithLabels = function(user, labels, content, cb) {
+Note.statics.createWithLabels = function(user, labels, content) {
     return Label.findOrCreateAll(user, labels)
         .then(labels => this.create({
             user: user._id,
             labels: labels.map(label => label._id),
             content: content
         }))
-        .then(note => cb(null, note))
-        .catch(error => cb(error))
 }
 
 // Update note with labels
-Note.statics.updateWithLabels = function(user, _id, labels, content, cb) {
+Note.statics.updateWithLabels = function(user, _id, labels, content) {
     return Label.findOrCreateAll(user, labels)
         .then(labels => this.findOneAndUpdate({
             user: user._id,
@@ -38,8 +36,6 @@ Note.statics.updateWithLabels = function(user, _id, labels, content, cb) {
             labels: labels.map(label => label._id),
             content: content
         }))
-        .then(result => cb(null, result))
-        .catch(error => cb(error))
 }
 
 // Export model

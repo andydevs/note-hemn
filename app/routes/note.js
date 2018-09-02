@@ -56,10 +56,12 @@ export default function noteRouter() {
         let user = req.user
         let labels = req.body.labels.split(' ')
         let content = req.body.content
-        Note.createWithLabels(user, labels, content, (err, note) => {
-            if (err) req.flash('error')
-            res.redirect('/note')
-        })
+        Note.createWithLabels(user, labels, content)
+            .then(note => res.redirect('/note'))
+            .catch(err => {
+                req.flash('error')
+                res.redirect('/note')
+            })
     })
 
     // Edit route
@@ -69,8 +71,17 @@ export default function noteRouter() {
             _id: mongoose.Types.ObjectId(req.params.id)
         })
         .populate('labels')
-        .exec((err, note) => {
-            if (err) req.flash('error', err.message)
+        .exec()
+        .then(note => {
+            res.render('note-form', {
+                error: req.flash('error'),
+                user: req.user,
+                action: `${req.params.id}/edit`,
+                note: note
+            })
+        })
+        .catch(err => {
+            req.flash('error', err.message)
             res.render('note-form', {
                 error: req.flash('error'),
                 user: req.user,
@@ -86,10 +97,12 @@ export default function noteRouter() {
         let id = req.params.id
         let labels = req.body.labels.split(' ')
         let content = req.body.content
-        Note.updateWithLabels(user, id, labels, content, (err, rslt) => {
-            if (err) req.flash('error', err.message)
-            res.redirect('/note')
-        })
+        Note.updateWithLabels(user, id, labels, content)
+            .then(rslt => res.redirect('/note'))
+            .catch(err => {
+                req.flash('error', err.message)
+                res.redirect('/note')
+            })
     })
 
     // Delete route
@@ -99,8 +112,16 @@ export default function noteRouter() {
             _id: mongoose.Types.ObjectId(req.params.id)
         })
         .populate('labels')
-        .exec((err, note) => {
-            if (err) req.flash('error', err.message)
+        .exec()
+        .then(note => {
+            res.render('note-delete', {
+                error: req.flash('error'),
+                user: req.user,
+                note: note
+            })
+        })
+        .catch(err => {
+            req.flash('error', err.message)
             res.render('note-delete', {
                 error: req.flash('error'),
                 user: req.user,
@@ -115,8 +136,10 @@ export default function noteRouter() {
             user: req.user,
             _id: mongoose.Types.ObjectId(req.params.id)
         })
-        .exec((err, rslt) => {
-            if (err) req.flash('error', err.message)
+        .exec()
+        .then(rslt => res.redirect('/note'))
+        .catch(err => {
+            req.flash('error', err.message)
             res.redirect('/note')
         })
     })
