@@ -6,29 +6,23 @@
  * Author:  Anshul Kharbanda
  * Created: 5 - 12 - 2018
  */
-import { hash, compare, genSaltSync } from 'bcryptjs'
-import { BCRYPT_SALT_ROUNDS } from '../../consts'
-import { resolveIfTrue } from '../../promise-helpers'
+import {
+    hash,
+    compare,
+    genSaltSync
+} from 'bcryptjs'
+import {
+    BCRYPT_SALT_ROUNDS
+} from '../../consts'
+import {
+    promisified,
+    resolveIfTrue,
+    rejectIfTrue
+} from '../../promise-helpers'
 
-// Promisified hash function
-function hashP(password, salt) {
-    return new Promise((resolve, reject) => {
-        hash(password, salt, (err, passhash) => {
-            if (err) reject(err)
-            else resolve(passhash)
-        })
-    })
-}
-
-// Promisified compare function
-function compareP(password, passhash) {
-    return new Promise((resolve, reject) => {
-        compare(password, passhash, (err, result) => {
-            if (err) reject(err)
-            else resolve(result)
-        })
-    });
-}
+// Promisified hash and compare functions
+const hashP = promisified(hash)
+const compareP = promisified(compare)
 
 // Debug
 const debug = require('debug')('note-hemn:models:plugins:local-auth')
@@ -45,9 +39,7 @@ export default function localAuthPlugin(Schema, options) {
         // Check if user exists
         return this.findOne({ 'login.local.email': email }).exec()
             // If so, reject with error
-            .then(doc => doc
-                ? Promise.reject(new Error(`${this.modelName} already exists!`))
-                : Promise.resolve())
+            .then(rejectIfTrue(`${this.modelName} already exists!`))
             // Check if password === verify
             .then(() => password !== verify)
             // If so, resolve, else reject with error
@@ -61,7 +53,7 @@ export default function localAuthPlugin(Schema, options) {
     }
 
     // Local login
-    Schema.statics.localLogin = function(email, password, cb) {
+    Schema.statics.localLogin = function(email, password) {
         // Find user by email
         return this.findOne({ 'login.local.email': email }).exec()
             .then(doc => doc
