@@ -55,8 +55,6 @@ Label.statics.updateNotesAndDelete = function(user, _id, cb) {
         }).exec().then(() => label)
     })
     .then(label => label.remove())
-    .then(result => cb(null, result))
-    .catch(err => cb(err))
 }
 
 // Export model

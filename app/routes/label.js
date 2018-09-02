@@ -23,8 +23,16 @@ export default function labelRouter() {
         Label.find({
             user: req.user._id
         })
-        .exec((err, labels) => {
-            if (err) req.flash('error', err.message)
+        .exec()
+        .then(labels => {
+            res.render('label-index', {
+                error: req.flash('error'),
+                user: req.user,
+                labels: labels
+            })
+        })
+        .catch(err => {
+            req.flash('error', err.message)
             res.render('label-index', {
                 error: req.flash('error'),
                 user: req.user,
@@ -39,8 +47,16 @@ export default function labelRouter() {
             _id: mongoose.Types.ObjectId(req.params.id),
             user: req.user._id
         })
-        .exec((err, label) => {
-            if (err) req.flash('error', err.message)
+        .exec()
+        .then(label => {
+            res.render('label-form', {
+                error: req.flash('error'),
+                user: req.user,
+                label: label
+            })
+        })
+        .catch(err => {
+            req.flash('error', err.message)
             res.render('label-form', {
                 error: req.flash('error'),
                 user: req.user,
@@ -58,8 +74,12 @@ export default function labelRouter() {
             name: req.body.name,
             color: req.body.color
         })
-        .exec((err, label) => {
-            if (err) req.flash('error', err.message)
+        .exec()
+        .then(label => {
+            res.redirect('/label')
+        })
+        .catch(err => {
+            req.flash('error', err.message)
             res.redirect('/label')
         })
     })
@@ -70,8 +90,16 @@ export default function labelRouter() {
             _id: mongoose.Types.ObjectId(req.params.id),
             user: req.user._id
         })
-        .exec((err, label) => {
-            if (err) req.flash('error', err.message)
+        .exec()
+        .then(label => {
+            res.render('label-delete', {
+                error: req.flash('error'),
+                user: req.user,
+                label: label
+            })
+        })
+        .catch(err => {
+            req.flash('error', err.message)
             res.render('label-delete', {
                 error: req.flash('error'),
                 user: req.user,
@@ -82,10 +110,14 @@ export default function labelRouter() {
 
     // Delete post route
     label.post('/:id/delete', authenticate, (req, res) => {
-        Label.updateNotesAndDelete(req.user, req.params.id, (err, result) => {
-            if (err) req.flash('error', err.message)
-            res.redirect('/label')
-        })
+        Label.updateNotesAndDelete(req.user, req.params.id)
+             .then(result => {
+                 res.redirect('/label')
+             })
+             .catch(err => {
+                 req.flash('error', err.message)
+                 res.redirect('/label')
+             })
     })
 
     // Return router
