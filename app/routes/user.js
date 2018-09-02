@@ -32,10 +32,15 @@ export default function userRouter() {
     user.post('/update/name', authenticate, (req, res) => {
         // Update name of user
         req.user.name = req.body.name
-        req.user.save((err, updated) => {
-            if (err) { req.flash('error', err.message) }
-            res.redirect('/user/settings')
-        })
+        req.user.save()
+            .then(updated => {
+                debug(`Updated value: ${updated}`)
+                res.redirect('/user/settings')
+            })
+            .catch(err => {
+                req.flash('error', err.message)
+                res.redirect('/user/settings')
+            })
     })
 
     // User update password
