@@ -39,10 +39,12 @@ export default function userRouter() {
     user.post('/update/password', authenticate, (req, res) => {
         // Update password of user
         let { old, new_, verify } = req.body
-        req.user.localUpdatePassword(old, new_, verify, (err, updated) => {
-            if (err) { req.flash('error', err.message) }
-            res.redirect('/user/settings')
-        })
+        req.user.localUpdatePassword(old, new_, verify)
+            .then(updated => res.redirect('/user/settings'))
+            .catch(err => {
+                req.flash('error', err.message)
+                res.redirect('/user/settings')
+            })
     })
 
     // Return router

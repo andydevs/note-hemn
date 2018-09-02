@@ -78,36 +78,25 @@ export default function localAuthPlugin(Schema, options) {
     }
 
     // Update password of user
-    Schema.methods.localUpdatePassword = function(oldpass, password, verify, cb) {
-        compare(oldpass, this.login.local.passhash, (err, valid) => {
-            if (err) {
-                debug('Some other error happened!')
-                debug(err.message)
-                cb(err)
-            }
-            else if (valid) {
-                debug('Old password is valid!')
-                if (password === verify) {
-                    hash(password, SALT, (err, passhash) => {
-                        if (err) {
-                            debug('Something bad happened!')
-                            debug(err)
-                            cb(err)
-                        }
-                        else {
-                            debug('Setting new password!')
-                            this.login.local.passhash = passhash
-                            this.save(cb)
-                        }
-                    })
-                } else {
-                    debug('Password and verify do not match!')
-                    cb(new Error('Password and verify do not match!'))
-                }
-            } else {
-                debug('Old password is invalid!')
-                cb(new Error('Old password is invalid!'))
-            }
-        })
+    Schema.methods.localUpdatePassword = function(oldpass, password, verify) {
+        // Check old password
+        return this.localValid(oldpass)
+            // Resolve if valid (else reject with error)
+            .then(valid => valid
+                ? Promise.resolve()
+                : Promise.reject(new Error('Old password is invalid')))
+            // Compare password and verify
+            .then(() => password === verify)
+            // Resolve if valid (else reject with error)
+            .then(valid => valid
+                ? Promise.resolve()
+                : Promise.reject(new Error('Password and verify do not match!')))
+            // Hash password
+            .then(() => hashP(password, SALT))
+            // Set passhash in local and save
+            .then(passhash => {
+                this.login.local.passhash = passhash
+                return this.save()
+            })
     }
 }
