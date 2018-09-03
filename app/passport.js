@@ -10,9 +10,11 @@ import User from './models/user'
 import { Strategy as LocalStrategy } from 'passport-local'
 
 /**
- * Config
+ * Configure passport
+ *
+ * @param {Passport} passport instance
  */
-export default function(passport) {
+export default function configurePassport(passport) {
 
     // Local login strategy
     passport.use(new LocalStrategy({
@@ -36,12 +38,4 @@ export default function(passport) {
         })
     })
 
-}
-
-/**
- * Authenticate user middleware. Redirect to login if not authenticated
- */
-export function authenticate(req, res, next) {
-    if (req.isAuthenticated()) next()
-    else res.redirect('/auth/login')
 }

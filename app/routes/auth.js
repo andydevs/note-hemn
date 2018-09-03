@@ -16,6 +16,8 @@ export default function authRouter(passport) {
     // Create router
     let auth = Router()
 
+    // -------------------------------- SIGNUP --------------------------------
+
     // Signup user page
     auth.get('/signup', (req, res) => {
         let error = req.flash('error')
@@ -51,6 +53,8 @@ export default function authRouter(passport) {
             })
     })
 
+    // --------------------------------- LOGIN ---------------------------------
+
     // Login user page
     auth.get('/login', (req, res) => {
         let error = req.flash('error')
@@ -61,12 +65,14 @@ export default function authRouter(passport) {
         })
     })
 
-    // Post user login
-    auth.post('/login', passport.authenticate('local', {
+    // Post user login local
+    auth.post('/login/local', passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/auth/login',
         failureFlash: 'User was not found!'
     }))
+
+    // -------------------------------- LOGOUT --------------------------------
 
     // User logout page
     auth.get('/logout', authenticate, (req, res) => {

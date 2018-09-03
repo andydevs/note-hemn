@@ -1,5 +1,5 @@
 {{!-- Login Form --}}
-<form action="/auth/login" method="post">
+<form action="/auth/login/local" method="post">
     {{!-- Title and Subtitle --}}
     <h1 class="text-center">Note Hemn</h1>
     <h5 class="text-center">Log In</h5>
@@ -21,9 +21,12 @@
         <input class="form-control" type="password" name="password">
     </div>
 
-    {{!-- Submit Login --}}
-    <input class="btn btn-primary" type="submit" value="Log In">
+    {{!-- Login/Signup --}}
+    <div>
+        {{!-- Submit Login --}}
+        <input class="btn btn-primary" type="submit" value="Log In">
 
-    {{!-- Go to Signup --}}
-    <a class="btn btn-secondary" href="/auth/signup">Sign Up</a>
+        {{!-- Go to Signup --}}
+        <a class="btn btn-secondary" href="/auth/signup">Sign Up</a>
+    </div>
 </form>
