@@ -1,17 +1,19 @@
-<div class="container-fluid">
-    {{!-- Alerts --}}
-    {{> alert-error}}
-    <h2 class="my-3">Are you sure you want to delete this label?</h2>
-    <div class="my-3 card bg-{{ label.color }}">
-        <div class="card-body">
-            <h3 class="card-title">{{ label.name }}</h3>
-        </div>
+{{!-- Alerts --}}
+{{> alert-error}}
+
+{{!-- Confirmation header --}}
+<h2 class="my-3">Are you sure you want to delete this label?</h2>
+<div class="my-3 card bg-{{ label.color }}">
+    <div class="card-body">
+        <h3 class="card-title">{{ label.name }}</h3>
     </div>
-    <form action="/label/{{ label._id }}/delete" method="post">
-        <input class="btn btn-danger"
-               type="submit"
-               name="confirm"
-               value="Confirm">
-        <a class="btn btn-secondary" href="/label">Cancel</a>
-    </form>
 </div>
+
+{{!-- Confirmation form --}}
+<form action="/label/{{ label._id }}/delete" method="post">
+    <input class="btn btn-danger"
+           type="submit"
+           name="confirm"
+           value="Confirm">
+    <a class="btn btn-secondary" href="/label">Cancel</a>
+</form>

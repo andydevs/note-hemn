@@ -1,74 +1,72 @@
-<div class="container-fluid">
-    {{!-- Alerts --}}
-    {{> alert-error}}
-    {{> alert-success}}
+{{!-- Alerts --}}
+{{> alert-error}}
+{{> alert-success}}
 
-    {{!-- Main Title --}}
-    <h1 class="my-3">{{ user.name }}</h1>
+{{!-- Main Title --}}
+<h1 class="my-3">{{ user.name }}</h1>
 
-    {{!-- Update Name Title --}}
-    <h3 class="my-3">Update Name</h3>
+{{!-- Update Name Title --}}
+<h3 class="my-3">Update Name</h3>
 
-    {{!-- Update Name Form --}}
-    <form class="form-inline my-3"
-          action="/user/update/name"
-          method="post">
+{{!-- Update Name Form --}}
+<form class="form-inline my-3"
+      action="/user/update/name"
+      method="post">
 
-        {{!-- New Name --}}
-        <div class="form-group mr-3">
-            <label class="sr-only" for="name">New Name</label>
-            <input class="form-control"
-                   type="text"
-                   name="name"
-                   value="{{ user.name }}">
-        </div>
+    {{!-- New Name --}}
+    <div class="form-group mr-3">
+        <label class="sr-only" for="name">New Name</label>
+        <input class="form-control"
+               type="text"
+               name="name"
+               value="{{ user.name }}">
+    </div>
 
-        {{!-- Submit --}}
-        <input class="btn btn-primary"
-               type="submit"
-               name="update"
-               value="Update Name">
-    </form>
+    {{!-- Submit --}}
+    <input class="btn btn-primary"
+           type="submit"
+           name="update"
+           value="Update Name">
+</form>
 
-    {{!-- Update Password Title --}}
-    <h3 class="my-3">Update Password</h3>
+{{!-- Update Password Title --}}
+<h3 class="my-3">Update Password</h3>
 
-    {{!-- Update Password Form --}}
-    <form class="form-inline my-3"
-          action="/user/update/password"
-          method="post">
+{{!-- Update Password Form --}}
+<form class="form-inline my-3"
+      action="/user/update/password"
+      method="post">
 
-        {{!-- Old Password --}}
-        <div class="form-group mr-3">
-            <label class="sr-only" for="old">Old</label>
-            <input class="form-control"
-                   type="password"
-                   placeholder="Old..."
-                   name="old">
-        </div>
+    {{!-- Old Password --}}
+    <div class="form-group mr-3">
+        <label class="sr-only" for="old">Old</label>
+        <input class="form-control"
+               type="password"
+               placeholder="Old..."
+               name="old">
+    </div>
 
-        {{!-- New Password --}}
-        <div class="form-group mr-3">
-            <label class="sr-only" for="new_">New</label>
-            <input class="form-control"
-                   type="password"
-                   placeholder="New..."
-                   name="new_">
-        </div>
+    {{!-- New Password --}}
+    <div class="form-group mr-3">
+        <label class="sr-only" for="new_">New</label>
+        <input class="form-control"
+               type="password"
+               placeholder="New..."
+               name="new_">
+    </div>
 
-        {{!-- Verify Password --}}
-        <div class="form-group mr-3">
-            <label class="sr-only" for="verify">Verify</label>
-            <input class="form-control"
-                   type="password"
-                   placeholder="Verify..."
-                   name="verify">
-        </div>
+    {{!-- Verify Password --}}
+    <div class="form-group mr-3">
+        <label class="sr-only" for="verify">Verify</label>
+        <input class="form-control"
+               type="password"
+               placeholder="Verify..."
+               name="verify">
+    </div>
 
-        {{!-- Submit --}}
-        <input class="btn btn-primary"
-               type="submit"
-               name="update"
-               value="Update Password">
-    </form>
-</div>
+    {{!-- Submit --}}
+    <input class="btn btn-primary"
+           type="submit"
+           name="update"
+           value="Update Password">
+</form>

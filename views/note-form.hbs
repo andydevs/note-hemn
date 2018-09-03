@@ -1,29 +1,27 @@
-<div class="container-fluid">
-    {{!-- Alert --}}
-    {{> alert-error}}
+{{!-- Alert --}}
+{{> alert-error}}
 
-    <form class="my-3" action="/note/{{ action }}" method="post">
-        {{!-- Labels --}}
-        <div class="form-group">
-            <label for="labels">Labels</label>
-            <input class="form-control"
-                   type="text"
-                   name="labels"
-                   value="{{labelString note.labels}}">
-        </div>
+<form class="my-3" action="/note/{{ action }}" method="post">
+    {{!-- Labels --}}
+    <div class="form-group">
+        <label for="labels">Labels</label>
+        <input class="form-control"
+               type="text"
+               name="labels"
+               value="{{labelString note.labels}}">
+    </div>
 
-        {{!-- Content --}}
-        <div class="form-group">
-            <label for="content">Content</label>
-            <textarea class="form-control"
-                      rows="8"
-                      name="content">{{ note.content }}</textarea>
-        </div>
+    {{!-- Content --}}
+    <div class="form-group">
+        <label for="content">Content</label>
+        <textarea class="form-control"
+                  rows="8"
+                  name="content">{{ note.content }}</textarea>
+    </div>
 
-        {{!-- Submit --}}
-        <input class="btn btn-primary"
-               type="submit"
-               name="submit"
-               value="Submit">
-    </form>
-</div>
+    {{!-- Submit --}}
+    <input class="btn btn-primary"
+           type="submit"
+           name="submit"
+           value="Submit">
+</form>
