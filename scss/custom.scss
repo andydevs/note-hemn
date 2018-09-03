@@ -30,10 +30,10 @@ $btn-box-shadow: none;
     // Centers the content using d-flex and position absolute
     @extend .d-flex, .justify-content-center, .align-items-center;
     position: absolute;
-    bottom: 0%;
-    right: 0%;
-    left: 0%;
-    top: 0%;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
 
     // Container
     .form-container {
@@ -45,4 +45,12 @@ $btn-box-shadow: none;
             max-width: none;
         };
     }
+}
+
+.footer {
+    @extend .bg-light, .d-flex, .align-items-center, .p-2;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
