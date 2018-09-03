@@ -29,6 +29,20 @@ export default function userRouter() {
         })
     })
 
+    // User create post request
+    user.post('/create', authenticate, (req, res) => {
+        req.user.name = req.body.name
+        req.user.save()
+            .then(created => {
+                req.flash('success', 'Welcome to Note HEMN!')
+                res.redirect('/note')
+            })
+            .catch(err => {
+                req.flash('error', err.message)
+                res.redirect('/user/create')
+            })
+    })
+
     // User get settings view
     user.get('/settings', authenticate, (req, res) => {
         res.render('user-settings', {
