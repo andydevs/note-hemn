@@ -27,15 +27,22 @@ $btn-box-shadow: none;
 
 // Form centerer
 .form-centerer {
+    // Centers the content using d-flex and position absolute
     @extend .d-flex, .justify-content-center, .align-items-center;
     position: absolute;
-    top: 0%;
-    left: 0%;
-    right: 0%;
     bottom: 0%;
+    right: 0%;
+    left: 0%;
+    top: 0%;
 
+    // Container
     .form-container {
-        @extend .container-fluid;
+        @extend .container;
+
+        // Max width if not mobile
         max-width: 300px;
+        @include media-breakpoint-down(sm) {
+            max-width: none;
+        };
     }
 }
