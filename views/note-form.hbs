@@ -1,6 +1,7 @@
 <div class="container-fluid">
-    {{> error-alert}}
-    
+    {{!-- Alert --}}
+    {{> alert-error}}
+
     <form class="my-3" action="/note/{{ action }}" method="post">
         {{!-- Labels --}}
         <div class="form-group">

@@ -1,5 +1,8 @@
 <div class="container-fluid">
-    {{> error-alert}}
+    {{!-- Alert --}}
+    {{> alert-error}}
+    {{> alert-success}}
+
     {{#grid notes}}
         {{> note-snippet}}
     {{/grid}}

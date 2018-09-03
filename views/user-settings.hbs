@@ -1,6 +1,7 @@
 <div class="container-fluid">
-    {{!-- Server Errors --}}
-    {{> error-alert}}
+    {{!-- Alerts --}}
+    {{> alert-error}}
+    {{> alert-success}}
 
     {{!-- Main Title --}}
     <h1 class="my-3">{{ user.name }}</h1>
@@ -29,7 +30,7 @@
                value="Update Name">
     </form>
 
-    {{!-- Update Password Titles --}}
+    {{!-- Update Password Title --}}
     <h3 class="my-3">Update Password</h3>
 
     {{!-- Update Password Form --}}

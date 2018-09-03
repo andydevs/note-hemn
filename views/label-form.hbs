@@ -1,5 +1,6 @@
 <div class="container-fluid">
-    {{> error-alert}}
+    {{!-- Alerts --}}
+    {{> alert-error}}
 
     <form class="my-3" action="/label/{{ label._id }}/edit" method="post">
         {{!-- Label Color --}}
