@@ -1,0 +1,20 @@
+<form action="/user/create" method="post">
+    {{!-- Form Header --}}
+    <h2>Enter Your Info</h2>
+
+    {{!-- Alerts --}}
+    {{> alert-error}}
+
+    {{!-- User Name --}}
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input
+            class="form-control"
+            type="text"
+            name="name"
+            value="{{ user.name }}">
+    </div>
+
+    {{!-- Submit --}}
+    <input type="submit" class="btn btn-primary" value="Submit">
+</form>

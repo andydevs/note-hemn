@@ -41,7 +41,7 @@ export default function localAuthPlugin(Schema, options) {
             // If so, reject with error
             .then(rejectIfTrue(`${this.modelName} already exists!`))
             // Check if password === verify
-            .then(() => password !== verify)
+            .then(() => password === verify)
             // If so, resolve, else reject with error
             .then(resolveIfTrue('Password and verify do not match!'))
             // Hash password

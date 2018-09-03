@@ -41,7 +41,7 @@ export default function authRouter(passport) {
                         req.flash('error', err.message)
                         res.redirect('/auth/signup')
                     } else {
-                        res.redirect('/')
+                        res.redirect('/user/create')
                     }
                 })
             })

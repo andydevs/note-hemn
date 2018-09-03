@@ -20,6 +20,15 @@ export default function userRouter() {
     // Create user router
     let user = Router()
 
+    // User create view
+    user.get('/create', authenticate, (req, res) => {
+        res.render('user-create', {
+            layout: 'form',
+            error: req.flash('error'),
+            user: req.user
+        })
+    })
+
     // User get settings view
     user.get('/settings', authenticate, (req, res) => {
         res.render('user-settings', {
