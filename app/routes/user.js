@@ -23,6 +23,7 @@ export default function userRouter() {
     // User get settings view
     user.get('/settings', authenticate, (req, res) => {
         res.render('user-settings', {
+            success: req.flash('success'),
             error: req.flash('error'),
             user: req.user
         })
@@ -35,6 +36,7 @@ export default function userRouter() {
         req.user.save()
             .then(updated => {
                 debug(`Updated value: ${updated}`)
+                req.flash('success', 'Successfully updated name!')
                 res.redirect('/user/settings')
             })
             .catch(err => {
@@ -50,6 +52,7 @@ export default function userRouter() {
         req.user.localUpdatePassword(old, new_, verify)
             .then(updated => {
                 debug(`Updated value: ${updated}`)
+                req.flash('success', 'Successfully updated password!')
                 res.redirect('/user/settings')
             })
             .catch(err => {

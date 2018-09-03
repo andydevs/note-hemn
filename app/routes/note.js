@@ -27,6 +27,7 @@ export default function noteRouter() {
         .exec()
         .then(notes => {
             res.render('note-index', {
+                success: req.flash('success'),
                 error: req.flash('error'),
                 user: req.user,
                 notes: notes
@@ -35,6 +36,7 @@ export default function noteRouter() {
         .catch(err => {
             req.flash('error', err.message)
             res.render('note-index', {
+                success: req.flash('success'),
                 error: req.flash('error'),
                 user: req.user,
                 notes: notes
@@ -57,9 +59,12 @@ export default function noteRouter() {
         let labels = req.body.labels.split(' ')
         let content = req.body.content
         Note.createWithLabels(user, labels, content)
-            .then(note => res.redirect('/note'))
+            .then(note => {
+                req.flash('success', 'Successfully created new note!')
+                res.redirect('/note')
+            })
             .catch(err => {
-                req.flash('error')
+                req.flash('error', err.message)
                 res.redirect('/note')
             })
     })
@@ -98,7 +103,10 @@ export default function noteRouter() {
         let labels = req.body.labels.split(' ')
         let content = req.body.content
         Note.updateWithLabels(user, id, labels, content)
-            .then(rslt => res.redirect('/note'))
+            .then(rslt => {
+                req.flash('success', 'Successfully edited note!')
+                res.redirect('/note')
+            })
             .catch(err => {
                 req.flash('error', err.message)
                 res.redirect('/note')
@@ -137,7 +145,10 @@ export default function noteRouter() {
             _id: mongoose.Types.ObjectId(req.params.id)
         })
         .exec()
-        .then(rslt => res.redirect('/note'))
+        .then(rslt => {
+            req.flash('success', 'Successfully deleted note!')
+            res.redirect('/note')
+        })
         .catch(err => {
             req.flash('error', err.message)
             res.redirect('/note')
