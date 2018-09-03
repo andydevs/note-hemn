@@ -20,6 +20,9 @@ $theme-colors: (
 $enable-shadows: true;
 $btn-box-shadow: none;
 
+// Keep things square
+$enable-rounded: false;
+
 // Import bootstrap and fontawesome
 @import "node_modules/bootstrap/scss/bootstrap";
 @import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
