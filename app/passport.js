@@ -39,3 +39,11 @@ export default function configurePassport(passport) {
     })
 
 }
+
+/**
+ * Authenticate user middleware. Redirect to login if not authenticated
+ */
+export function authenticate(req, res, next) {
+    if (req.isAuthenticated()) next()
+    else res.redirect('/auth/login')
+}

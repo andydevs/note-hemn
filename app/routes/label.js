@@ -8,7 +8,7 @@
  */
 import { Router } from 'express'
 import Label from '../models/label.js'
-import { authenticate } from './auth'
+import { authenticate } from '../passport'
 import mongoose from 'mongoose'
 
 // Debug
