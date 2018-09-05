@@ -26,7 +26,9 @@
     "grunt-babel": "^8.0.0-beta.0",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-watch": "^1.1.0",
-    "grunt-express-server": "^0.5.4"
+    "grunt-express-server": "^0.5.4",
+    "grunt-sass": "^3.0.1",
+    "node-sass": "^4.9.3"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0-beta.46",
@@ -40,7 +42,6 @@
     "express-session": "^1.15.6",
     "jquery": "^3.3.1",
     "mongoose": "^5.2.9",
-    "node-sass-middleware": "^0.11.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "popper.js": "^1.14.4"

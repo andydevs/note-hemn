@@ -11,7 +11,6 @@ import session from 'express-session'
 import handlebars from 'express-handlebars'
 import flash from 'express-flash'
 import bodyParser from 'body-parser'
-import sass from 'node-sass-middleware'
 import mongoose from 'mongoose'
 import passport from 'passport'
 import path from 'path'
@@ -63,14 +62,6 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
-
-// Sass middleware
-app.use(sass({
-    src: path.join(__dirname, '../scss'),
-    dest: path.join(__dirname, '../css'),
-    debug: false,
-    prefix: '/style'
-}))
 
 // Static routes
 app.use('/style',

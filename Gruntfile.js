@@ -6,6 +6,7 @@
  * Author:  Anshul Kharbanda
  * Created: 5 - 12 - 2018
  */
+const sass = require('node-sass');
 
 /**
  * Configures grunt
@@ -26,6 +27,17 @@ module.exports = function(grunt) {
                 }]
             }
         },
+        sass: {
+            options: {
+                implementation: sass,
+                sourceMap: true
+            },
+            dist: {
+                files: {
+                    'css/custom.css': 'scss/custom.scss'
+                }
+            }
+        },
         express: {
             dev: {
                 options: {
@@ -36,7 +48,14 @@ module.exports = function(grunt) {
         watch: {
             scripts: {
                 files: ['app/**/*.js'],
-                tasks: ['build', 'express:dev'],
+                tasks: ['babel', 'express:dev'],
+                options: {
+                    spawn: false
+                }
+            },
+            sass: {
+                files: ['scss/**/*.scss'],
+                tasks: ['sass', 'express:dev'],
                 options: {
                     spawn: false
                 }
@@ -45,11 +64,12 @@ module.exports = function(grunt) {
     })
 
     // Load npm tasks
+    grunt.loadNpmTasks('grunt-sass')
     grunt.loadNpmTasks('grunt-babel')
     grunt.loadNpmTasks('grunt-express-server')
     grunt.loadNpmTasks('grunt-contrib-watch')
 
     // Register tasks
-    grunt.registerTask('build', ['babel'])
+    grunt.registerTask('build', ['babel', 'sass'])
     grunt.registerTask('devserver', ['build', 'express:dev', 'watch'])
 }
