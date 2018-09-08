@@ -42,19 +42,14 @@ Label.statics.findOrCreateAll = function(user, names) {
 }
 
 // Removes label from notes and deletes label
-Label.statics.updateNotesAndDelete = function(user, _id, cb) {
-    return this.findOne({
-        _id: mongoose.Types.ObjectId(_id),
-        user: user._id
-    }).exec().then(label => {
-        return label.model('Note').updateMany({
-            user: user._id,
-            labels: { $elemMatch: { $eq: this._id } }
-        }, {
-            $pull: { labels: this._id }
-        }).exec().then(() => label)
+Label.methods.updateNotesAndDelete = function() {
+    return this.model('Note').updateMany({
+        user: this.user,
+        labels: { $elemMatch: { $eq: this._id } }
+    }, {
+        $pull: { labels: this._id }
     })
-    .then(label => label.remove())
+    .exec().then(() => this.remove())
 }
 
 // Export model
