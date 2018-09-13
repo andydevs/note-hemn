@@ -71,5 +71,5 @@ module.exports = function(grunt) {
 
     // Register tasks
     grunt.registerTask('build', ['babel', 'sass'])
-    grunt.registerTask('devserver', ['build', 'express:dev', 'watch'])
+    grunt.registerTask('build:watch', ['build', 'express:dev', 'watch'])
 }
