@@ -10,11 +10,13 @@ import { Router } from 'express'
 import Note from '../../models/note'
 import mongoose from 'mongoose'
 
-// Debug
-const debug = require('debug')('note-hemn:routes:note:new')
-
-// Router
+/**
+ * New Router
+ */
 export default function newRouter() {
+    // Debug
+    const debug = require('debug')('note-hemn:routes:note:new')
+
     // Declare router
     let newR = Router()
 

@@ -10,7 +10,9 @@ import { Router } from 'express'
 import Label from '../../models/label.js'
 import mongoose from 'mongoose'
 
-// Delete router
+/**
+ * Delete router
+ */
 export default function deleteRouter() {
     // Declare debug
     const debug = require('debug')('note-hemn:routes:label:deleteR')

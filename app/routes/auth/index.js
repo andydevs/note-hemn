@@ -11,7 +11,9 @@ import login from './login'
 import signup from './signup'
 import logout from './logout'
 
-// Main router
+/**
+ * Auth router
+ */
 export default function authRouter(passport) {
     // Debugger
     const debug = require('debug')('note-hemn:routes:auth')

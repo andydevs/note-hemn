@@ -8,13 +8,13 @@
  */
 import { Router } from 'express'
 
-// Debugger
-const debug = require('debug')('note-hemn:routes:user:settings')
-
 /**
- * Settings user router
+ * Settings router
  */
 export default function settingsRouter() {
+    // Debugger
+    const debug = require('debug')('note-hemn:routes:user:settings')
+
     // Settings user router
     let settings = Router()
 

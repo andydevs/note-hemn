@@ -10,11 +10,13 @@ import { Router } from 'express'
 import Note from '../../models/note.js'
 import mongoose from 'mongoose'
 
-// Debug
-const debug = require('debug')('note-hemn:routes:note:delete')
-
-// Router
+/**
+ * Delete Router
+ */
 export default function deleteR() {
+    // Debug
+    const debug = require('debug')('note-hemn:routes:note:delete')
+
     // Declare router
     let deleteR = Router()
 

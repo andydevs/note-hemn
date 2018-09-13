@@ -10,7 +10,9 @@ import { Router } from 'express'
 import Label from '../../models/label.js'
 import mongoose from 'mongoose'
 
-// Edit router
+/**
+ * Edit router
+ */
 export default function editRouter() {
     // Declare debug
     const debug = require('debug')('note-hemn:routes:label:edit')

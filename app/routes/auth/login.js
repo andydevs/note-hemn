@@ -8,7 +8,9 @@
  */
 import { Router } from 'express'
 
-// Login router
+/**
+ * Login router
+ */
 export default function loginRouter(passport) {
     // Debugger
     const debug = require('debug')('note-hemn:routes:auth:login')

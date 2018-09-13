@@ -12,7 +12,9 @@ import mongoose from 'mongoose'
 import edit from './edit'
 import deleteR from './delete'
 
-// Label router
+/**
+ * Label router
+ */
 export default function labelRouter() {
     // Debug
     const debug = require('debug')('note-hemn:routes:label')

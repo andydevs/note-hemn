@@ -9,7 +9,9 @@
 import { Router } from 'express'
 import { authenticate } from '../../passport'
 
-// Logout router
+/**
+ * Logout router
+ */
 export default function logoutRouter() {
     // Debugger
     const debug = require('debug')('note-hemn:routes:auth:logout')

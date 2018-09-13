@@ -8,13 +8,13 @@
  */
 import { Router } from 'express'
 
-// Debugger
-const debug = require('debug')('note-hemn:routes:user:create')
-
 /**
- * Create user router
+ * Create router
  */
 export default function createRouter() {
+    // Debugger
+    const debug = require('debug')('note-hemn:routes:user:create')
+
     // Create user router
     let create = Router()
 

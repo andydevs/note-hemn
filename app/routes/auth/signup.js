@@ -9,7 +9,9 @@
 import { Router } from 'express'
 import User from '../../models/user.js'
 
-// Signup router
+/**
+ * Signup router
+ */
 export default function signupRouter() {
     // Debugger
     const debug = require('debug')('note-hemn:routes:auth:signup')

@@ -13,10 +13,13 @@ import edit from './edit'
 import deleteR from './delete'
 import newR from './new'
 
-// Debug
-const debug = require('debug')('note-hemn:routes:note')
-
+/**
+ * Note Router
+ */
 export default function noteRouter() {
+    // Debug
+    const debug = require('debug')('note-hemn:routes:note')
+
     // Declare router
     let note = Router()
 
