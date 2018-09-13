@@ -7,7 +7,6 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
-import { authenticate } from '../../passport'
 import Label from '../../models/label'
 import mongoose from 'mongoose'
 import edit from './edit'
@@ -23,17 +22,15 @@ export default function labelRouter() {
 
     // Declare param id
     label.param('id', (req, res, next, id) => {
-        authenticate(req, res, () => {
-            debug(`Finding param for id: ${id}...`)
-            Label.findOne({
-                user: req.user._id,
-                _id: mongoose.Types.ObjectId(id)
-            })
-            .exec()
-            .then(label => {
-                req.label = label
-                next()
-            })
+        debug(`Finding param for id: ${id}...`)
+        Label.findOne({
+            user: req.user._id,
+            _id: mongoose.Types.ObjectId(id)
+        })
+        .exec()
+        .then(label => {
+            req.label = label
+            next()
         })
     })
 
@@ -42,7 +39,7 @@ export default function labelRouter() {
     label.use('/:id/delete', deleteR())
 
     // Index route
-    label.get('/', authenticate, (req, res) => {
+    label.get('/', (req, res) => {
         Label.find({
             user: req.user._id
         })

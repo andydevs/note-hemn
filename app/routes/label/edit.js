@@ -8,7 +8,6 @@
  */
 import { Router } from 'express'
 import Label from '../../models/label.js'
-import { authenticate } from '../../passport'
 import mongoose from 'mongoose'
 
 // Edit router
@@ -20,7 +19,7 @@ export default function editRouter() {
     let edit = Router()
 
     // Get page
-    edit.get('/', authenticate, (req, res) => {
+    edit.get('/', (req, res) => {
         debug(`Getting label for id: ${req.label._id}`)
         res.render('label-form', {
             error: req.flash('error'),
@@ -30,7 +29,7 @@ export default function editRouter() {
     })
 
     // Post command
-    edit.post('/', authenticate, (req, res) => {
+    edit.post('/', (req, res) => {
         debug(`Updating label for id: ${req.label._id}`)
         req.label.name = req.body.name
         req.label.color = req.body.color

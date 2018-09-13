@@ -18,7 +18,7 @@ import user from './routes/user'
 import auth from './routes/auth'
 import note from './routes/note'
 import label from './routes/label'
-import configurePassport from './passport'
+import configurePassport, { authenticate } from './passport'
 import { EXPRESS_SESSION_SECRET, EXPRESS_SESSION_AGE } from './consts'
 
 // Create debug
@@ -68,9 +68,9 @@ app.use('/fontawesome',
 
 // App routes
 app.use('/auth', auth(passport))
-app.use('/user', user())
-app.use('/note', note())
-app.use('/label', label())
+app.use('/user', authenticate, user())
+app.use('/note', authenticate, note())
+app.use('/label', authenticate, label())
 
 // Main routes
 app.get('/', (req, res) => res.redirect('/note'))

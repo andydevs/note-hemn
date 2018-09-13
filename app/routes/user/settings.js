@@ -7,7 +7,6 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
-import { authenticate } from '../../passport'
 
 // Debugger
 const debug = require('debug')('note-hemn:routes:user:settings')
@@ -20,7 +19,7 @@ export default function settingsRouter() {
     let settings = Router()
 
     // User get settings view
-    settings.get('/', authenticate, (req, res) => {
+    settings.get('/', (req, res) => {
         res.render('user-settings', {
             success: req.flash('success'),
             error: req.flash('error'),
@@ -29,7 +28,7 @@ export default function settingsRouter() {
     })
 
     // User update name
-    settings.post('/update-name', authenticate, (req, res) => {
+    settings.post('/update-name', (req, res) => {
         // Update name of user
         req.user.name = req.body.name
         req.user.save()
@@ -45,7 +44,7 @@ export default function settingsRouter() {
     })
 
     // User update password
-    settings.post('/update-password', authenticate, (req, res) => {
+    settings.post('/update-password', (req, res) => {
         // Update password of user
         let { old, new_, verify } = req.body
         req.user.localUpdatePassword(old, new_, verify)

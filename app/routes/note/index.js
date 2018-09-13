@@ -8,7 +8,6 @@
  */
 import { Router } from 'express'
 import Note from '../../models/note'
-import { authenticate } from '../../passport'
 import mongoose from 'mongoose'
 import edit from './edit'
 import deleteR from './delete'
@@ -23,17 +22,15 @@ export default function noteRouter() {
 
     // Param id
     note.param('id', (req, res) => {
-        authenticate(req, res, () => {
-            debug(`Finding param for id: ${id}...`)
-            Note.findOne({
-                user: req.user._id,
-                _id: mongoose.Types.ObjectId(id)
-            })
-            .exec()
-            .then(note => {
-                req.note = note
-                next()
-            })
+        debug(`Finding param for id: ${id}...`)
+        Note.findOne({
+            user: req.user._id,
+            _id: mongoose.Types.ObjectId(id)
+        })
+        .exec()
+        .then(note => {
+            req.note = note
+            next()
         })
     })
 
@@ -43,7 +40,7 @@ export default function noteRouter() {
     note.use('/new', newR())
 
     // Index route
-    note.get('/', authenticate, (req, res) => {
+    note.get('/', (req, res) => {
         Note.find({
             user: req.user._id
         })

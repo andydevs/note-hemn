@@ -7,7 +7,6 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
-import { authenticate } from '../../passport'
 
 // Debugger
 const debug = require('debug')('note-hemn:routes:user:create')
@@ -20,7 +19,7 @@ export default function createRouter() {
     let create = Router()
 
     // User create view
-    create.get('/', authenticate, (req, res) => {
+    create.get('/', (req, res) => {
         res.render('user-create', {
             layout: 'form',
             error: req.flash('error'),
@@ -29,7 +28,7 @@ export default function createRouter() {
     })
 
     // User create post request
-    create.post('/', authenticate, (req, res) => {
+    create.post('/', (req, res) => {
         req.user.name = req.body.name
         req.user.save()
             .then(created => {

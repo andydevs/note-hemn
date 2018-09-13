@@ -8,7 +8,6 @@
  */
 import { Router } from 'express'
 import Note from '../../models/note.js'
-import { authenticate } from '../../passport'
 import mongoose from 'mongoose'
 
 // Debug
@@ -20,7 +19,7 @@ export default function editRouter() {
     let edit = Router()
 
     // Edit page
-    edit.get('/', authenticate, (req, res) => {
+    edit.get('/', (req, res) => {
         res.render('note-form', {
             error: req.flash('error'),
             user: req.user,
@@ -30,7 +29,7 @@ export default function editRouter() {
     })
 
     // Post edit note
-    edit.post('/', authenticate, (req, res) => {
+    edit.post('/', (req, res) => {
         let labels = req.body.labels.split(' ')
         let content = req.body.content
         req.note.updateLabels(labels)

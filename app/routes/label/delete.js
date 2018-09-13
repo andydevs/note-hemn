@@ -8,7 +8,6 @@
  */
 import { Router } from 'express'
 import Label from '../../models/label.js'
-import { authenticate } from '../../passport'
 import mongoose from 'mongoose'
 
 // Delete router
@@ -20,7 +19,7 @@ export default function deleteRouter() {
     let deleteR = Router()
 
     // Delete route
-    deleteR.get('/', authenticate, (req, res) => {
+    deleteR.get('/', (req, res) => {
         res.render('label-delete', {
             error: req.flash('error'),
             user: req.user,
@@ -29,7 +28,7 @@ export default function deleteRouter() {
     })
 
     // Delete post route
-    deleteR.post('/', authenticate, (req, res) => {
+    deleteR.post('/', (req, res) => {
         req.label.updateNotesAndDelete()
              .then(result => {
                  res.redirect('/label')
