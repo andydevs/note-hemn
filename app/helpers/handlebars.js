@@ -7,7 +7,7 @@
  * Created: 5 - 12 - 2018
  */
 import _ from 'lodash'
-import { TEXT_COLOR } from './consts'
+import { TEXT_COLOR } from '../consts'
 
 /**
  * String representation of labels

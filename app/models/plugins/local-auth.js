@@ -18,7 +18,7 @@ import {
     promisified,
     resolveIfTrue,
     rejectIfTrue
-} from '../../promise-helpers'
+} from '../../helpers/promise'
 
 // Promisified hash and compare functions
 const hashP = promisified(hash)

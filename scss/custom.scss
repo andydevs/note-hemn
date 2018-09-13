@@ -50,6 +50,7 @@ $enable-rounded: false;
     }
 }
 
+// Handle footer
 .footer {
     @extend .bg-light, .d-flex, .align-items-center, .p-2;
     position: absolute;
