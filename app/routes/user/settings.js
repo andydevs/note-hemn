@@ -7,44 +7,20 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
-import User from '../models/user.js'
-import { authenticate } from '../passport'
+import { authenticate } from '../../passport'
 
 // Debugger
-const debug = require('debug')('note-hemn:routes:user')
+const debug = require('debug')('note-hemn:routes:user:settings')
 
 /**
- * Users router
+ * Settings user router
  */
-export default function userRouter() {
-    // Create user router
-    let user = Router()
-
-    // User create view
-    user.get('/create', authenticate, (req, res) => {
-        res.render('user-create', {
-            layout: 'form',
-            error: req.flash('error'),
-            user: req.user
-        })
-    })
-
-    // User create post request
-    user.post('/create', authenticate, (req, res) => {
-        req.user.name = req.body.name
-        req.user.save()
-            .then(created => {
-                req.flash('success', 'Welcome to Note HEMN!')
-                res.redirect('/note')
-            })
-            .catch(err => {
-                req.flash('error', err.message)
-                res.redirect('/user/create')
-            })
-    })
+export default function settingsRouter() {
+    // Settings user router
+    let settings = Router()
 
     // User get settings view
-    user.get('/settings', authenticate, (req, res) => {
+    settings.get('/', authenticate, (req, res) => {
         res.render('user-settings', {
             success: req.flash('success'),
             error: req.flash('error'),
@@ -53,7 +29,7 @@ export default function userRouter() {
     })
 
     // User update name
-    user.post('/update/name', authenticate, (req, res) => {
+    settings.post('/update-name', authenticate, (req, res) => {
         // Update name of user
         req.user.name = req.body.name
         req.user.save()
@@ -69,7 +45,7 @@ export default function userRouter() {
     })
 
     // User update password
-    user.post('/update/password', authenticate, (req, res) => {
+    settings.post('/update-password', authenticate, (req, res) => {
         // Update password of user
         let { old, new_, verify } = req.body
         req.user.localUpdatePassword(old, new_, verify)
@@ -85,6 +61,6 @@ export default function userRouter() {
             })
     })
 
-    // Return router
-    return user
+    // Return settings router
+    return settings
 }

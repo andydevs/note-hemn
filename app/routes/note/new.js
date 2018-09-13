@@ -7,8 +7,8 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
-import Note from '../models/note'
-import { authenticate } from '../passport'
+import Note from '../../models/note'
+import { authenticate } from '../../passport'
 import mongoose from 'mongoose'
 
 // Debug
@@ -20,7 +20,7 @@ export default function newRouter() {
     let newR = Router()
 
     // New note
-    note.get('/', authenticate, (req, res) => {
+    newR.get('/', authenticate, (req, res) => {
         res.render('note-form', {
             user: req.user,
             action: 'new',
@@ -29,7 +29,7 @@ export default function newRouter() {
     })
 
     // Post new note
-    note.post('/', authenticate, (req, res) => {
+    newR.post('/', authenticate, (req, res) => {
         let user = req.user
         let labels = req.body.labels.split(' ')
         let content = req.body.content

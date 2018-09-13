@@ -7,8 +7,8 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
-import Note from '../models/note.js'
-import { authenticate } from '../passport'
+import Note from '../../models/note.js'
+import { authenticate } from '../../passport'
 import mongoose from 'mongoose'
 
 // Debug
@@ -20,7 +20,7 @@ export default function editRouter() {
     let edit = Router()
 
     // Edit page
-    note.get('/', authenticate, (req, res) => {
+    edit.get('/', authenticate, (req, res) => {
         res.render('note-form', {
             error: req.flash('error'),
             user: req.user,
@@ -30,7 +30,7 @@ export default function editRouter() {
     })
 
     // Post edit note
-    note.post('/', authenticate, (req, res) => {
+    edit.post('/', authenticate, (req, res) => {
         let labels = req.body.labels.split(' ')
         let content = req.body.content
         req.note.updateLabels(labels)

@@ -7,8 +7,8 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
-import Note from '../models/note.js'
-import { authenticate } from '../passport'
+import Note from '../../models/note.js'
+import { authenticate } from '../../passport'
 import mongoose from 'mongoose'
 
 // Debug
@@ -20,7 +20,7 @@ export default function deleteR() {
     let deleteR = Router()
 
     // Delete page
-    note.get('/', authenticate, (req, res) => {
+    deleteR.get('/', authenticate, (req, res) => {
         res.render('note-delete', {
             error: req.flash('error'),
             user: req.user,
@@ -29,7 +29,7 @@ export default function deleteR() {
     })
 
     // Post delete note
-    note.post('/', authenticate, (req, res) => {
+    deleteR.post('/', authenticate, (req, res) => {
         req.note.remove()
             .then(rslt => {
                 req.flash('success', 'Successfully deleted note!')

@@ -7,8 +7,8 @@
  * Created: 5 - 12 - 2018
  */
 import { Router } from 'express'
-import Note from '../models/note'
-import { authenticate } from '../passport'
+import Note from '../../models/note'
+import { authenticate } from '../../passport'
 import mongoose from 'mongoose'
 import edit from './edit'
 import deleteR from './delete'
