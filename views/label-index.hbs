@@ -7,10 +7,10 @@
         <li class="list-group-item list-group-item-{{ color }} d-flex justify-content-between align-items-center">
             <span>{{ name }}</span>
             <span>
-                <a class="mr-2" href="/label/{{ _id }}/edit">
+                <a class="mr-2" href="/label/{{ _id }}/edit" data-toggle="tooltip" data-placement="top" title="Edit Label">
                     <span class="fa fa-edit text-{{ textColor labels }}"></span>
                 </a>
-                <a class="ml-2" href="/label/{{ _id }}/delete">
+                <a class="ml-2" href="/label/{{ _id }}/delete" data-toggle="tooltip" data-placement="top" title="Delete Label">
                     <span class="fa fa-trash text-{{ textColor labels }}"></span>
                 </a>
             </span>

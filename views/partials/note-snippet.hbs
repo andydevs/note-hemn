@@ -4,10 +4,10 @@
             {{#each labels}}{{> label}}{{/each}}
         </span>
         <span class="ml-auto">
-            <a class="mr-2" href="/note/{{ _id }}/edit">
+            <a class="mr-2" href="/note/{{ _id }}/edit" data-toggle="tooltip" data-placement="top" title="Edit Note">
                 <span class="fa fa-edit text-{{ textColor labels }}"></span>
             </a>
-            <a class="ml-2" href="/note/{{ _id }}/delete">
+            <a class="ml-2" href="/note/{{ _id }}/delete" data-toggle="tooltip" data-placement="top" title="Delete Note">
                 <span class="fa fa-trash text-{{ textColor labels }}"></span>
             </a>
         </span>
