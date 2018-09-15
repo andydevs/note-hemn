@@ -24,12 +24,13 @@ export default function noteRouter() {
     let note = Router()
 
     // Param id
-    note.param('id', (req, res) => {
+    note.param('id', (req, res, next, id) => {
         debug(`Finding param for id: ${id}...`)
         Note.findOne({
             user: req.user._id,
             _id: mongoose.Types.ObjectId(id)
         })
+        .populate('labels')
         .exec()
         .then(note => {
             req.note = note

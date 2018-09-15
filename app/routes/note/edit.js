@@ -25,7 +25,7 @@ export default function editRouter() {
         res.render('note-form', {
             error: req.flash('error'),
             user: req.user,
-            action: `${req.params.id}/edit`,
+            action: `${req.note.id}/edit`,
             note: req.note
         })
     })
@@ -36,8 +36,16 @@ export default function editRouter() {
         let content = req.body.content
         req.note.updateLabels(labels)
             .then(() => {
-                note.content = content
-                return note.save()
+                req.note.content = content
+                return req.note.save()
+            })
+            .then(() => {
+                req.flash('success', 'Successfully updated note!')
+                res.redirect('/note')
+            })
+            .catch(err => {
+                req.flash('error', err.message)
+                res.redirect('/note')
             })
     })
 
