@@ -6,15 +6,15 @@
     <div class="form-group">
         <label for="color">Color:</label>
         <select class="form-control" name="color" value="{{ label.color }}">
-            <option value="pink" class="bg-pink text-white">pink</option>
-            <option value="red" class="bg-red text-white">red</option>
-            <option value="yellow" class="bg-yellow text-dark">yellow</option>
-            <option value="green" class="bg-green text-dark">green</option>
-            <option value="turquoise" class="bg-turquoise text-dark">turquoise</option>
-            <option value="cyan" class="bg-cyan text-dark">cyan</option>
-            <option value="blue" class="bg-blue text-white">blue</option>
-            <option value="violet" class="bg-violet text-white">violet</option>
-            <option value="gray" class="bg-gray text-white">gray</option>
+            {{> color-option color="pink" tcolor="white"}}
+            {{> color-option color="red" tcolor="white"}}
+            {{> color-option color="yellow" tcolor="dark"}}
+            {{> color-option color="green" tcolor="dark"}}
+            {{> color-option color="turquoise" tcolor="dark"}}
+            {{> color-option color="cyan" tcolor="white"}}
+            {{> color-option color="blue" tcolor="white"}}
+            {{> color-option color="violet" tcolor="white"}}
+            {{> color-option color="gray" tcolor="white"}}
         </select>
     </div>
 

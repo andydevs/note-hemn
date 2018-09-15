@@ -47,3 +47,12 @@ export const grid = (notes, opts) => _(notes)
     .chunk(3)
     .map(row => `<div class="row">${row.join('')}</div>`)
     .join('')
+
+/**
+ * Check if two values are equal
+ *
+ * @param {any} left left value to check
+ * @param {any} right right value to check
+ * @param {object} opts handlebars options
+ */
+export const eq = (left, right, opts) => left === right

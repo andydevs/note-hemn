@@ -1,0 +1,9 @@
+{{#if (eq label.color color)}}
+    <option selected value="{{ color }}" class="bg-{{ color }} text-{{ tcolor }}">
+        {{ color }}
+    </option>
+{{else}}
+    <option value="{{ color }}" class="bg-{{ color }} text-{{ tcolor }}">
+        {{ color }}
+    </option>
+{{/if}}
