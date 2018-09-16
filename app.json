@@ -2,16 +2,16 @@
     "name": "Note HEMN",
     "description": "Note app using the HEMN (Handlebars, Express, Mongo, Node) stack",
     "keywords": [
-      "note",
-      "hemn",
-      "handlebars",
-      "express",
-      "mongo",
-      "node"
-  ],
-  "repository": "https://github.com/andydevs/note-hemn",
-  "success_url": "/",
-  "addons": [
-      {"plan": "mongolab:sandbox", "as": "MONGOLAB"}
-  ]
+        "note",
+        "hemn",
+        "handlebars",
+        "express",
+        "mongo",
+        "node"
+    ],
+    "repository": "https://github.com/andydevs/note-hemn",
+    "success_url": "/",
+    "addons": [
+        {"plan": "mongolab:sandbox", "as": "MONGO"}
+    ]
 }
