@@ -7,7 +7,7 @@
     "postinstall": "npm run build",
     "build:watch": "grunt build:watch",
     "build": "grunt build",
-    "start": "node build/start.js"
+    "start": "node build/index.js"
   },
   "keywords": [
     "note",
