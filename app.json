@@ -10,8 +10,5 @@
         "node"
     ],
     "repository": "https://github.com/andydevs/note-hemn",
-    "success_url": "/",
-    "addons": [
-        {"plan": "mongolab:sandbox", "as": "MONGO"}
-    ]
+    "success_url": "/"
 }
